@@ -118,6 +118,7 @@ def cmd_soup(args):
             cap=args.cap,
             floor_turnovers=args.floor,
             verbose=True,
+            checkpoint_path=f"{args.out}.partial.json" if args.out else None,
         )
         results.append(row)
         print(

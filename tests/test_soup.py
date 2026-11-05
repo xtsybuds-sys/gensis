@@ -1,4 +1,7 @@
+import json
+import os
 import random
+import tempfile
 import unittest
 
 from genesis.soup.dish import NutrientDish
@@ -69,6 +72,21 @@ class SoupPilot(unittest.TestCase):
         b = self._run(11)
         self.assertEqual(a["digest"], b["digest"])
         self.assertEqual(a["ticks"], b["ticks"])
+
+    def test_checkpoint_is_written_during_the_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "seed.partial.json")
+            row = run_pilot(
+                5, target_turnovers=6, minutes=0.05, initial=30, cap=300,
+                checkpoint_path=path, checkpoint_every=1,
+            )
+            with open(path, encoding="utf-8") as handle:
+                payload = json.load(handle)
+        self.assertTrue(payload["partial"])
+        self.assertEqual(payload["rows"][0]["seed"], 5)
+        self.assertLessEqual(payload["rows"][0]["turnovers"], row["turnovers"])
+        self.assertFalse(os.path.exists(path + ".tmp"))
+        self.assertFalse(row["partial"])
 
     def test_reports_floor_and_per_lineage_breakdown(self):
         row = self._run(21)
