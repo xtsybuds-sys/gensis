@@ -116,6 +116,8 @@ def cmd_soup(args):
             minutes=args.minutes,
             initial=args.population,
             cap=args.cap,
+            floor_gen=args.floor,
+            verbose=True,
         )
         results.append(row)
         print(
@@ -185,7 +187,8 @@ def build_parser():
         "soup", help="primordial soup pilot (cells, mutation, nutrient dish)"
     )
     soup.add_argument("--seeds", type=int, default=5)
-    soup.add_argument("--generations", type=int, default=20000)
+    soup.add_argument("--generations", type=int, default=2000)
+    soup.add_argument("--floor", type=int, default=1000)
     soup.add_argument("--target", type=int, default=20000)
     soup.add_argument("--minutes", type=float, default=45.0)
     soup.add_argument("--population", type=int, default=200)

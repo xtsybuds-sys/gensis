@@ -21,7 +21,9 @@ TARGET_GENERATIONS = 20000
 SUCCESS_MEDIAN_DEPTH = 100
 SUCCESS_NICHE_GROWTH = 2.0
 SUCCESS_TRAIT_Z = 2.0
-SURVIVAL_FLOOR_GEN = 10000
+# Muse's review (2026-11-05) moved the floor to 1,000 with the 2,000-generation target,
+# so generations 1,000-2,000 demonstrate stability after the floor rather than before it.
+SURVIVAL_FLOOR_GEN = 1000
 
 _UPTAKE = 0.12
 _BASE_COST = 0.006
@@ -91,7 +93,27 @@ def _snapshot(cells, lineages, ticks):
             total += sample[i].genome.distance(sample[j].genome)
             pairs += 1
     depths = sorted(cell.gen for cell in cells)
-    niches = sorted(len(lineages[cell.lineage]) for cell in cells)
+    # Niche breadth is per lineage, medians across lineages (Muse's clarification):
+    # a population-wide count hits the 3-patch ceiling immediately and could never
+    # double, so the lineage is the unit that can actually show specialisation.
+    present = {}
+    lineage_gens = {}
+    for cell in cells:
+        present[cell.lineage] = present.get(cell.lineage, 0) + 1
+        lineage_gens.setdefault(cell.lineage, []).append(cell.gen)
+    niches = sorted(len(lineages[lineage]) for lineage in present)
+    lineage_rows = []
+    for lineage, count in present.items():
+        gens = sorted(lineage_gens[lineage])
+        lineage_rows.append(
+            {
+                "lineage": lineage,
+                "cells": count,
+                "patches": len(lineages[lineage]),
+                "median_gen": gens[len(gens) // 2],
+            }
+        )
+    lineage_rows.sort(key=lambda row: (-row["cells"], row["lineage"]))
     traits = {
         name: round(mean(cell.genome.values[i] for cell in cells), 6)
         for i, name in enumerate(GENE_NAMES)
@@ -101,7 +123,9 @@ def _snapshot(cells, lineages, ticks):
         "median_depth": depths[len(depths) // 2],
         "max_depth": depths[-1],
         "diversity": round(total / pairs, 6) if pairs else 0.0,
-        "niche_breadth": float(niches[len(niches) // 2]),
+        "niche_breadth": float(niches[len(niches) // 2]) if niches else 0.0,
+        "lineages": len(present),
+        "top_lineages": lineage_rows[:10],
         "traits": traits,
         "ticks": ticks,
     }
@@ -109,7 +133,7 @@ def _snapshot(cells, lineages, ticks):
 
 def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
               cap=600, size_m=16.0, grid=64, slow_every=5, stall_ticks=20000,
-              verbose=False):
+              verbose=False, floor_gen=SURVIVAL_FLOOR_GEN):
     """Run one dish until the deepest lineage reaches ``generations`` or time runs out.
 
     ``stall_ticks`` stops a run that has stopped deepening: a population that survives
@@ -230,7 +254,7 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
                 flush=True,
             )
         if not cells:
-            if max_gen >= SURVIVAL_FLOOR_GEN:
+            if max_gen >= floor_gen:
                 extinct_after_floor = True
             break
         if ticks % 200 == 0:
@@ -247,6 +271,7 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
         "seed": seed,
         "design": "nutrient-only, no predation",
         "target_generations": generations,
+        "floor_generations": floor_gen,
         "max_gen": max_gen,
         "reached_target": max_gen >= generations,
         "extinct_after_floor": extinct_after_floor,

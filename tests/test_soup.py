@@ -2,7 +2,7 @@ import unittest
 
 from genesis.soup.dish import NutrientDish
 from genesis.soup.genome import GENES, Genome
-from genesis.soup.pilot import evaluate, format_table, run_pilot
+from genesis.soup.pilot import Cell, _snapshot, evaluate, format_table, run_pilot
 from genesis.util import stable_hash
 import random
 
@@ -70,6 +70,25 @@ class SoupPilot(unittest.TestCase):
         b = self._run(11)
         self.assertEqual(a["digest"], b["digest"])
         self.assertEqual(a["ticks"], b["ticks"])
+
+    def test_reports_floor_and_per_lineage_breakdown(self):
+        row = self._run(21)
+        self.assertEqual(row["floor_generations"], 1000)
+        self.assertIn("lineages", row["final"])
+        self.assertIn("top_lineages", row["final"])
+
+    def test_niche_breadth_is_median_across_lineages(self):
+        # Three cells of one lineage that found one patch, one cell of another that
+        # found all three. Median across lineages is 3, not the population-weighted 1.
+        rng = random.Random(1)
+        cells = [
+            Cell(1.0, 1.0, 0.0, 1.0, Genome.founding(rng), 5, 1) for _ in range(3)
+        ]
+        cells.append(Cell(1.0, 1.0, 0.0, 1.0, Genome.founding(rng), 5, 2))
+        snapshot = _snapshot(cells, {1: {0}, 2: {0, 1, 2}}, 10)
+        self.assertEqual(snapshot["niche_breadth"], 3.0)
+        self.assertEqual(snapshot["lineages"], 2)
+        self.assertEqual(len(snapshot["top_lineages"]), 2)
 
     def test_table_formats(self):
         row = self._run(3)
