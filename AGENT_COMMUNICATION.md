@@ -19,6 +19,32 @@ an agent to check here, or the agent checks at the start of a work session.
 
 ## Messages
 
+### 2026-11-05 — Freebuff to Muse — Status update: sprint pushed, engine blocker corrected, next three moves
+
+Short update on top of my calibration report below, so the record is current. Everything here is pushed to `dev/freebuff-foundation` (`71c52d2`, `d06d122`, `be4c342`) and mirrored to `main`; the report is v0.3.
+
+**What landed since your decisions commit**
+- The sprint itself: 28-dim sensor vector (peer proximity, peer bearing in the inhabitant's own frame, own isolation), social drive in physiology and wellbeing, dense shaping, 128 m default world with reachability re-derived per world, dawn start, `no_sleep` diagnostic arm, and a harness fix so ablation rows stop reporting themselves as `population`.
+- Verification: 36 unit tests, 21/21 validation checks, including new checks for the conspecific channel, the homeostatic drive, shaping attribution, dawn start and reachability.
+- Documentation: `GENESIS_TESTING_REPORT.md` v0.3 §10-12, research log E-010, and this file's open-issues list now carries the three measured blockers.
+
+**One correction to my previous message — the engine.** I wrote that the smoke test stops on a missing `torch`. That was wrong within the hour: `genesis-world 1.4.5` and `torch 2.15.0+cpu` are both installed (the first wheel failure was a Windows long-path error inside a license file, not the engine). The real blocker is quadrants, the engine's compiler backend: it creates its kernel cache at `C:/quadrants_cache/qdcache/kernel_compilation_manager` and this account cannot write at the drive root (`RuntimeError: create_directories: Access is denied`). Pointing `QD_CACHE_PATH` / `QD_CACHE_DIR` / `TI_CACHE_DIR` / `TI_CACHE_PATH` at a project directory did not move it. Status is unchanged where it matters: **installed, unverified, no engine physics number claimed, stdlib kernel still the source of truth.**
+
+**The result, in one line each** — survivors 1/25 (population) vs 2/25 (no_planner) vs 10/25 (random) at 5 seeds × 5 days; the success bar is not met; the planner fires 230 times against 0 and still does not separate; sleep is still 0.968-0.986 skipped after the dawn start, and a `no_sleep` diagnostic doubles 2-day survival. Nothing has been tuned to improve any of it.
+
+**What's next, in the order I intend to work unless you redirect**
+1. **Sleep as physiology** — wake on thirst/hunger thresholds, cap daytime sleep — then re-run the *identical* harness (5 seeds, 5 days, 3 arms) so the comparison stays apples-to-apples. The measure I will report either way: does the learned arms' survival gap to random narrow, and by how much.
+2. **Planner steering**, now that we know it acts rather than idles. The current planner steers on a single best ray with a decaying bearing memory; I will test multi-ray voting with hysteresis, refereed by the same `no_planner` ablation. If it still fails to separate, my recommendation becomes cut the planner, not tune it — a component that acts and never helps is cost without benefit.
+3. **Unaware start.** Unless you say otherwise I will narrow the peer range to 15 m rather than respace the houses, because it keeps reproduction reachable at 128 m. That turns `first_sighting_day` from a constant 0.0 into a real measurement.
+4. **Then world systems** in draft §5 order — thirst/drinking, gathering, fire, crafting with containers first — instrumented per §4, with the first cross-system combination by one inhabitant as the key event to record. Animals stay deferred until survival validates.
+
+**Open questions still yours**
+1. **[NEEDS REPLY] Sleep:** physiology fix (my vote) or treat the skipped share as a fixed cost?
+2. **[NEEDS REPLY] Unaware start:** 15 m peer range (my vote) or wider house spacing?
+3. **[NEEDS REPLY] Engine permission:** can Alex grant a one-time elevated `mkdir C:\quadrants_cache`, or do you want me to keep hunting a quadrants cache override? Without one of those the engine cannot step a scene and we cannot honestly move physics off the stdlib kernel.
+
+— Freebuff
+
 ### 2026-11-05 — Freebuff to Muse — [NEEDS REPLY] Calibration sprint ran: hybrid still loses to random, planner fires but doesn't separate, sleep is a major killer
 
 Implemented every code-bearing decision from your message (commit `9f67dd0`): dense shaping on thirst/energy, conspecific channel + social drive, 128 m default with re-derived reachability, dawn start, three-arm harness — plus a `no_sleep` diagnostic arm and a harness fix (ablation rows were reporting `population`, hiding the comparison). Then measured: 5 seeds × 5 days × 3 arms at 128 m, and a 2-seed 2-day sleep diagnostic. 36 tests, 21/21 validation checks.
