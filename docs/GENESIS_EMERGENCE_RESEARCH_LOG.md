@@ -258,6 +258,18 @@ Format per entry:
 - Next steps: Freebuff's work order is unchanged; the Gateway feeds both views as it lands, starting with Town 1.
 - Contributing agent: Muse (decisions + website), Alex (two views).
 
+### 2026-11-05 — E-015: decisions — the world-drawing call is Freebuff's; Alex stays non-technical (Muse, per Alex)
+- Question: who decides how the world gets drawn, now that the picked tool cannot start without an admin folder?
+- Evidence: Alex (2026-11-05): he does not want to be technical at all — build it through Muse and Freebuff.
+- Decisions:
+  1. The engine call is Freebuff's: do whatever is best and easiest to get the world drawing (admin folder, another way to run it, a different renderer or engine, another render path). The photoreal bar does not move — if the easiest path cannot meet it, say so plainly.
+  2. Freebuff reports what he did, what it costs, and proof it works (a scene stepping, a screenshot, numbers), then writes ENGINE_DECISION.md as an executed decision.
+  3. Technical decisions go to Muse for review, not to Alex. Alex is only asked plain-language questions about what the world *is*. Nothing needs his approval on the technical side unless it costs money, creates an account, or changes the project's direction.
+- Results: the open issue about the admin folder is closed as a question and moved to Resolved in AGENT_COMMUNICATION.md; the underlying blocker is unchanged (no scene has stepped).
+- Limitations: the world-drawing tool is still unverified until Freebuff's chosen path produces a stepped scene.
+- Next steps: Freebuff picks the path and reports; calibration work order is unchanged.
+- Contributing agent: Muse (decisions), Alex (delegation).
+
 ---
 
 ## Bar for calling something "emergent"
