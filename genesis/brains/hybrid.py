@@ -24,6 +24,11 @@ RAY_COUNT = 8
 CODE_WATER = 0.33
 CODE_PLANT = 0.66
 
+# Planner steering test (Muse decision 3, 2026-11-05).
+VOTE_CONFIDENCE = 0.15
+HYSTERESIS_RAD = 0.6
+COMMIT_DECISIONS = 3
+
 
 def _wrap(angle):
     while angle > math.pi:
@@ -57,6 +62,8 @@ class HybridBrain(NeuralBrain):
         self.food_bearing = None
         self.plan_uses = 0
         self.plan_target = None
+        self.committed_bearing = None
+        self.commit_left = 0
 
     # -- acting -----------------------------------------------------------
     def act(self, x, ctx=None):
@@ -95,6 +102,42 @@ class HybridBrain(NeuralBrain):
         if self.food_bearing is not None:
             self.food_bearing *= 0.995
 
+    def _vote_direction(self, votes):
+        """Vector sum of per-ray votes; returns (bearing, confidence).
+
+        Multi-ray voting (Muse decision 3): several rays that see the same shore
+        combine into one bearing, so a wide bank outvotes a single dim hit. The old
+        planner took the argmax of one best ray, which dithers between near-equal
+        rays and throws away the rest of what the inhabitant can see.
+        """
+        vx = 0.0
+        vy = 0.0
+        total = 0.0
+        for r in range(RAY_COUNT):
+            weight = votes[r]
+            if weight <= 0.0:
+                continue
+            angle = r * (TAU / RAY_COUNT)
+            vx += weight * math.cos(angle)
+            vy += weight * math.sin(angle)
+            total += weight
+        if total <= 0.0:
+            return None, 0.0
+        return _wrap(math.atan2(vy, vx)), total
+
+    def _apply_hysteresis(self, target):
+        """Hold a chosen bearing for a few decisions instead of re-picking each one."""
+        if (
+            self.committed_bearing is not None
+            and self.commit_left > 0
+            and abs(_wrap(target - self.committed_bearing)) < HYSTERESIS_RAD
+        ):
+            self.commit_left -= 1
+            return self.committed_bearing
+        self.committed_bearing = target
+        self.commit_left = COMMIT_DECISIONS
+        return target
+
     def _plan(self, x, heading):
         """Drive-gated steering: biases the neural motor output, never replaces it.
 
@@ -130,8 +173,8 @@ class HybridBrain(NeuralBrain):
         if votes is None:
             return None
         self._decay_memory()
-        best = max(range(RAY_COUNT), key=lambda r: votes[r])
-        if votes[best] < 0.15:
+        target, confidence = self._vote_direction(votes)
+        if target is None or confidence < VOTE_CONFIDENCE:
             memory = (
                 self.water_bearing if remembered == "water" else self.food_bearing
             )
@@ -139,15 +182,14 @@ class HybridBrain(NeuralBrain):
                 return None
             self.plan_target = remembered + "-memory"
             return 0.6, clamp(memory * 1.2, -1.0, 1.0)
-        offset = _wrap(best * (TAU / RAY_COUNT))
+        target = self._apply_hysteresis(target)
         if remembered == "water":
-            self.water_bearing = offset
+            self.water_bearing = target
         else:
-            self.food_bearing = offset
+            self.food_bearing = target
         self.plan_target = remembered
-        align = math.cos(offset)
-        turn = clamp(offset * 1.6, -1.0, 1.0)
-        forward = clamp(0.35 + 0.65 * align, 0.1, 1.0)
+        turn = clamp(target * 1.6, -1.0, 1.0)
+        forward = clamp(0.35 + 0.65 * math.cos(target), 0.1, 1.0)
         return forward, turn
 
     # -- learning ---------------------------------------------------------
@@ -243,6 +285,8 @@ class HybridBrain(NeuralBrain):
                 "plan_target": self.plan_target,
                 "water_bearing": self.water_bearing,
                 "food_bearing": self.food_bearing,
+                "committed_bearing": self.committed_bearing,
+                "commit_left": self.commit_left,
                 "last_x": self._last_x,
                 "last_out": self._last_out,
                 "tick": self.tick,
@@ -265,6 +309,8 @@ class HybridBrain(NeuralBrain):
         self.plan_target = data.get("plan_target")
         self.water_bearing = data.get("water_bearing")
         self.food_bearing = data.get("food_bearing")
+        self.committed_bearing = data.get("committed_bearing")
+        self.commit_left = data.get("commit_left", 0)
         self._last_x = data.get("last_x")
         self._last_out = data.get("last_out", [0.0] * 6)
         self.tick = data.get("tick", 0)

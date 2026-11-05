@@ -34,9 +34,21 @@ HARVEST_PER_MIN = 0.22     # biomass removed per minute of eating
 # inhabitant is alone and is relieved by a conspecific within range. It never
 # kills - isolation degrades wellbeing, not health - because a drive that kills
 # would make the first lonely inhabitant a death mechanic, not a motivation.
-SOCIAL_RANGE_M = 40.0
+#
+# 15 m, not 40 m (Muse decision 2, 2026-11-05): relief has to come from a peer the
+# inhabitant can actually perceive, otherwise it feels better about someone it
+# cannot see. This matches the conspecific sensor range.
+SOCIAL_RANGE_M = 15.0
 ISOLATION_RISE_PER_DAY = 0.75
 ISOLATION_RELIEF_PER_DAY = 2.5
+
+# Sleep physiology (Muse decision 1, 2026-11-05). Sleep stays - dream mode and
+# consolidation are part of the design - but it stops ignoring dehydration.
+WAKE_HYDRATION = 0.55
+WAKE_NUTRITION = 0.30
+SLEEP_ENTER_ENERGY = 0.90
+SLEEP_BOUT_MAX_S = 3.0 * 3600.0
+SLEEP_MIN_AWAKE_S = 1800.0
 
 
 class Inhabitant:
@@ -81,6 +93,10 @@ class Inhabitant:
         self.social_range_m = SOCIAL_RANGE_M
         self.isolation_rise_per_day = ISOLATION_RISE_PER_DAY
         self.isolation_relief_per_day = ISOLATION_RELIEF_PER_DAY
+
+        # Sleep bookkeeping for the physiological wake rules.
+        self.sleep_bout_s = 0.0
+        self.awake_s = 0.0
 
         self.last_actions = [0.0] * 6
         self.sensors = [0.0] * INPUT_DIM
@@ -139,12 +155,40 @@ class Inhabitant:
 
         self.just_woke = False
         rest = clamp(actions[4], -1.0, 1.0)
-        if rest > 0.45 and self.energy < 0.98:
-            self.sleeping = True
-        elif self.sleeping and (self.energy >= 0.98 or self.hydration < 0.15):
-            self.sleeping = False
-            self.just_woke = True
-            events["woke"] = True
+        night = world.light() < 0.15
+        if self.sleeping:
+            self.sleep_bout_s += dt
+            self.awake_s = 0.0
+            # Physiology, not a difficulty knob: a sleeping animal wakes when it is
+            # rested, thirsty, hungry, or when the bout is up. The old rule slept
+            # until energy >= 0.98 and only woke on extreme dehydration, which is
+            # why 0.968-0.986 of decision slots were skipped.
+            if (
+                self.energy >= 0.98
+                or self.hydration <= WAKE_HYDRATION
+                or self.nutrition <= WAKE_NUTRITION
+                or self.sleep_bout_s >= SLEEP_BOUT_MAX_S
+            ):
+                self.sleeping = False
+                self.just_woke = True
+                self.awake_s = 0.0
+                self.sleep_bout_s = 0.0
+                events["woke"] = True
+        else:
+            self.awake_s += dt
+            can_sleep = (
+                rest > 0.45
+                and self.awake_s >= SLEEP_MIN_AWAKE_S
+                and (
+                    self.energy < SLEEP_ENTER_ENERGY
+                    or (night and self.energy < 0.98)
+                )
+                and self.hydration > WAKE_HYDRATION
+                and self.nutrition > WAKE_NUTRITION
+            )
+            if can_sleep:
+                self.sleeping = True
+                self.sleep_bout_s = 0.0
 
         if self.sleeping:
             self.energy = clamp(
@@ -241,6 +285,8 @@ class Inhabitant:
                 None if self.nearest_peer_m is None else round(self.nearest_peer_m, 1)
             ),
             "together_h": round(self.together_s / 3600.0, 2),
+            "last_sleep_bout_s": round(self.sleep_bout_s, 1),
+            "awake_s": round(self.awake_s, 1),
             "blocked_ticks": self.blocked_ticks,
             "home_cell": list(self.home_cell),
             "died_tick": self.died_tick,
@@ -280,6 +326,8 @@ class Inhabitant:
             "isolation": self.isolation,
             "nearest_peer_m": self.nearest_peer_m,
             "together_s": self.together_s,
+            "sleep_bout_s": self.sleep_bout_s,
+            "awake_s": self.awake_s,
             "last_actions": self.last_actions,
             "sensors": self.sensors,
             "frame": self.frame,
@@ -316,6 +364,8 @@ class Inhabitant:
         self.isolation = data.get("isolation", 0.0)
         self.nearest_peer_m = data.get("nearest_peer_m")
         self.together_s = data.get("together_s", 0.0)
+        self.sleep_bout_s = data.get("sleep_bout_s", 0.0)
+        self.awake_s = data.get("awake_s", 0.0)
         self.last_actions = data["last_actions"]
         self.sensors = data["sensors"]
         self.frame = data.get("frame", {})

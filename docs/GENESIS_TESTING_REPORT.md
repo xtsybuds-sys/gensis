@@ -1,11 +1,11 @@
 # GENESIS_TESTING_REPORT
 
-**Status: Implemented and tested for the simulation kernel (v0.3, calibration
-sprint). Everything downstream of the kernel - HTTP API, dashboard, engine
-backend - is Planned or Blocked, and is not claimed here. The calibration sprint
-produced a NEGATIVE result: after the conspecific channel, social drive, dense
-shaping, 128 m world and dawn start, the hybrid still loses to the random control
-on survival (section 10).**
+**Status: Implemented and tested for the simulation kernel (v0.4, sleep physiology
++ 15 m peer range). Everything downstream of the kernel - HTTP API, dashboard,
+engine backend - is Planned or Blocked, and is not claimed here. Sleep physiology
+and the shorter peer range improved learned survival from 1/25 and 2/25 to 20 and 18
+of the created population, but the pre-stated bar is still not met: the random
+control had zero deaths in all five seeds (section 13).**
 
 Maintained by Freebuff. Every number below came from a command run on 2026-11-05.
 Nothing is marked complete because code was written; each row names the check that
@@ -24,8 +24,8 @@ exercises it.
 ## 2. Commands (run from the repo root)
 
 ```
-python -m unittest discover -s tests -t . -v     -> 36 tests, OK
-python -m genesis verify                         -> 21/21 checks passed
+python -m unittest discover -s tests -t . -v     -> 37 tests, OK
+python -m genesis verify                         -> 22/22 checks passed
 python -m genesis run --days 5 --db runs/five-days.sqlite
 python -m genesis status --db runs/five-days.sqlite
 python -m genesis calibrate --seeds 3 --days 5 --arms population,no_planner,random \
@@ -34,6 +34,8 @@ python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,rand
     --grid 32 --population 5 --world 128 --out runs/calibration-128m-5seed.json
 python -m genesis calibrate --seeds 2 --days 2 --arms population,no_sleep \
     --grid 32 --population 5 --world 128 --out runs/diagnostic-sleep.json
+python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,random \
+    --grid 32 --population 5 --world 128 --out runs/calibration-v4-sleep15m.json
 PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 .venv-engine/Scripts/python.exe tools/engine_smoke.py   -> engine probe (see 8)
 ```
@@ -297,3 +299,56 @@ contributor, not the whole cause.
 - Reproduction is demonstrated, not sustained.
 - The engine is installed but cannot initialise: its quadrants backend needs write
   access at `C:/quadrants_cache`, which this account lacks. Remains unverified.
+
+## 13. Sleep physiology + 15 m peer range - 5 seeds x 5 days x 3 arms (v0.4)
+
+Changes (Muse decisions 1-3, 2026-11-05): a sleeper now wakes when rested, thirsty
+(`hydration <= 0.55`), hungry (`nutrition <= 0.30`) or after a 3 h bout cap, and cannot
+start sleeping while thirsty, hungry, or within 30 min of waking; the conspecific range
+is 15 m and the social-drive relief radius is aligned to it; the planner steers by a
+vector sum of per-ray votes with 3-decision hysteresis instead of one best ray.
+
+Same command as section 10, artefact `runs/calibration-v4-sleep15m.json`.
+
+| arm | survivors | deaths | median observed days | median first death | births | sightings | planner uses | sleep-skipped | ticks/s |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| population | 20 | 10 | 5.00 | 1.94 | 5 | 60 | 4493 | 0.69 | 846 |
+| no_planner | 18 | 12 | 5.00 | 1.94 | 5 | 61 | 0 | 0.64 | 829 |
+| random | 32 | 0 | 5.00 | none | 7 | 86 | 0 | 0.84 | 1584 |
+
+Deaths are `population_end - survivors`, because populations now grow through births
+and raw survivor counts are not comparable across arms without it.
+
+What changed from section 10:
+
+- Learned arms now survive the run: 1 -> 20 and 2 -> 18 of the created population;
+  median observed days 3.08 -> 5.00. This is the largest improvement measured so far,
+  and it came from the two fixes Muse approved, not from tuning weights.
+- Sleep share fell 0.98 -> 0.69 (population) and 0.64 (no_planner). It is not zero:
+  the 3 h bout cap and the rest channel still put them under for most of the day.
+- The cost is measured, not estimated: learned arms run 846 ticks/s against 1408 in
+  section 10 (1.7x slower), random 1584 against 1929. Awake decision slots are what
+  cost compute.
+- Reproduction now fires in every arm: 5 / 5 / 7 births against 2 / 2 / 4.
+- **The bar is still not met.** The random control had zero deaths in 5 of 5 seeds;
+  the learned arms lost 10 and 12 inhabitants. First-drink day remains a tie
+  (0.00-0.01 d). The hybrid is much better than it was and is still worse than a
+  random walk.
+- **The planner still does not separate:** 20 vs 18 survivors, 10 vs 12 deaths, and
+  the same first-death median of 1.94 d, with 4493 interventions against 0. Per Muse's
+  pre-agreed condition this is a cut, not a tune.
+- **The unaware start is still violated, and 15 m did not fix it:** `first_sighting_day`
+  is 0.00-0.01 in all 15 runs. The cause is house placement - `_choose_homes` falls back
+  through gaps of 35.8, 21.5, 10.7 and 4.3 m at 128 m, so houses can start ~4 m apart.
+  The fix belongs in placement (minimum gap above the peer range), not in the sensor.
+
+## 14. Engine: no cache override exists on this install
+
+The quadrants cache path is a hardcoded literal `C:/quadrants_cache/` inside
+`quadrants_python.cp312-win_amd64.pyd` (confirmed by reading the binary). The Python
+layer exposes no `cache_dir`, and `QD_CACHE_PATH`, `QD_CACHE_DIR`, `QD_LIB_DIR`,
+`TI_CACHE_DIR` and `TI_CACHE_PATH` do not move it. `tools/engine_smoke.py` fails at
+`gs.init` with `PermissionError: [WinError 5] Access is denied: 'C:/quadrants_cache'`
+before any scene is built. The only remaining unblock is a one-time elevated
+`mkdir C:\quadrants_cache`. The engine remains unverified and no engine number is
+claimed anywhere in this report.

@@ -196,6 +196,17 @@ Format per entry:
 
 ---
 
+### 2026-11-05 — E-011: sleep physiology + 15 m peer range — learned survival 1→20 and 2→18, random still zero deaths, planner has to go
+- Question: do physiological sleep and a 15 m peer range (Muse decisions 1-2) close the gap to the random control on the identical harness, and does multi-ray planner steering finally separate the ablation?
+- Method: `python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,random --grid 32 --population 5 --world 128 --out runs/calibration-v4-sleep15m.json`.
+- Evidence: survivors 20 / 18 / 32 (deaths 10 / 12 / 0, where deaths = population_end - survivors); median observed days 5.00 in every arm; median first death 1.94 / 1.94 / none; median first drink 0.00-0.01 d (a tie); births 5 / 5 / 7; sightings 60 / 61 / 86; planner uses 4493 / 0 / 0; sleep-skipped 0.69 / 0.64 / 0.84; ticks/s 846 / 829 / 1584. Against E-010: survivors 1 / 2 / 10, sleep 0.98, ticks/s ~1400.
+- Result: the two approved fixes are the largest improvement measured so far — learned survivors 1 → 20 and 2 → 18, median observed 3.08 → 5.00 days, sleep share 0.98 → 0.69 — at a measured 1.7× compute cost (846 vs 1408 ticks/s), because awake decision slots are what cost compute. **The pre-stated bar is still not met**: the random control had zero deaths on 5 of 5 seeds while the learned arms lost 10 and 12. The planner still does not separate (20 vs 18 survivors, 10 vs 12 deaths, same 1.94 d first death) despite 4,493 interventions, so Muse's pre-agreed cut condition is met. The unaware start is still violated at 15 m: `first_sighting_day` is 0.00-0.01 in all 15 runs, because house placement falls back through gaps down to 4.3 m at 128 m — the cause is placement, not sensing.
+- Limitations: 5 seeds, and death counts include offspring cohorts so arm sizes differ at the end; shaping weights still unswept; `no_sleep` was a diagnostic arm and is not part of this run; the engine remains unverified (hardcoded `C:/quadrants_cache`, no override).
+- Next steps: enforce a minimum house gap above the peer range; cut the planner per the pre-agreed condition and write down what "hybrid" means without it; re-run the identical harness; then world systems in draft §5 order.
+- Contributing agent: Freebuff.
+
+---
+
 ## Bar for calling something "emergent"
 
 1. It was not explicitly implemented.

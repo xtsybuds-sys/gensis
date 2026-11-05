@@ -12,6 +12,11 @@ inhabitant's own heading as cosine/sine) and the inhabitant's own social drive
 no social behaviour could ever be observed - measured closest approach over five
 days at 1024 m was 342.8 m with a 40 m sense range.
 
+Range is 15 m (Muse decision 2, 2026-11-05): at 40 m the five houses at 128 m all
+started inside the peer range, so `first_sighting_day` was a constant 0.0 and
+"starts unaware" was false. 15 m keeps reproduction reachable while making first
+contact an event rather than a spawn condition.
+
 Limitation, deliberate and logged: peer detection is proximity-based inside
 ``CONSPECIFIC_RANGE_M`` with no terrain-occlusion test. A single nearest peer is
 reported rather than all peers, because the vector width is part of the
@@ -29,7 +34,7 @@ RAY_COUNT = 8
 RAY_RANGE_M = 40.0
 RAY_STEPS = 16
 EYE_HEIGHT_M = 1.7
-CONSPECIFIC_RANGE_M = 40.0
+CONSPECIFIC_RANGE_M = 15.0
 
 CODE_NONE = 0.0
 CODE_WATER = 0.33

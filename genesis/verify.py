@@ -11,6 +11,7 @@ import math
 import pickle
 import random
 
+from .agents import SLEEP_BOUT_MAX_S
 from .brains import BRAIN_KINDS, make_brain
 from .config import Config
 from .physics import (
@@ -417,7 +418,7 @@ def check_conspecific_channel():
     sim = Simulation(cfg)
     a, b = sim.agents[0], sim.agents[1]
     a.heading = 0.0
-    b.pos = [a.pos[0], min(cfg.world_size_m - 2.0, a.pos[1] + 10.0)]
+    b.pos = [a.pos[0], min(cfg.world_size_m - 2.0, a.pos[1] + 5.0)]
     vector, frame = sense(a, sim.world, sim.agents)
     proximity, cos_b, sin_b, isolation = vector[-4:]
     alone, _ = sense(a, sim.world, [a])
@@ -497,6 +498,36 @@ def check_reachability():
     )
 
 
+def check_sleep_physiology():
+    """Sleep stays, but a sleeper wakes thirsty and bouts are capped."""
+    cfg = _small_cfg(population=1)
+    sim = Simulation(cfg)
+    agent = sim.agents[0]
+    agent.energy = 0.5
+    agent.hydration = 0.5
+    agent.sleeping = True
+    agent.update(30.0, sim.world, [0.0] * 6, 1)
+    woke_thirsty = not agent.sleeping
+
+    agent.hydration = 1.0
+    agent.nutrition = 1.0
+    agent.energy = 0.5
+    agent.sleeping = True
+    agent.sleep_bout_s = 0.0
+    slept = 0.0
+    while agent.sleeping and slept < 6.0 * 3600.0:
+        agent.update(60.0, sim.world, [0.0] * 6, 1)
+        slept += 60.0
+    capped = (not agent.sleeping) and slept <= SLEEP_BOUT_MAX_S + 120.0
+    return _check(
+        "biology/sleep-is-physiological",
+        woke_thirsty and capped,
+        woke_at_hydration=0.5,
+        bout_length_s=slept,
+        bout_cap_s=SLEEP_BOUT_MAX_S,
+    )
+
+
 def check_only_two_architectures():
     return _check(
         "architecture/two-inhabitant-architectures",
@@ -520,6 +551,7 @@ CHECKS = (
     check_dawn_start,
     check_conspecific_channel,
     check_social_drive,
+    check_sleep_physiology,
     check_shaping_attribution,
     check_reachability,
     check_prediction_learning,

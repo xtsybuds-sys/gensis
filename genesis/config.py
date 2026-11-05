@@ -66,7 +66,7 @@ class Config:
     drive_hunger: float = 0.20
 
     # Social drive (decision 4a): homeostatic, like thirst, never lethal.
-    social_range_m: float = 40.0
+    social_range_m: float = 15.0
     isolation_rise_per_day: float = 0.75
     isolation_relief_per_day: float = 2.5
 

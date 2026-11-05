@@ -36,6 +36,10 @@ class IntelligenceValidation(unittest.TestCase):
         result = verify.check_social_drive()
         self.assertTrue(result["passed"], result)
 
+    def test_sleep_is_physiological(self):
+        result = verify.check_sleep_physiology()
+        self.assertTrue(result["passed"], result)
+
     def test_dense_shaping_pays_for_drinking(self):
         result = verify.check_shaping_attribution()
         self.assertTrue(result["passed"], result)
