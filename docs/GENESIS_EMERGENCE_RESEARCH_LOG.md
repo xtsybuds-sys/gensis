@@ -413,6 +413,18 @@ Format per entry:
 
 ---
 
+### 2026-11-05 — E-026: soup pilot, 5 seeds at 2,000 generations — stalled at 157-261; generation clock and two metrics are the fault
+- Question: does measurable complexity grow from nutrient-only cells at 2,000 generations, and does the four-part falsifier pass?
+- Method: 5 seeds in parallel, `python -m genesis soup --generations 2000 --floor 1000 --population 200 --cap 600 --minutes 45`; stall guard 20,000 ticks without depth increase; niche breadth as median across lineages (Muse's clarification); 50 tests OK.
+- Evidence: max gen 241 / 261 / 157 / 206 / 236; ticks 353,400-406,400; 1,354-2,589 ticks per generation; population 74-107; diversity 0.061-0.113; one lineage per dish; niche 3.0 -> 3.0; throughput 505-556 ticks/s with five processes; no extinctions.
+- Result: **not evaluable as designed, not a pass.** `max_gen` is the deepest chain ever reached, and the single surviving lineage cannot beat a record set by a dead chain, so the counter froze while populations kept turning over and the stall guard fired. Criterion 3 is vacuous as Muse predicted (3.0 at generation 100 is the three-patch ceiling). Criterion 4's z-score was numerically broken: cross-seed baseline spread ~1e-9 inflated a 0.1 shift to 2.5e8 sigma; the denominator now floors at 5% of gene range. No pass claimed from the old numbers.
+- Selection is nonetheless real and directional: size shrank toward the 0.5 floor (four of five), efficiency reached the 1.0 ceiling (three of five), light and temperature affinity fell to 0.0 (all five, unused cues), speed rose ~0.10 -> 0.14-0.17, toxin tolerance rose everywhere.
+- Limitations: depth-based generation clock is invalid for a monoculture; three patches cannot measure niche specialisation; one pilot length only.
+- Next steps: Muse decides the generation clock (population-normalised births, now recorded) and the niche measure; then rerun and apply the falsifier unchanged. Engine accepted as executed; Town 1 eye-level render is next after that.
+- Contributing agent: Freebuff.
+
+---
+
 ## Bar for calling something "emergent"
 
 1. It was not explicitly implemented.

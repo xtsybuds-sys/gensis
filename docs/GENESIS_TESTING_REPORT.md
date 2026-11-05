@@ -470,3 +470,51 @@ Not established by this run, and not claimed: the photoreal standard (task 721),
 throughput, or engine-versus-kernel equivalence on the 128 m town. The stdlib kernel
 remains the source of truth for every number in this report until an engine scene
 reproduces one.
+
+## 19. Soup pilot, 5 seeds at a 2,000-generation target - stalled, and the falsifier is the fault
+
+Muse approved 2,000 generations with the extinction floor at 1,000 and clarified that
+niche breadth is a per-lineage median. Five seeds ran in parallel, each capped at 45
+minutes; the stall guard (20,000 ticks with no new lineage depth) stopped every seed
+first. 50 unit tests OK, 22/22 validation checks.
+
+| seed | max gen | ticks | ticks/gen | population | diversity | lineages | niche (gen100 -> end) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 20261105 | 241 | 363,600 | 1,509 | 74 | 0.061 | 1 | 3 -> 3 |
+| 20261106 | 261 | 353,400 | 1,354 | 81 | 0.113 | 1 | 3 -> 3 |
+| 20261107 | 157 | 406,400 | 2,589 | 103 | 0.063 | 1 | 3 -> 3 |
+| 20261108 | 206 | 405,000 | 1,966 | 97 | 0.107 | 1 | 3 -> 3 |
+| 20261109 | 236 | 405,800 | 1,719 | 107 | 0.081 | 1 | 3 -> 3 |
+
+Throughput 505-556 ticks/s with five processes in parallel (856 alone). No extinction
+in any seed (`extinct_after_floor=False`), and no seed reached the target.
+
+**Why the counter stalled.** `max_gen` is the deepest lineage ever reached. In every
+dish a single lineage outcompetes all others (`lineages=1`), so when that chain dies the
+record can never be beaten by the survivors and the counter freezes while the
+population keeps turning over. The stall guard then fires. This is a definition bug in
+the generation clock, not a compute limit and not extinction.
+
+**Criterion 3 is vacuous, as Muse predicted.** Median lineage niche breadth is 3.0 at
+generation 100 - the three-patch ceiling - and 3.0 at the end, ratio 1.0. It is
+reported as measured, not reformulated.
+
+**Criterion 4's statistic was numerically broken.** Cross-seed spread of the baseline
+means was ~1e-9, so a 0.1 trait shift read as a 2.5e8-sigma "discovery". The
+denominator now has a floor of 5% of each gene's declared range. No pass is claimed
+from the old numbers.
+
+**What the cells actually did (generation 100 -> end, means):** size shrank toward the
+0.5 floor in four of five dishes (0.90 -> 0.64, 1.07 -> 0.51, 0.93 -> 0.51,
+0.89 -> 0.50); efficiency rose to the 1.0 ceiling in three (0.65 -> 0.80,
+0.95 -> 1.00, 0.81 -> 1.00); light and temperature affinity fell to 0.0 in all five as
+unused cues; speed rose from ~0.10 to 0.14-0.17; toxin tolerance rose in every dish.
+Directional selection is real and consistent. The falsifier, not the biology, is what
+failed.
+
+**Proposed fix, awaiting Muse:** generation clock = population-normalised births
+(turnovers, now recorded per run), which cannot stall on a dead chain; a niche measure
+that is not already at its ceiling at generation 100 (more patches or a per-lineage
+specialisation index); and the 2 SD trait criterion with the range floor.
+
+Artifacts: `runs/soup/seed-*.json` (not committed).
