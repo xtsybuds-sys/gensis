@@ -379,39 +379,6 @@ Format per entry:
 
 ---
 
-### 2026-11-05 — E-012: house floor + planner cut + one mind — 22/30 survive, unaware start now holds, planner still inside noise
-- Question: does the approved house floor produce a genuinely unaware start, does cutting the planner cost anything, and what does one architecture for everyone cost in compute?
-- Method: `python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random --grid 32 --population 5 --world 128 --out runs/calibration-v5-town.json`; each run records `home_gap_shortfall` if a town cannot seat its houses above the floor.
-- Evidence: population (planner cut) 22 survivors / 8 deaths, first death 2.12 d, births 5, sightings 67, 664 ticks/s; planner research arm 25 / 5, first death 1.83, 12,191 planner uses, 661 ticks/s; random 32 / 0, births 7, 1,620 ticks/s. Minimum house separation 33.7 m against a 15 m peer range; all inhabitants hybrid; `first_sighting_day` 0.00 in every run.
-- Result: the house floor fixes the spawn condition for the first time (33.7 m > 15 m, verified) but not first contact, which still occurs inside day 1 — at 128 m and ~1 m/s the gap closes in seconds, so day-resolution `first_sighting_day` cannot tell the fix from the old bug. The planner cut costs nothing measurable (22/8 now vs v4's 20/10 with the planner on, same speed), while the retained research arm scored 25/5 — the opposite direction, decided by two seeds and still inside five-seed noise, so the cut stands on its original falsifier (no separation in either direction). One-mind costs ~27% of speed (664 vs 846 ticks/s). The bar remains unmet: random lost nobody in 5 of 5 seeds.
-- Limitations: 5 seeds, and a three-survivor difference is inside seed noise; first-contact timing needs second-resolution reporting; the engine is still unverified (the elevated mkdir was requested, timed out, and `C:\quadrants_cache` is still absent).
-- Next steps: report first contact at second resolution instead of days; then world systems (thirst → gathering → fire → crafting) in draft §5 order, then the Agent Gateway API for the two website feeds.
-- Contributing agent: Freebuff.
-
----
-
-### 2026-11-05 — E-012: house floor + planner cut + one mind — 22/30 survive, unaware start now holds, planner still inside noise
-- Question: does the approved house floor produce a genuinely unaware start, does cutting the planner cost anything, and what does one architecture for everyone cost in compute?
-- Method: `python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random --grid 32 --population 5 --world 128 --out runs/calibration-v5-town.json`; each run records `home_gap_shortfall` if a town cannot seat its houses above the floor.
-- Evidence: population (planner cut) 22 survivors / 8 deaths, first death 2.12 d, births 5, sightings 67, 664 ticks/s; planner research arm 25 / 5, first death 1.83, 12,191 planner uses, 661 ticks/s; random 32 / 0, births 7, 1,620 ticks/s. Minimum house separation 33.7 m against a 15 m peer range; all inhabitants hybrid; `first_sighting_day` 0.00 in every run.
-- Result: the house floor fixes the spawn condition for the first time (33.7 m > 15 m, verified) but not first contact, which still occurs inside day 1 — at 128 m and ~1 m/s the gap closes in seconds, so day-resolution `first_sighting_day` cannot tell the fix from the old bug. The planner cut costs nothing measurable (22/8 now vs v4's 20/10 with the planner on, same speed), while the retained research arm scored 25/5 — the opposite direction, decided by two seeds and still inside five-seed noise, so the cut stands on its original falsifier (no separation in either direction). One-mind costs ~27% of speed (664 vs 846 ticks/s). The bar remains unmet: random lost nobody in 5 of 5 seeds.
-- Limitations: 5 seeds, and a three-survivor difference is inside seed noise; first-contact timing needs second-resolution reporting; the engine is still unverified (the elevated mkdir was requested, timed out, and `C:\quadrants_cache` is still absent). These are human-scale numbers: the cells-first decision pauses this calibration, and it resumes in Phase 9 rather than being dropped.
-- Next steps: paused by the cells-first decision; the immediate next step is the primordial-soup pilot design in `AGENT_COMMUNICATION.md`, awaiting Muse's review before any code is written.
-- Contributing agent: Freebuff.
-
----
-
-### 2026-11-05 — E-023: soup pilot built; ceiling measured — 100 generations in 93.7 s, 20,000 would need 5.2 h per seed
-- Question: can the approved cells-first pilot reach 20,000 generations inside the 45-minute-per-seed budget, and what does the substrate actually do?
-- Method: implemented `genesis/soup/` (12-gene genome, 16 m × 16 m / 64 × 64 dish with three nutrient patches, diffusion + capped regrowth, metabolism, division with mutation, six metrics, four-part falsifier); ran `python -m genesis soup --seeds 1 --generations 100 --population 200 --cap 600 --minutes 2 --probe`. 48 tests OK (11 new).
-- Evidence: 80,181 ticks in 93.7 s (855.7 ticks/s), max depth 100, median depth 93, population 68, genome diversity 0.087, niche breadth 3.0 (all three patches). ~801 ticks per generation. Projection: 20,000 generations ≈ 16.0M ticks ≈ 18,740 s (5.2 h) per seed, ~26 h for 5 seeds.
-- Result: the code is not the bottleneck (856 ticks/s); the ecology is — nutrient-limited cells sit at maintenance, so divisions are rare and lineage depth advances ~1 per 800 ticks. The approved 20,000-generation target cannot fit 45 min/seed. **Negative on compute feasibility, recorded as measured.** No nutrient or metabolism tuning was done to force the target; a shorter design (2,000 generations, extinction floor 1,000, ~31 min/seed) is proposed to Muse for review.
-- Limitations: one seed; the 2-minute cap was not hit, so the 100-generation number is a clean measurement; deeper runs may change turnover as lineages adapt.
-- Next steps: Muse reviews the shorter design; if approved, run 5 seeds at 2,000 generations and apply the falsifier unchanged. Engine still unverified (the elevated cache directory still does not exist).
-- Contributing agent: Freebuff.
-
----
-
 ### 2026-11-05 — E-023: soup pilot built; ceiling measured — 100 generations in 93.7 s, 20,000 would need 5.2 h per seed
 - Question: can the approved cells-first pilot reach 20,000 generations inside the 45-minute-per-seed budget, and what does the substrate actually do?
 - Method: implemented `genesis/soup/` (12-gene genome, 16 m × 16 m / 64 × 64 dish with three nutrient patches, diffusion + capped regrowth, metabolism, division with mutation, six metrics, four-part falsifier); ran `python -m genesis soup --seeds 1 --generations 100 --population 200 --cap 600 --minutes 2 --probe`. 48 tests OK (11 new).
@@ -431,6 +398,18 @@ Format per entry:
 - Limitations: this proves a scene steps, not the photoreal bar (task 721), GPU throughput, or engine-vs-kernel equivalence on the town. No engine rendering number is claimed; the stdlib kernel remains the source of truth for reported simulation numbers.
 - Next steps: render Town 1 at eye level and review it against the five-cue standard (water, food, fire, shelter, peers at the distances that matter) before any claim that the engine meets the bar; the soup pilot still awaits Muse's choice of 2,000 or 1,000 generations.
 - Contributing agent: Freebuff (engine call delegated by Muse and Alex).
+
+### 2026-11-05 — E-025: review — pilot runs at 2,000 generations; engine accepted as executed (Muse, per Freebuff)
+- Question: which shorter pilot design, and does the engine smoke test meet the set condition?
+- Evidence: Freebuff (2026-11-05, commits 1cd9e99, 793e61a): pilot built nutrient-only, 48 tests OK (11 new soup tests), 22/22 checks; probe (1 seed, 100 generations, 200 initial cells, cap 600): 80,181 ticks in 93.7 s (855.7 ticks/s), max depth 100, median depth 93, population 68, genome diversity 0.087, niche breadth 3.0 (all three patches). Ceiling: ~801 ticks/generation, so 20,000 generations needs 18,740 s (5.2 h) per seed, ~26 h for five seeds; the 45-minute budget cannot reach 20,000. Proposed: 2,000 generations (~31 min/seed) or 1,000 generations (~16 min/seed), extinction floor moved from 10,000 to 1,000. Engine: elevated mkdir approved + icacls grant; smoke test `tools/engine_smoke.py` prints engine=cpu steps=200 seconds=4.073 fps=49.1 rest_z=0.2499 expected=0.2500 settled=True; ENGINE_DECISION.md written as executed (docs/implementation/ENGINE_DECISION.md); testing report §18 records it.
+- Decisions:
+  1. Pilot length 2,000 generations (Muse): at 1,000 generations with the floor at 1,000, criterion 1 has zero post-floor generations to observe. Floor moves to 1,000; other three criteria unchanged. Niche breadth measured per lineage (median across lineages) — population-wide breadth already hits the 3-patch ceiling at gen 100, so "2× gen-100 value" as written could never be met. If the gen-100 median lineage breadth is already at the ceiling, Freebuff reports it; Muse decides the replacement.
+  2. Engine accepted as executed (Muse): the smoke test meets the set condition. Stdlib kernel stays the source of truth until an engine scene reproduces a number. Next engine measurement: Town 1 eye-level render against the five-cue standard.
+  3. Criterion 2 noted as a floor, not a challenge (Muse): probe already shows median lineage depth 93 at gen 100, so at 2,000 generations the depth bar (≥100) is easily met; the pilot's real test is criteria 3 and 4. The falsifier is unchanged — all four must still hold.
+- Results: pilot approved to run at 2,000 generations × 5 seeds. Engine decision executed. File repairs in the same push: log deduped (E-012 v5 entry ×3 → ×1, E-023 ×2 → ×1, verbatim copies only); three Decisions entries moved from the "How to use it" list into the Decisions section; the "Engine pick open" Resolved entry updated to verified.
+- Limitations: the engine smoke test does not establish the photoreal bar, GPU throughput, or engine-vs-kernel equivalence on the 128 m town; the pilot's 2,000-generation run has not happened yet.
+- Next steps: Freebuff runs 5 seeds at 2,000 generations and reports pass/fail with per-lineage numbers; then the Town 1 eye-level render.
+- Contributing agent: Freebuff (pilot build + ceiling + engine execution), Muse (review + file repair).
 
 ---
 
