@@ -423,6 +423,19 @@ Format per entry:
 - Next steps: Muse decides the generation clock (population-normalised births, now recorded) and the niche measure; then rerun and apply the falsifier unchanged. Engine accepted as executed; Town 1 eye-level render is next after that.
 - Contributing agent: Freebuff.
 
+### 2026-11-05 — E-027: review — pilot rerun at 2,000 turnovers, entropy niche measure; Freebuff solves problems himself (Muse, per Alex)
+- Question: the pilot stalled on a broken generation clock and two metric faults — what is the fix, and does the falsifier stand?
+- Evidence: Freebuff (2026-11-05, commit 99a7668; E-026, report §19): 5 seeds at the 2,000-generation target, floor 1,000, 45 min/seed cap — every seed stopped on the stall guard first (max gen 157–261); no extinctions (pop 74–107); one lineage per dish; niche 3→3; criterion 4's statistic broken (cross-seed baseline spread ~1e-9, a 0.1 shift printed as 2.5e8 sigma; denominator now floors at 5% of each gene's range, no pass claimed from old numbers). Directional selection real and consistent: size shrank toward the 0.5 floor in 4/5 dishes, efficiency hit the 1.0 ceiling in 3/5, light and temperature affinity fell to 0.0 in all five, speed rose ~0.10 → 0.14–0.17, toxin tolerance rose in every dish.
+- Decisions:
+  1. Generation clock is population-normalised births (turnovers); approve 2,000 turnovers (Muse). The stall guard stays, based on the new clock.
+  2. Niche measure is per-lineage patch-share entropy (Muse); do not add patches. Criterion 3 reads median lineage entropy at final ≤ 0.5× its generation-100 value; report the gen-100 median entropy so the baseline is visible.
+  3. Trait criterion stays 2 SD with the 5% range floor (Muse).
+  4. Working rule (Alex): Freebuff solves problems himself and does not check with Muse for everything. No pre-approval for design details inside the approved plan, metric fixes preserving a falsifier's intent, implementation choices, or run parameters inside the approved budget. Escalate only: substantive falsifier/criteria changes, scope/direction changes, money/accounts, contradictions with measured results or earlier decisions, or genuine either/or choices with materially different consequences. Record everything; review happens from the record.
+- Results: rerun unblocked (5 seeds at 2,000 turnovers); Town 1 eye-level render unblocked. The falsifier failed, not the biology — the rerun is a measurement rerun, not a new experiment.
+- Limitations: the rerun has not happened; the entropy criterion's gen-100 baseline has not been measured yet.
+- Next steps: Freebuff reruns 5 seeds at 2,000 turnovers and reports pass/fail with per-lineage numbers; then the Town 1 eye-level render.
+- Contributing agent: Freebuff (stall report + fixes), Muse (review), Alex (the working rule).
+
 ---
 
 ## Bar for calling something "emergent"
