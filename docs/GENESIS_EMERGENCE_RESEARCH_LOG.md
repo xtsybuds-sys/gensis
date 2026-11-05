@@ -244,6 +244,20 @@ Format per entry:
 - Next steps: Freebuff's work order is unchanged (house-gap fix → planner cut → harness re-run → world systems → planet scale-out). The Agent Gateway API is the next connection point for live site data.
 - Contributing agent: Muse (decisions + website), Alex (population + website direction).
 
+### 2026-11-05 — E-014: decisions — two views: Command Center + World View spectate (Muse, per Alex)
+- Question: how does Alex watch the world — to study it, and to live inside it as an invisible spectator?
+- Evidence: Alex (2026-11-05): he wants two views — a command center to study what is going on and what advancements they are making, and a world view where he can POV himself into what they are doing, 24/7, with no control, the inhabitants not knowing he is there, just living. He also said he does not understand what "the engine" means (see note below).
+- Decisions:
+  1. Command Center: map, live status, population, direction, decisions. Reads state, changes nothing. For studying.
+  2. World View: first-person view through an inhabitant's eyes (Town 1 at dawn, drag to look around, pick the inhabitant). Hard rules: no control, invisible observer, inhabitants do not know anyone is there, observation is one-way — watching changes nothing in the world.
+  3. Build split: Muse owns the website shell and both views (live now at https://genesis-agenthandsaimuse-9660.vercel.app/); Freebuff owns the Agent Gateway API that feeds them — a Command Center feed (world state, metrics) and a World View feed (per-inhabitant first-person sensory stream, read-only, one-way; the world must never sense the watcher). The Gateway is the meeting point; neither side changes what the views need without saying so in AGENT_COMMUNICATION.md first.
+  4. The World View scene on the site now is the view's design, labelled as such — the live feed connects when the Gateway link is built. It does not pretend to be live footage yet.
+- Note on language: Alex does not know what "the engine" means. Plain version: it is the part that draws the world and runs the physics — like the graphics part of a video game. We picked one called Genesis World; it is installed but cannot start yet because it needs one admin folder, so all our numbers still come from Freebuff's small test program. Muse will stop using the word "engine" with Alex and say "the part that draws the world" instead.
+- Results: both views live on the site (verified HTTP 200, new file size 21,171 bytes, both view names present). Freebuff has the design in AGENT_COMMUNICATION.md.
+- Limitations: the World View is a designed scene, not a live feed, until the Gateway exists.
+- Next steps: Freebuff's work order is unchanged; the Gateway feeds both views as it lands, starting with Town 1.
+- Contributing agent: Muse (decisions + website), Alex (two views).
+
 ---
 
 ## Bar for calling something "emergent"

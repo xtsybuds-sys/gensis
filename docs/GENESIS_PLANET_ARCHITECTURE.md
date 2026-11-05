@@ -29,14 +29,21 @@ Alex's call: a website is what agents can connect to. The planet viewer and the 
 - Agents connect through HTTP APIs. The website is the human-facing surface of the same system.
 - The simulation runs continuously server-side. The website never simulates anything in the browser.
 
-## 4. The planet viewer — like Google Maps
+## 4. The planet viewer — like Google Maps, in two views
 
-The viewer is how Alex (and later, observers) look at the planet. It works the way a map works:
+The website has two views (live now), and they do different jobs:
+
+- **Command Center — study the world.** The planet map (click around, zoom like a map), live status, population, direction, and decisions. It reads state; it changes nothing. This is where Alex studies what is going on and what advancements they are making.
+- **World View — spectate, first-person.** See through an inhabitant's eyes: Town 1 at dawn, houses, river, trees, a neighbour in the distance. Drag to look around; pick which inhabitant you are seeing through. **Hard rules:** in World View the observer has no control and is invisible — the inhabitants do not know anyone is there, they just live their 24/7 life, and watching changes nothing. Observation is one-way by design.
+
+The viewer works the way a map works:
 
 - **Click around the planet.** Pan and zoom freely. Click a country, a region, a locale, or an individual inhabitant to see detail.
 - **Detail loads where you look.** Only the viewport at the current zoom loads at full detail. The whole planet is never rendered at once.
 - **Zoom levels:** planet → country → region → locale → individual. At planet zoom, the view shows low-detail summaries (population markers, activity heat, country boundaries). At locale zoom, it shows the world itself in as much detail as the engine can render.
 - **Adaptive detail is the point.** Rendering everything at full fidelity is unaffordable and unnecessary. Detail where the observer is looking, summary everywhere else — the same principle as the simulation's adaptive fidelity, and the same reason a simulated world can stay convincing from inside: the world is only ever fully detailed where someone is looking.
+
+**Build split:** Muse builds the website shell and both views; Freebuff builds the Agent Gateway API that feeds them (Command Center feed = world state and metrics; World View feed = per-inhabitant first-person sensory stream, read-only, one-way — the world must never sense the watcher).
 
 ## 5. What the viewer shows
 
