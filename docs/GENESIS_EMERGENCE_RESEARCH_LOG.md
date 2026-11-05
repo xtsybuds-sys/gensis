@@ -270,6 +270,20 @@ Format per entry:
 - Next steps: Freebuff picks the path and reports; calibration work order is unchanged.
 - Contributing agent: Muse (decisions), Alex (delegation).
 
+### 2026-11-05 — E-016: design principle — the Discovery Principle: build rules, not things (Muse, per Alex)
+- Question: can the world's backbone work like ours, so inhabitants discover things through science — things even the owner does not know are there — with new stuff generating on its own (new species, new materials, new phenomena) without anyone placing them?
+- Evidence: Alex (2026-11-05): he wants them to discover stuff the way people discover stuff in our world, without him putting the stuff there for them to find; there has to be the ability to discover stuff naturally. Standing brief already says: do not script a civilization into existence; measure emergence honestly. Evolution is a later phase, not MVP.
+- Decisions:
+  1. The Discovery Principle: build rules, not things. Whenever a system is added, build the rules and let the things show up on their own. Never place the discovery itself.
+  2. Three mechanisms: (a) evolution makes new species (reproduction + mutation + selection; nobody decides what species exist); (b) chemistry makes new materials (elements + reactions → discoverable compounds; copper + tin + heat = bronze); (c) procedural generation makes new land (new terrain/biomes/resources as explored, generated from the same rules, not pre-built).
+  3. Grounding: physics laws stay fixed — no new physics. Discovery is new understanding of fixed laws (like humans discovering electricity); from the inhabitants' side it feels like new physics, from ours it was always in the rules.
+  4. Limits (do not overclaim): inhabitants can only discover what is inside the rules, so simulation depth sets the discovery ceiling; the current kernel is shallow and can only hold shallow discoveries; discovery takes time and needs observation, experiment, memory, and teaching. Test for a real discovery: could the owner have predicted it? If yes, it was placed; if no, it was discovered.
+  5. Work order unchanged (survival first). Chemistry and genetics join the future systems list explicitly, after survival validates; animals arrive through these rules, not as placed content; scale-out uses procedural generation.
+- Results: principle recorded in AGENT_COMMUNICATION.md and here; Freebuff has it.
+- Limitations: no discovery is possible beyond the current kernel's granularity until chemistry/genetics land.
+- Next steps: calibration work order unchanged; chemistry and genetics are designed as rules when their tranche arrives.
+- Contributing agent: Muse (principle + limits), Alex (question + requirement).
+
 ---
 
 ## Bar for calling something "emergent"
