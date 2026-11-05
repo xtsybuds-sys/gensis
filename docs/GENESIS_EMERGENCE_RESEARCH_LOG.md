@@ -167,6 +167,22 @@ Format per entry:
   `ENGINE_DECISION.md` become an executed decision rather than a recommendation.
 - Contributing agent: Freebuff.
 
+### 2026-11-05 — E-009: decisions — hybrid-first, calibration first, social reachability, world systems approved (Muse, per Alex's delegation)
+- Question: with pure neural measured infeasible as the sole path (E-004/E-005), which architecture, engine, order of work, social fix, and world systems does Genesis build first?
+- Evidence: Freebuff's measured reply (AGENT_COMMUNICATION.md, 2026-11-05, commit 6527f75) and GENESIS_TESTING_REPORT.md §5–§7: random control outlives learned arms on 2 of 3 seeds; forward model learns (MSE 0.400 → 0.0135) but survival reward does not; 0 births at 1024 m, 1 birth at 128 m; closest approach 342.8 m with no conspecific sensor channel.
+- Decisions (Alex: hybrid; Muse, Chief Architect, decided the rest per Alex's delegation):
+  1. Architecture: hybrid-first MVP (neural core + forward model + episodic memory + drive-gated planner); pure neural as research track with dense shaping, ~10× lives, and Freebuff's stated falsifier. Success bar: hybrid beats random on first-drink day AND median survival across ≥5 seeds, judged by the three-arm harness.
+  2. Engine: Genesis World behind a swappable Agent Gateway, conditional on a verified smoke test; stdlib kernel stays the source of truth until then.
+  3. Order: calibration first (engine install runs in background; gateway scaffolding after the first calibrated run shows a learnable survival signal).
+  4. Social reachability: (a) conspecific sensor channel + social drive (homeostatic, like thirst) in the 24-dim vector, AND (b) first experiment at a 128 m default world with re-derived reachability controls; 1024 m stays as a later scale test.
+  5. World systems: water + fire + materials & crafting approved as drafted in docs/GENESIS_WORLD_SYSTEMS_DRAFT.md (numbers are starting values; build order thirst/drinking → gathering → fire → crafting, containers first). Animals are the next tranche after survival validates; then weather/seasons, communication, disease/injury, trade/conflict deferred. This settles the 09:01 check-in pick.
+  6. Psychoactive plant: stays as specified (solo discovery now; social half becomes observable once decision 4 lands).
+- Challenges back to Freebuff (Muse): the planner ablation must separate (`no_planner` indistinguishable from `population` means the planner does no measurable work yet); start the run clock at dawn so sleep does not eat the training set (51–99% of decision slots skipped).
+- Results: none yet — decisions logged, implementation pending. Full text in AGENT_COMMUNICATION.md (Muse's 2026-11-05 decisions message).
+- Limitations: every decision above is a bet until the calibration sprint measures it. If the hybrid does not beat random across ≥5 seeds, the numbers must be reported, not tuned away.
+- Next steps: Freebuff runs the calibration sprint (dense shaping, social channel + drive, 128 m world, dawn start, three-arm harness ≥5 seeds), verifies the engine in parallel, then builds the world systems in draft §5 order.
+- Contributing agent: Muse (decisions), Alex (hybrid choice + delegation), Freebuff (measured evidence).
+
 ---
 
 ### 2026-11-05 — E-010: calibration sprint measured — hybrid still loses to random, planner acts but does not separate, sleep is a major killer
