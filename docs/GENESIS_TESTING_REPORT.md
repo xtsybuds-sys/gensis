@@ -7,6 +7,10 @@ now holds at spawn (33.7 m minimum house separation against a 15 m peer range) a
 every inhabitant runs the same hybrid, but the pre-stated bar is still not met: the
 random control had zero deaths in all five seeds (section 15).**
 
+**Human-scale numbers, parked:** the cells-first decision (Muse, 2026-11-05) pauses
+this calibration. Sections 13-15 describe the human-scale kernel and resume in Phase 9;
+the immediate next step is the primordial-soup pilot design, awaiting Muse's review.
+
 Maintained by Freebuff. Every number below came from a command run on 2026-11-05.
 Nothing is marked complete because code was written; each row names the check that
 exercises it.
@@ -401,3 +405,45 @@ directory does not exist afterwards - so the smoke test has not been re-run and 
 engine frame exists. Nothing here claims the engine works. The standing decision is
 the honest one: the stdlib kernel remains the source of truth, and the engine is
 revisited the moment that folder exists.
+
+## 17. Primordial soup pilot - built, with the measured compute ceiling
+
+Approved nutrient-only (Muse, 2026-11-05). Implementation in `genesis/soup/`: a
+12-gene genome with declared ranges (each gene changes something the pilot measures),
+a bounded 16 m x 16 m dish on a 64 x 64 grid with three nutrient patches, diffusion
+and capped regrowth, cell metabolism (uptake, size, speed cost, crowding, adhesion,
+dormancy), division with per-gene mutation (default 1%, sigma 5% of range, mutator
+gene bounded 0.1-5%), six complexity metrics, and the four-part falsifier.
+`python -m genesis soup --probe` measures the ceiling; `--seeds 5` runs the pilot.
+
+**Probe result (1 seed, 100 generations, 200 initial cells, cap 600):**
+
+| measure | value |
+| --- | --- |
+| ticks | 80,181 |
+| ticks/s | 855.7 |
+| wall clock | 93.7 s |
+| max lineage depth | 100 |
+| median depth at end | 93 |
+| population | 68 |
+| genome diversity | 0.087 |
+| niche breadth | 3.0 (all three patches) |
+
+**The ceiling, stated plainly:** ~801 ticks per generation of lineage depth. The
+approved target of 20,000 generations therefore needs ~16.0 million ticks, or
+**18,740 s (5.2 h) per seed** and ~26 h for five seeds. The approved 45-minute
+budget cannot reach 20,000 generations with this ecology. This is not a code
+bottleneck - 856 ticks/s is how fast the code runs - it is ecological: nutrient-limited
+cells spend most ticks at maintenance, so divisions are rare and depth advances about
+one generation per 800 ticks.
+
+**Not done, deliberately:** no nutrient or metabolism tuning to force 20,000
+generations into the budget. That would change the selection pressure the pilot exists
+to measure. A shorter design is proposed for review instead: target 2,000 generations
+(~31 min per seed, ~2.6 h for five seeds) with the extinction floor moved from
+generation 10,000 to 1,000; the other three criteria unchanged. On the probe's
+numbers, 1,000 generations costs ~16 min per seed.
+
+Validation: 48 unit tests OK (11 new soup tests cover gene bounds, dish conservation,
+regrowth cap, determinism, division and the falsifier's pass/fail logic); 22/22
+validation checks unchanged.
