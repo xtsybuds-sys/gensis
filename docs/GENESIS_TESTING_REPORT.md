@@ -551,3 +551,5 @@ added). A killed run keeps its measured numbers.
 **Current run.** 5 seeds, target 2,000 turnovers, floor 1,000, cap 300 minutes,
 checkpoint every 100, `--population 200 --cap 600`. Results and the four-part verdict
 will be appended when it completes. No verdict is claimed yet.
+
+**Gen-100 baseline entropies (captured, final once written).** Median lineage patch-share entropy at the 100-turnover snapshot: 0.937 (seed 20261105, pop 72), 0.981 (seed 20261106, pop 88), 1.000 (seed 20261107, pop 89), 0.988 (seed 20261108, pop 69), 0.999 (seed 20261109, pop 85). 5 of five seeds captured at the time of writing. The baseline sits near the three-patch ceiling, so the <=0.5x criterion has room to move, unlike the patch-count measure it replaced.
