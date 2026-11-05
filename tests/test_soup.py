@@ -1,10 +1,9 @@
+import random
 import unittest
 
 from genesis.soup.dish import NutrientDish
 from genesis.soup.genome import GENES, Genome
 from genesis.soup.pilot import Cell, _snapshot, evaluate, format_table, run_pilot
-from genesis.util import stable_hash
-import random
 
 
 class SoupGenome(unittest.TestCase):
@@ -49,19 +48,19 @@ class SoupDish(unittest.TestCase):
 
 
 class SoupPilot(unittest.TestCase):
-    def _run(self, seed, generations=2):
+    def _run(self, seed, turnovers=2):
         # A generous cap and a short wall clock: capping the population would stall
-        # lineage depth and make the test sit out its time limit.
+        # births and make the test sit out its time limit.
         return run_pilot(
-            seed, generations=generations, minutes=0.05, initial=30, cap=300
+            seed, target_turnovers=turnovers, minutes=0.05, initial=30, cap=300
         )
 
     def test_short_run_produces_cells_and_metrics(self):
         row = self._run(20261105)
-        self.assertGreaterEqual(row["max_gen"], 1)
+        self.assertGreater(row["turnovers"], 0.0)
         self.assertGreater(row["final"]["population"], 0)
         self.assertGreater(row["ticks"], 0)
-        for key in ("median_depth", "diversity", "niche_breadth", "traits"):
+        for key in ("median_depth", "diversity", "niche_entropy", "traits", "turnovers"):
             self.assertIn(key, row["final"])
         self.assertIn("ticks_per_s", row)
 
@@ -73,72 +72,84 @@ class SoupPilot(unittest.TestCase):
 
     def test_reports_floor_and_per_lineage_breakdown(self):
         row = self._run(21)
-        self.assertEqual(row["floor_generations"], 1000)
+        self.assertEqual(row["floor_turnovers"], 1000)
+        self.assertEqual(row["clock"], "turnovers (births / mean population)")
         self.assertIn("lineages", row["final"])
         self.assertIn("top_lineages", row["final"])
-        self.assertIn("turnovers", row["final"])
         self.assertIn("births", row["final"])
 
-    def test_niche_breadth_is_median_across_lineages(self):
-        # Three cells of one lineage that found one patch, one cell of another that
-        # found all three. Median across lineages is 3, not the population-weighted 1.
+    def test_niche_entropy_is_median_across_lineages(self):
+        # One lineage fed from a single patch (entropy 0), one fed equally from all
+        # three (entropy 1). Median across lineages is the upper median, 1.0.
         rng = random.Random(1)
         cells = [
             Cell(1.0, 1.0, 0.0, 1.0, Genome.founding(rng), 5, 1) for _ in range(3)
         ]
         cells.append(Cell(1.0, 1.0, 0.0, 1.0, Genome.founding(rng), 5, 2))
-        snapshot = _snapshot(cells, {1: {0}, 2: {0, 1, 2}}, 10)
+        snapshot = _snapshot(cells, {1: {0: 1.0}, 2: {0: 1.0, 1: 1.0, 2: 1.0}}, 10)
+        self.assertEqual(snapshot["niche_entropy"], 1.0)
         self.assertEqual(snapshot["niche_breadth"], 3.0)
         self.assertEqual(snapshot["lineages"], 2)
-        self.assertEqual(len(snapshot["top_lineages"]), 2)
 
     def test_table_formats(self):
         row = self._run(3)
         text = format_table([row])
         self.assertIn("seed", text)
+        self.assertIn("turn", text)
         self.assertIn(str(row["seed"]), text)
 
 
 class SoupFalsifier(unittest.TestCase):
-    def _row(self, seed, depth, niche, base, traits, reached=True, extinct=False,
-             final_traits=None):
+    def _row(self, seed, depth=500, base_entropy=1.0, final_entropy=0.4,
+             base_traits=None, final_traits=None, reached=True, extinct=False):
+        base_traits = base_traits or {"speed": 0.1, "size": 1.0}
+        final_traits = final_traits or base_traits
         return {
             "seed": seed,
             "reached_target": reached,
             "extinct_after_floor": extinct,
-            "baseline": {"niche_breadth": base, "traits": traits},
+            "baseline": {"niche_entropy": base_entropy, "traits": base_traits},
             "final": {
                 "median_depth": depth,
-                "niche_breadth": niche,
-                "traits": final_traits or traits,
+                "niche_entropy": final_entropy,
+                "traits": final_traits,
             },
         }
 
     def test_pass_needs_all_four(self):
-        traits = {"speed": 0.1, "size": 1.0}
-        shifted = {"speed": 0.4, "size": 1.0}
+        rows = [self._row(seed) for seed in range(5)]
         rows = [
-            self._row(seed, 500, 3, 1, traits, final_traits=shifted)
-            for seed in range(5)
+            self._row(
+                row["seed"],
+                base_traits={"speed": 0.1, "size": 1.0},
+                final_traits={"speed": 0.4, "size": 1.0},
+            )
+            for row in rows
         ]
         verdict = evaluate(rows)
         self.assertTrue(verdict["passed"], verdict)
-        # A zero-variance baseline must not inflate the effect into a fake discovery.
         self.assertLess(verdict["checks"]["trait_selection_ge_2sd"]["z"], 100.0)
 
     def test_extinction_after_floor_fails(self):
-        traits = {"speed": 0.1, "size": 1.0}
-        rows = [self._row(seed, 500, 3, 1, traits) for seed in range(4)]
-        rows.append(self._row(4, 500, 3, 1, traits, extinct=True))
+        rows = [self._row(seed) for seed in range(4)]
+        rows.append(self._row(4, extinct=True))
         verdict = evaluate(rows)
         self.assertFalse(verdict["passed"])
-        self.assertFalse(verdict["checks"]["survived_last_10k"])
+        self.assertFalse(verdict["checks"]["survived_after_floor"])
 
-    def test_flat_niche_fails(self):
-        traits = {"speed": 0.1, "size": 1.0}
-        rows = [self._row(seed, 500, 2, 2, traits) for seed in range(5)]
+    def test_flat_entropy_fails(self):
+        rows = [self._row(seed, final_entropy=1.0) for seed in range(5)]
         verdict = evaluate(rows)
-        self.assertFalse(verdict["checks"]["niche_breadth_doubled"]["passed"])
+        self.assertFalse(verdict["checks"]["entropy_halved"]["passed"])
+        self.assertFalse(verdict["passed"])
+
+    def test_zero_baseline_entropy_cannot_pass(self):
+        # If the gen-100 median is already at the floor, halving is impossible and the
+        # criterion must fail loudly rather than divide by zero.
+        rows = [self._row(seed, base_entropy=0.0, final_entropy=0.0) for seed in range(5)]
+        verdict = evaluate(rows)
+        self.assertFalse(verdict["checks"]["entropy_halved"]["passed"])
+        self.assertIsNone(verdict["checks"]["entropy_halved"]["median_ratio"])
         self.assertFalse(verdict["passed"])
 
 

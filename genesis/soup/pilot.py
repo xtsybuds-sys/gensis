@@ -2,8 +2,12 @@
 
 Design approved by Muse (2026-11-05), nutrient-only. The pilot answers one question:
 does measurable complexity grow from mutation plus selection on a simple substrate?
-If it does not, the cells-to-humans path is not worth pursuing and is reported as a
-negative result, not tuned until it passes.
+
+Two corrections from the 2,000-lineage-depth run (Muse, 2026-11-05):
+- the generation clock is population-normalised births (turnovers), because the old
+  deepest-chain counter froze whenever the dominant lineage died;
+- niche specialisation is per-lineage patch-share entropy, because patch count hits the
+  three-patch ceiling at generation 100 and could never halve.
 """
 
 from __future__ import annotations
@@ -14,16 +18,15 @@ import time
 from collections import defaultdict
 
 from ..util import TAU, clamp, mean, stable_hash
-from .dish import NutrientDish
+from .dish import PATCH_CENTRES, NutrientDish
 from .genome import GENE_NAMES, GENES, Genome
 
-TARGET_GENERATIONS = 20000
+TARGET_TURNOVERS = 2000
+SURVIVAL_FLOOR_TURNOVERS = 1000
 SUCCESS_MEDIAN_DEPTH = 100
-SUCCESS_NICHE_GROWTH = 2.0
+SUCCESS_ENTROPY_FACTOR = 0.5
 SUCCESS_TRAIT_Z = 2.0
-# Muse's review (2026-11-05) moved the floor to 1,000 with the 2,000-generation target,
-# so generations 1,000-2,000 demonstrate stability after the floor rather than before it.
-SURVIVAL_FLOOR_GEN = 1000
+PATCH_COUNT = len(PATCH_CENTRES)
 
 _UPTAKE = 0.12
 _BASE_COST = 0.006
@@ -74,7 +77,20 @@ def _neighbours(cell, buckets):
     return total - 1
 
 
-def _snapshot(cells, lineages, ticks, births=0):
+def _lineage_entropy(shares):
+    """Normalized Shannon entropy of a lineage's feeding share: 1 = all patches, 0 = one."""
+    total = sum(shares.values())
+    if total <= 0.0:
+        return 0.0
+    entropy = 0.0
+    for value in shares.values():
+        if value > 0.0:
+            p = value / total
+            entropy -= p * math.log(p)
+    return entropy / math.log(PATCH_COUNT)
+
+
+def _snapshot(cells, lineages, ticks, births=0, mean_pop=1.0):
     if not cells:
         return {
             "population": 0,
@@ -82,10 +98,11 @@ def _snapshot(cells, lineages, ticks, births=0):
             "max_depth": 0,
             "diversity": 0.0,
             "niche_breadth": 0.0,
+            "niche_entropy": 0.0,
             "lineages": 0,
             "top_lineages": [],
             "births": births,
-            "turnovers": 0.0,
+            "turnovers": round(births / max(mean_pop, 1e-9), 3),
             "traits": {},
             "ticks": ticks,
         }
@@ -97,23 +114,28 @@ def _snapshot(cells, lineages, ticks, births=0):
             total += sample[i].genome.distance(sample[j].genome)
             pairs += 1
     depths = sorted(cell.gen for cell in cells)
-    # Niche breadth is per lineage, medians across lineages (Muse's clarification):
-    # a population-wide count hits the 3-patch ceiling immediately and could never
-    # double, so the lineage is the unit that can actually show specialisation.
+    # Niche specialisation is measured per lineage and reported as a median: a
+    # population-wide count saturates at the patch ceiling immediately.
     present = {}
     lineage_gens = {}
     for cell in cells:
         present[cell.lineage] = present.get(cell.lineage, 0) + 1
         lineage_gens.setdefault(cell.lineage, []).append(cell.gen)
-    niches = sorted(len(lineages[lineage]) for lineage in present)
+    entropies = sorted(_lineage_entropy(lineages[lineage]) for lineage in present)
+    breadths = sorted(
+        sum(1 for value in lineages[lineage].values() if value > 0.0)
+        for lineage in present
+    )
     lineage_rows = []
     for lineage, count in present.items():
         gens = sorted(lineage_gens[lineage])
+        shares = lineages[lineage]
         lineage_rows.append(
             {
                 "lineage": lineage,
                 "cells": count,
-                "patches": len(lineages[lineage]),
+                "patches": sum(1 for value in shares.values() if value > 0.0),
+                "entropy": round(_lineage_entropy(shares), 4),
                 "median_gen": gens[len(gens) // 2],
             }
         )
@@ -122,30 +144,31 @@ def _snapshot(cells, lineages, ticks, births=0):
         name: round(mean(cell.genome.values[i] for cell in cells), 6)
         for i, name in enumerate(GENE_NAMES)
     }
+    middle = len(entropies) // 2
     return {
         "population": len(cells),
         "median_depth": depths[len(depths) // 2],
         "max_depth": depths[-1],
         "diversity": round(total / pairs, 6) if pairs else 0.0,
-        "niche_breadth": float(niches[len(niches) // 2]) if niches else 0.0,
+        "niche_breadth": float(breadths[len(breadths) // 2]) if breadths else 0.0,
+        "niche_entropy": round(entropies[middle], 4) if entropies else 0.0,
         "lineages": len(present),
         "top_lineages": lineage_rows[:10],
-        # Turnover is population-normalised births: the generation clock that cannot
-        # stall just because the deepest chain happened to die.
         "births": births,
-        "turnovers": round(births / max(len(cells), 1), 3),
+        "turnovers": round(births / max(mean_pop, 1e-9), 3),
         "traits": traits,
         "ticks": ticks,
     }
 
 
-def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
+def run_pilot(seed, target_turnovers=TARGET_TURNOVERS, minutes=45.0, initial=200,
               cap=600, size_m=16.0, grid=64, slow_every=5, stall_ticks=20000,
-              verbose=False, floor_gen=SURVIVAL_FLOOR_GEN):
-    """Run one dish until the deepest lineage reaches ``generations`` or time runs out.
+              verbose=False, floor_turnovers=SURVIVAL_FLOOR_TURNOVERS):
+    """Run one dish until population-normalised births reach the target or time runs out.
 
-    ``stall_ticks`` stops a run that has stopped deepening: a population that survives
-    without dividing can spin forever, and a 45-minute silence is not a measurement.
+    Turnovers are cumulative births divided by mean population, so the clock cannot
+    freeze when a lineage dies. ``stall_ticks`` stops a dish that produces no births at
+    all for that many ticks; that guard is now based on the same clock as the target.
     """
     rng = random.Random(seed)
     dish = NutrientDish(size_m=size_m, grid=grid)
@@ -156,19 +179,21 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
         cells.append(
             Cell(x, y, rng.uniform(0.0, TAU), 1.0, Genome.founding(rng), 0, index + 1)
         )
-    lineages = defaultdict(set)
+    lineages = defaultdict(dict)
     buckets = {}
     ticks = 0
-    max_gen = 0
     births = 0
+    pop_sum = 0
+    turnovers = 0.0
+    max_gen = 0
+    last_birth_tick = 0
     baseline = None
     extinct_after_floor = False
     stalled = False
     started = time.time()
     limit_s = minutes * 60.0
-    last_depth_tick = 0
 
-    while max_gen < generations and cells:
+    while turnovers < target_turnovers and cells:
         if ticks % slow_every == 0:
             dish.step()
         _crowding(cells, buckets)
@@ -189,10 +214,11 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
             patch = dish.patch_at(cell.x, cell.y)
             eaten = dish.take(cell.x, cell.y, eat_rate)
             if eaten > 0.0 and patch >= 0:
-                lineages[cell.lineage].add(patch)
+                shares = lineages[cell.lineage]
+                shares[patch] = shares.get(patch, 0.0) + eaten
             cell.energy += eaten * cell.genome.get("efficiency")
 
-            cost = (_BASE_COST + _MOVE_COST * speed * speed * size + penalty)
+            cost = _BASE_COST + _MOVE_COST * speed * speed * size + penalty
             cost *= 1.0 - 0.30 * adhesion
             if dormant:
                 cost *= 0.3
@@ -250,40 +276,46 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
         cells = [cell for cell in cells if cell.alive]
         cells.extend(children)
         ticks += 1
+        pop_sum += len(cells)
+        mean_pop = pop_sum / ticks
+        turnovers = births / max(mean_pop, 1e-9)
         if children:
             deepest = max(child.gen for child in children)
             if deepest > max_gen:
                 max_gen = deepest
-                last_depth_tick = ticks
-        if baseline is None and max_gen >= 100:
-            baseline = _snapshot(cells, lineages, ticks, births)
+            last_birth_tick = ticks
+        if baseline is None and turnovers >= 100.0:
+            baseline = _snapshot(cells, lineages, ticks, births, mean_pop)
         if verbose and ticks % 5000 == 0:
             print(
-                f"  seed {seed}: tick {ticks} gen {max_gen} "
+                f"  seed {seed}: tick {ticks} turnovers {turnovers:.0f} gen {max_gen} "
                 f"pop {len(cells)} {ticks / max(time.time() - started, 1e-9):.0f} t/s",
                 flush=True,
             )
         if not cells:
-            if max_gen >= floor_gen:
+            if turnovers >= floor_turnovers:
                 extinct_after_floor = True
             break
         if ticks % 200 == 0:
             if time.time() - started > limit_s:
                 stalled = True
                 break
-            if ticks - last_depth_tick > stall_ticks:
+            if ticks - last_birth_tick > stall_ticks:
                 stalled = True
                 break
 
     elapsed = max(time.time() - started, 1e-9)
-    final = _snapshot(cells, lineages, ticks, births)
+    mean_pop = pop_sum / max(ticks, 1)
+    final = _snapshot(cells, lineages, ticks, births, mean_pop)
     return {
         "seed": seed,
         "design": "nutrient-only, no predation",
-        "target_generations": generations,
-        "floor_generations": floor_gen,
+        "clock": "turnovers (births / mean population)",
+        "target_turnovers": target_turnovers,
+        "floor_turnovers": floor_turnovers,
+        "turnovers": round(turnovers, 2),
         "max_gen": max_gen,
-        "reached_target": max_gen >= generations,
+        "reached_target": turnovers >= target_turnovers,
         "extinct_after_floor": extinct_after_floor,
         "stalled": stalled,
         "ticks": ticks,
@@ -297,7 +329,7 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
     }
 
 
-def evaluate(results, target=TARGET_GENERATIONS):
+def evaluate(results, target=TARGET_TURNOVERS):
     """Apply the four-part falsifier on the median of the seeds."""
     if not results:
         return {"passed": False, "checks": {}, "reason": "no results"}
@@ -309,13 +341,20 @@ def evaluate(results, target=TARGET_GENERATIONS):
     depth_ok = median_depth >= SUCCESS_MEDIAN_DEPTH
 
     ratios = []
+    baseline_entropies = []
     for row in results:
-        base = row["baseline"]["niche_breadth"] if row["baseline"] else 0.0
-        final = row["final"]["niche_breadth"]
-        ratios.append((final + 1.0) / (base + 1.0))
-    ratios.sort()
-    niche_ratio = ratios[len(ratios) // 2]
-    niche_ok = niche_ratio >= SUCCESS_NICHE_GROWTH
+        base = (row["baseline"] or {}).get("niche_entropy")
+        baseline_entropies.append(base)
+        if base is None or base <= 1e-9:
+            ratios.append(None)
+        else:
+            ratios.append(row["final"]["niche_entropy"] / base)
+    valid = [ratio for ratio in ratios if ratio is not None]
+    median_ratio = sorted(valid)[len(valid) // 2] if valid else None
+    entropy_ok = (
+        median_ratio is not None and len(valid) == len(ratios)
+        and median_ratio <= SUCCESS_ENTROPY_FACTOR
+    )
 
     z_scores = {}
     if results[0]["baseline"]:
@@ -325,31 +364,33 @@ def evaluate(results, target=TARGET_GENERATIONS):
             final_values = [row["final"]["traits"].get(name, 0.0) for row in results]
             base_mean = mean(base_values)
             spread = math.sqrt(mean((value - base_mean) ** 2 for value in base_values))
-            # A near-zero cross-seed spread must not turn a small shift into a
-            # billion-sigma "discovery": the denominator has a floor of 5% of the
-            # gene's declared range.
             spread = max(spread, 0.05 * widths.get(name, 1.0))
             z_scores[name] = round(abs(mean(final_values) - base_mean) / spread, 3)
     best_trait = max(z_scores, key=z_scores.get) if z_scores else None
     trait_ok = bool(z_scores) and z_scores[best_trait] >= SUCCESS_TRAIT_Z
 
     checks = {
-        "survived_last_10k": survived,
+        "survived_after_floor": survived,
         "median_depth_ge_100": {"passed": depth_ok, "median_depth": median_depth},
-        "niche_breadth_doubled": {"passed": niche_ok, "ratio": round(niche_ratio, 3)},
+        "entropy_halved": {
+            "passed": entropy_ok,
+            "median_ratio": round(median_ratio, 3) if median_ratio is not None else None,
+            "baseline_entropies": baseline_entropies,
+            "final_entropies": [row["final"]["niche_entropy"] for row in results],
+        },
         "trait_selection_ge_2sd": {
             "passed": trait_ok,
             "trait": best_trait,
             "z": z_scores.get(best_trait, 0.0) if best_trait else 0.0,
         },
     }
-    passed = survived and depth_ok and niche_ok and trait_ok
+    passed = survived and depth_ok and entropy_ok and trait_ok
     return {
         "passed": passed,
         "checks": checks,
         "trait_z_scores": z_scores,
         "seeds": [row["seed"] for row in results],
-        "target_generations": target,
+        "target_turnovers": target,
     }
 
 
@@ -357,17 +398,18 @@ def format_table(results):
     if not results:
         return "(no results)"
     header = (
-        f"{'seed':<10}{'max_gen':>8}{'pop':>5}{'depth':>7}{'div':>7}"
-        f"{'niche0':>7}{'niche1':>7}{'ticks':>9}{'tps':>8}{'target':>7}{'ext':>5}"
+        f"{'seed':<10}{'turn':>7}{'gen':>6}{'pop':>5}{'depth':>7}{'div':>7}"
+        f"{'H0':>7}{'H1':>7}{'lin':>5}{'ticks':>9}{'tps':>8}{'target':>8}{'ext':>5}"
     )
     lines = [header, "-" * len(header)]
     for row in results:
-        base = row["baseline"]["niche_breadth"] if row["baseline"] else 0.0
+        base = (row["baseline"] or {}).get("niche_entropy", 0.0)
         lines.append(
-            f"{row['seed']:<10}{row['max_gen']:>8}{row['final']['population']:>5}"
-            f"{row['final']['median_depth']:>7}{row['final']['diversity']:>7.3f}"
-            f"{base:>7.0f}{row['final']['niche_breadth']:>7.0f}"
+            f"{row['seed']:<10}{row['turnovers']:>7.0f}{row['max_gen']:>6}"
+            f"{row['final']['population']:>5}{row['final']['median_depth']:>7}"
+            f"{row['final']['diversity']:>7.3f}{base:>7.3f}"
+            f"{row['final']['niche_entropy']:>7.3f}{row['final']['lineages']:>5}"
             f"{row['ticks']:>9}{row['ticks_per_s']:>8.0f}"
-            f"{str(row['reached_target']):>7}{str(row['extinct_after_floor']):>5}"
+            f"{str(row['reached_target']):>8}{str(row['extinct_after_floor']):>5}"
         )
     return "\n".join(lines)

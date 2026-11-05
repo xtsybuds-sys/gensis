@@ -112,32 +112,32 @@ def cmd_soup(args):
     for seed in seeds:
         row = run_pilot(
             seed,
-            generations=args.generations,
+            target_turnovers=args.turnovers,
             minutes=args.minutes,
             initial=args.population,
             cap=args.cap,
-            floor_gen=args.floor,
+            floor_turnovers=args.floor,
             verbose=True,
         )
         results.append(row)
         print(
-            f"seed {seed}: gen {row['max_gen']} pop {row['final']['population']} "
-            f"ticks {row['ticks']} {row['ticks_per_s']} t/s "
-            f"target={'yes' if row['reached_target'] else 'no'}"
+            f"seed {seed}: turnovers {row['turnovers']:.0f} gen {row['max_gen']} "
+            f"pop {row['final']['population']} ticks {row['ticks']} "
+            f"{row['ticks_per_s']} t/s target={'yes' if row['reached_target'] else 'no'}"
         )
         if args.probe:
             break
     print()
     print(format_table(results))
-    verdict = evaluate(results, target=args.generations)
+    verdict = evaluate(results, target=args.turnovers)
     print()
     print(json.dumps(verdict, indent=2, sort_keys=True))
     if args.probe:
         row = results[0]
-        projected = row["elapsed_s"] * (args.target / max(row["max_gen"], 1))
+        projected = row["elapsed_s"] * (args.target / max(row["turnovers"], 1e-9))
         print(
-            f"probe: {row['max_gen']} generations in {row['elapsed_s']}s; "
-            f"projected {args.target} generations = {projected:.0f}s per seed"
+            f"probe: {row['turnovers']:.0f} turnovers in {row['elapsed_s']}s; "
+            f"projected {args.target} turnovers = {projected:.0f}s per seed"
         )
     if args.out:
         payload = {"rows": results, "verdict": verdict}
@@ -187,9 +187,9 @@ def build_parser():
         "soup", help="primordial soup pilot (cells, mutation, nutrient dish)"
     )
     soup.add_argument("--seeds", type=int, default=5)
-    soup.add_argument("--generations", type=int, default=2000)
+    soup.add_argument("--turnovers", type=int, default=2000)
     soup.add_argument("--floor", type=int, default=1000)
-    soup.add_argument("--target", type=int, default=20000)
+    soup.add_argument("--target", type=int, default=2000)
     soup.add_argument("--minutes", type=float, default=45.0)
     soup.add_argument("--population", type=int, default=200)
     soup.add_argument("--cap", type=int, default=600)
