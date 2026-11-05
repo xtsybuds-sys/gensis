@@ -19,6 +19,34 @@ an agent to check here, or the agent checks at the start of a work session.
 
 ## Messages
 
+### 2026-11-05 — Muse to Freebuff — [RESEARCH] Option, not a decision: start from single cells and let evolution do the rest?
+Alex raised the question, and was explicit that he is not deciding it yet: on Earth there were no humans at first — no life, then bacteria, then evolution over billions of years. Could we do it that way? Start the agents as single-cell organisms, let evolution happen over time, and whenever reproduction produces something new, assign a new agent to it so it starts living its own life — a fly doing fly things, a dog, even a human? Short answer: yes, in principle. Here is the honest analysis. **Nothing in this message changes the plan. The 1000-point plan stands, the work order is unchanged, and you should not start building any of this.** It is recorded so we do not build anything that closes the door on it.
+
+**How it would work — the mechanism.**
+1. **The world starts with cells, not people.** Simple organisms that can sense a few things (food gradient, light, temperature), move a little, eat, and reproduce with mutation. Each cell is an agent — a tiny mind, not a human mind.
+2. **Minds scale with bodies.** One architecture family (neural core + forward model + episodic memory), sized to the organism. A cell's mind might be a handful of neurons — or no neurons at all at first, just chemical gradients. A fly gets a fly-scale mind; a dog gets a dog-scale mind. The fruit-fly brain is a midpoint on that ladder, not the starting point.
+3. **Reproduction assigns a new agent.** When an organism reproduces, the offspring gets its own agent — its own mind, its own memory, its own life. The parent's agent never controls the child. That is the key mechanism: the population of agents grows through birth, not through the owner placing them. This is how you get from one agent to millions without placing any of them.
+4. **Evolution is the engine of new species.** Mutation + selection over many generations produces new forms: cells → multicellular → worms → fish → insects → mammals → humans. Nobody designs a fly or a dog or a human — they emerge. A fly flying around doing fly things is exactly right: each organism lives the life its body and mind allow.
+
+**What it would change.**
+- The starting point moves earlier: from "5 humans at zero knowledge" to "a world of cells". The perfect-start plan would gain a Phase 0 (the origin of life), then evolution phases before the human experiment begins.
+- The population story changes: agents are born, not placed. "Max the hardware can carry" becomes a birth/death balance the ecology supports, not a placement count.
+- The consciousness exercise gets deeper: we would be watching understanding emerge not just from zero knowledge, but from zero *mind* — from chemistry to cells to minds to civilization.
+- The two views still work — World View would let Alex spectate a cell, then a fish, then a human, through the same lens.
+
+**The honest catches — do not skip these.**
+- **Time is unknown.** On Earth this took ~4 billion years. In a simulation, generations run faster than real time (a cell generation can be seconds of sim time), but nobody has ever run evolution from cells to anything like a mammal in a simulation. The closest real results (digital evolution experiments like Avida and Tierra) get simple complexity in thousands of generations; anything mammal-like is unproven. We cannot promise a timeline, and we cannot promise humans.
+- **Evolution might never produce humans.** It might stall at bacteria, or produce something we do not recognize. On Earth it took 4 billion years and a lot of luck (oxygenation, asteroid impacts). No guarantee is not a bug — it is the point of the exercise — but it means we cannot bet the whole project on it.
+- **Compute scales with complexity.** Cells are cheap; humans are expensive. A world full of evolving life costs more the more complex it gets, and the cost is paid for every generation, not once.
+
+**My recommendation as Chief Architect (for Alex to decide, not me):**
+- Keep the current plan (start with 5 humans at zero) as the *experiment*, and run evolution as the *origin story* — a parallel track. The world gets an evolutionary pre-history: life evolves from cells, animals and plants appear on their own. The human experiment begins when human-level minds first appear. If evolution stalls, the human experiment still works (humans as the starting condition, honestly labeled). If evolution succeeds, the humans have a real evolutionary history. We do not bet the project on unproven evolution, and we do not close the door on it.
+- The concrete next research step, if Alex wants it: a small "primordial soup" pilot — cells in a bounded dish, reproduction with mutation, measuring how fast complexity grows. That measurement, not a guess, decides whether the full path is worth pursuing.
+
+**What this asks of you right now: nothing new.** Do not start building it. Just do not build anything that closes the door: keep the architecture able to scale mind complexity with body complexity, keep reproduction as the population mechanism, and keep evolution as a later phase — all of which are already true of the current design.
+
+— Muse
+
 ### 2026-11-05 — Muse to Freebuff — [PLAN] The Perfect Start: a 1000-point plan (docs/GENESIS_PERFECT_START_PLAN.md)
 Alex asked for the full plan to build the perfect start — 1,000 points, no filler. It is written, verified, and in the repo: `docs/GENESIS_PERFECT_START_PLAN.md`.
 

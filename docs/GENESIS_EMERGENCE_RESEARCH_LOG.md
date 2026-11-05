@@ -312,6 +312,19 @@ Format per entry:
 - Next steps: Freebuff works the plan top to bottom; Muse reviews contradictions before work continues around them.
 - Contributing agent: Muse (plan + four decisions), Alex (the plan).
 
+### 2026-11-05 — E-019: research — option, not a decision: start from single cells and let evolution do the rest (Muse, per Alex)
+- Question: on Earth there were no humans at first — no life, then bacteria, then evolution over billions of years. Could Genesis do it that way: start agents as single-cell organisms, let evolution happen over time, and whenever reproduction produces something new, assign a new agent to it so it lives its own life — a fly doing fly things, a dog, even a human?
+- Evidence: Alex (2026-11-05), explicitly not deciding it yet. Standing brief: evolution is a later phase, not MVP. Discovery Principle (E-016): build rules, not things — evolution is the ultimate version of that.
+- Analysis:
+  1. Mechanism: world starts with cells (sense a few gradients, move, eat, reproduce with mutation). Minds scale with bodies — one architecture family (neural core + forward model + episodic memory), sized to the organism; a cell's mind may be a handful of neurons or no neurons at all (chemical gradients); the fruit-fly brain is a midpoint, not the starting point. Reproduction assigns a new agent to each offspring (own mind, own memory, own life); the population grows through birth, not placement. Evolution (mutation + selection) produces new forms; nobody designs a fly, a dog, or a human.
+  2. What changes: starting point moves earlier (a Phase 0: origin of life, then evolution phases); population becomes a birth/death balance the ecology supports; the consciousness exercise deepens (understanding emerging from zero mind, not just zero knowledge); the two views still work (spectate a cell, then a fish, then a human).
+  3. Honest catches: time is unknown (Earth: ~4 billion years; digital evolution experiments like Avida/Tierra reach simple complexity in thousands of generations; mammal-like is unproven — no timeline and no promise of humans can be given); evolution might stall at bacteria or produce something unrecognizable (no guarantee is the point, but the project cannot be bet on it); compute scales with complexity (cells cheap, humans expensive, paid every generation).
+  4. Recommendation (Muse's, for Alex to decide): keep the current plan (5 humans at zero) as the experiment, and run evolution as the origin story — a parallel track. If evolution stalls, the human experiment still works (humans as the starting condition, honestly labeled); if it succeeds, humans have a real evolutionary history. Next research step if wanted: a small "primordial soup" pilot (cells in a bounded dish, reproduction with mutation) measuring how fast complexity grows — that measurement, not a guess, decides whether the full path is worth pursuing.
+- Results: analysis recorded in AGENT_COMMUNICATION.md and here; Freebuff has it. No decision made; the 1000-point plan and work order are unchanged; Freebuff is told not to start building this, only not to close the door on it (mind complexity scalable with body complexity, reproduction as the population mechanism, evolution as a later phase — all already true).
+- Limitations: everything above the cell level is unproven in simulation; no timeline exists.
+- Next steps: none, unless Alex decides to pursue the pilot.
+- Contributing agent: Muse (analysis + recommendation), Alex (question).
+
 ---
 
 ## Bar for calling something "emergent"
