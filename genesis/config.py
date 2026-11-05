@@ -43,7 +43,11 @@ class Config:
     novelty_weight: float = 0.35
     plasticity: float = 0.02
     hidden_units: int = 24
-    planner: bool = True
+    # Planner cut (Muse decision 1, 2026-11-05): the steering layer fired 4,493
+    # times against 0 and bought nothing measurable, so it is out of the MVP
+    # population. "Hybrid" now means neural core + forward model + episodic
+    # memory. Kept as a research flag so the cut stays falsifiable.
+    planner: bool = False
     max_population: int = 12
     reproduction_min_energy: float = 0.55
     reproduction_min_nutrition: float = 0.45

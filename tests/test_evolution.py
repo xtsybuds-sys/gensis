@@ -132,6 +132,7 @@ class AblationTests(unittest.TestCase):
         on = make_brain("hybrid", random.Random(2), Config(planner=True))
         self.assertFalse(off.planner_enabled)
         self.assertTrue(on.planner_enabled)
+        self.assertFalse(Config().planner, "planner is cut from the MVP population")
 
     def test_random_baseline_is_not_an_inhabitant_architecture(self):
         self.assertEqual(BRAIN_KINDS, ("neural", "hybrid"))

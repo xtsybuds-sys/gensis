@@ -32,7 +32,9 @@ class IntegrationValidation(unittest.TestCase):
         snapshot = sim.snapshot()
         for key in ("alive", "encounters", "discoveries", "water_m3", "clock"):
             self.assertIn(key, snapshot)
-        self.assertEqual(snapshot["population"], 5)
+        # Five start; one-mind means every inhabitant is hybrid, so a birth can
+        # legitimately add to the population inside the run.
+        self.assertGreaterEqual(snapshot["population"], 5)
 
     def test_store_persists_events_and_checkpoints(self):
         directory = tempfile.mkdtemp()

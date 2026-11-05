@@ -131,7 +131,7 @@ def build_parser():
     cal = sub.add_parser("calibrate", help="multi-seed calibration and ablations")
     cal.add_argument("--seeds", type=int, default=3)
     cal.add_argument("--days", type=float, default=5.0)
-    cal.add_argument("--arms", default="population,random,no_planner")
+    cal.add_argument("--arms", default="population,planner,random")
     cal.add_argument("--grid", type=int, default=32)
     cal.add_argument("--population", type=int, default=5)
     cal.add_argument("--world", type=int, default=1024)

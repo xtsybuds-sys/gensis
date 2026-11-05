@@ -13,7 +13,11 @@ from .brains.baseline import RandomPolicy
 from .config import Config
 from .sim import Simulation
 
-ARMS = ("population", "random", "no_planner", "no_sleep")
+# Planner cut (Muse decision 1, 2026-11-05): `population` is the hybrid as now
+# defined (neural core + forward model + episodic memory, no steering layer).
+# `planner` stays as the research arm that keeps the cut falsifiable, and
+# `no_sleep` stays diagnostic.
+ARMS = ("population", "planner", "random", "no_sleep")
 
 
 def _override_for(arm):
@@ -22,7 +26,7 @@ def _override_for(arm):
     return None
 
 
-def run_variant(seed, days=5.0, arm="population", planner=True, grid=32,
+def run_variant(seed, days=5.0, arm="population", planner=False, grid=32,
                 population=5, world=128, sleep=True):
     cfg = Config(
         seed=seed,
@@ -113,9 +117,9 @@ def run_variant(seed, days=5.0, arm="population", planner=True, grid=32,
 def calibrate(seeds, days=5.0, arms=ARMS, grid=32, population=5, world=128):
     results = []
     for arm in arms:
-        planner = arm != "no_planner"
+        planner = arm == "planner"
         sleep = arm != "no_sleep"
-        real_arm = "population" if arm in ("no_planner", "no_sleep") else arm
+        real_arm = "population" if arm in ("planner", "no_sleep") else arm
         for seed in seeds:
             row = run_variant(
                 seed,

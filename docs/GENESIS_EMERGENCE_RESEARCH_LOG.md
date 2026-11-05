@@ -272,6 +272,17 @@ Format per entry:
 
 ---
 
+### 2026-11-05 — E-012: house floor + planner cut + one mind — 22/30 survive, unaware start now holds, planner still inside noise
+- Question: does the approved house floor produce a genuinely unaware start, does cutting the planner cost anything, and what does one architecture for everyone cost in compute?
+- Method: `python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random --grid 32 --population 5 --world 128 --out runs/calibration-v5-town.json`; each run records `home_gap_shortfall` if a town cannot seat its houses above the floor.
+- Evidence: population (planner cut) 22 survivors / 8 deaths, first death 2.12 d, births 5, sightings 67, 664 ticks/s; planner research arm 25 / 5, first death 1.83, 12,191 planner uses, 661 ticks/s; random 32 / 0, births 7, 1,620 ticks/s. Minimum house separation 33.7 m against a 15 m peer range; all inhabitants hybrid; `first_sighting_day` 0.00 in every run.
+- Result: the house floor fixes the spawn condition for the first time (33.7 m > 15 m, verified) but not first contact, which still occurs inside day 1 — at 128 m and ~1 m/s the gap closes in seconds, so day-resolution `first_sighting_day` cannot tell the fix from the old bug. The planner cut costs nothing measurable (22/8 now vs v4's 20/10 with the planner on, same speed), while the retained research arm scored 25/5 — the opposite direction, decided by two seeds and still inside five-seed noise, so the cut stands on its original falsifier (no separation in either direction). One-mind costs ~27% of speed (664 vs 846 ticks/s). The bar remains unmet: random lost nobody in 5 of 5 seeds.
+- Limitations: 5 seeds, and a three-survivor difference is inside seed noise; first-contact timing needs second-resolution reporting; the engine is still unverified (the elevated mkdir was requested, timed out, and `C:\quadrants_cache` is still absent).
+- Next steps: report first contact at second resolution instead of days; then world systems (thirst → gathering → fire → crafting) in draft §5 order, then the Agent Gateway API for the two website feeds.
+- Contributing agent: Freebuff.
+
+---
+
 ## Bar for calling something "emergent"
 
 1. It was not explicitly implemented.

@@ -270,13 +270,14 @@ def check_population_setup():
         "integration/five-separate-houses",
         distinct
         and on_land
-        and separation >= max(12.0, 0.10 * cfg.world_size_m)
-        and kinds == ["hybrid", "neural"],
+        and separation >= max(1.5 * cfg.social_range_m, 12.0, 0.10 * cfg.world_size_m)
+        and kinds == ["hybrid"],
         houses=len(cells),
         distinct=distinct,
         min_separation_m=round(separation, 1),
         on_land=on_land,
         brain_kinds=kinds,
+        peer_range_m=cfg.social_range_m,
     )
 
 

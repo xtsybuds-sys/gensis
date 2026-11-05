@@ -74,8 +74,13 @@ class Simulation:
         self.rng.shuffle(candidates)
         chosen = [candidates[0]]
         base_gap = self.cfg.world_size_m * 0.28
-        for factor in (1.0, 0.6, 0.3, 0.12):
-            gap = base_gap * factor
+        # Muse decision 2 (2026-11-05): houses start wider apart than the peer
+        # range, so inhabitants genuinely do not know each other at spawn. The old
+        # fallback chain ran down to 0.12 * 0.28 * world (4.3 m at 128 m), inside
+        # the 15 m peer range, which is why first_sighting_day was always ~0.
+        floor_gap = max(1.5 * self.cfg.social_range_m, 2.0 * self.cfg.cell_m)
+        gap = base_gap
+        while len(chosen) < count and gap >= floor_gap:
             for cell in candidates:
                 if len(chosen) >= count:
                     break
@@ -89,10 +94,33 @@ class Simulation:
                     for c in chosen
                 ):
                     chosen.append(cell)
-            if len(chosen) >= count:
-                break
-        while len(chosen) < count:
-            chosen.append(candidates[len(chosen) % len(candidates)])
+            gap *= 0.6
+        if len(chosen) < count:
+            # The locale cannot seat this town above the peer-range floor. Take the
+            # widest remaining sites rather than silently shrinking the gap, and
+            # record the shortfall so no run can hide it.
+            remaining = [c for c in candidates if c not in chosen]
+            remaining.sort(
+                key=lambda c: min(
+                    math.hypot(
+                        self.world.terrain.cell_centre(*c)[0]
+                        - self.world.terrain.cell_centre(*k)[0],
+                        self.world.terrain.cell_centre(*c)[1]
+                        - self.world.terrain.cell_centre(*k)[1],
+                    )
+                    for k in chosen
+                ),
+                reverse=True,
+            )
+            chosen.extend(remaining[: count - len(chosen)])
+            self._record(
+                "home_gap_shortfall",
+                detail={
+                    "wanted": count,
+                    "placed": len(chosen),
+                    "floor_m": round(floor_gap, 1),
+                },
+            )
         return [
             (cell, self.world.terrain.cell_centre(*cell)) for cell in chosen[:count]
         ]
@@ -100,7 +128,8 @@ class Simulation:
     def _populate(self):
         sites = self._choose_homes(self.cfg.population)
         for index, (cell, position) in enumerate(sites):
-            kind = "neural" if index % 2 == 0 else "hybrid"
+            # One mind for everyone (Alex, 2026-11-05): no second-class tier.
+            kind = "hybrid"
             name = NAMES[index % len(NAMES)]
             genome = Genome.random(self.rng, kind)
             brain = self._make_brain(kind, genome, f"{name}/{kind}")

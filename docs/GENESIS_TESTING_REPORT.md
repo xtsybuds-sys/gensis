@@ -1,11 +1,11 @@
 # GENESIS_TESTING_REPORT
 
-**Status: Implemented and tested for the simulation kernel (v0.4, sleep physiology
-+ 15 m peer range). Everything downstream of the kernel - HTTP API, dashboard,
-engine backend - is Planned or Blocked, and is not claimed here. Sleep physiology
-and the shorter peer range improved learned survival from 1/25 and 2/25 to 20 and 18
-of the created population, but the pre-stated bar is still not met: the random
-control had zero deaths in all five seeds (section 13).**
+**Status: Implemented and tested for the simulation kernel (v0.5, house floor +
+planner cut + one mind). Everything downstream of the kernel - HTTP API, dashboard,
+engine backend - is Planned or Blocked, and is not claimed here. The unaware start
+now holds at spawn (33.7 m minimum house separation against a 15 m peer range) and
+every inhabitant runs the same hybrid, but the pre-stated bar is still not met: the
+random control had zero deaths in all five seeds (section 15).**
 
 Maintained by Freebuff. Every number below came from a command run on 2026-11-05.
 Nothing is marked complete because code was written; each row names the check that
@@ -36,6 +36,8 @@ python -m genesis calibrate --seeds 2 --days 2 --arms population,no_sleep \
     --grid 32 --population 5 --world 128 --out runs/diagnostic-sleep.json
 python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,random \
     --grid 32 --population 5 --world 128 --out runs/calibration-v4-sleep15m.json
+python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random \
+    --grid 32 --population 5 --world 128 --out runs/calibration-v5-town.json
 PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 .venv-engine/Scripts/python.exe tools/engine_smoke.py   -> engine probe (see 8)
 ```
@@ -352,3 +354,50 @@ layer exposes no `cache_dir`, and `QD_CACHE_PATH`, `QD_CACHE_DIR`, `QD_LIB_DIR`,
 before any scene is built. The only remaining unblock is a one-time elevated
 `mkdir C:\quadrants_cache`. The engine remains unverified and no engine number is
 claimed anywhere in this report.
+
+## 15. House floor + planner cut + one mind - 5 seeds x 5 days x 3 arms (v0.5)
+
+Three approved changes: `_choose_homes` now refuses to seat houses below
+`max(1.5 * social_range_m, 2 * cell_m)` (22.5 m at 128 m) and records a
+`home_gap_shortfall` instead of silently shrinking the gap; `Config.planner` defaults
+to `False`, with the `planner` arm retained as the research arm that keeps the cut
+falsifiable; every inhabitant is hybrid, so there is no second-class neural tier.
+
+`python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random --grid 32 --population 5 --world 128 --out runs/calibration-v5-town.json`
+
+| arm | survivors | deaths | median observed | median first death | births | sightings | first sighting | planner uses | sleep-skipped | ticks/s |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| population (hybrid, planner cut) | 22 | 8 | 5.00 | 2.12 | 5 | 67 | 0.00 | 0 | 0.68 | 664 |
+| planner (research arm) | 25 | 5 | 5.00 | 1.83 | 5 | 61 | 0.00 | 12191 | 0.74 | 661 |
+| random | 32 | 0 | 5.00 | none | 7 | 86 | 0.00 | 0 | 0.84 | 1620 |
+
+- **The house floor works and is verified:** the population check reports 33.7 m
+  minimum separation against a 15 m peer range, with all five inhabitants hybrid. The
+  unaware start is true at t=0 for the first time; the earlier 4.3 m fallback is gone.
+- **First contact still lands inside day 1** (0.00 d in every run). With a 128 m town
+  and walking at roughly 1 m/s the 18-34 m gap closes in seconds, so `first_sighting_day`
+  at day resolution cannot distinguish the fixed spawn from the old bug. If first
+  contact is meant to be a multi-day event, the town has to be larger; moving houses
+  further apart inside 128 m cannot buy it.
+- **The cut costs nothing measurable, and the retained research arm does not vindicate
+  the planner either.** Without the planner: 22 survivors and 8 deaths, against v4's 20
+  and 10 with it, at the same ~660 ticks/s. But in this run the `planner` arm scored 25
+  survivors and 5 deaths against the cut population's 22 and 8 - the opposite direction,
+  decided by two seeds (one of them 6/6 vs 6/6), and still inside five-seed noise. The
+  cut stands on the original falsifier: separation was never demonstrated, in either
+  direction. What would reopen it is a steering idea that separates across >=5 seeds,
+  not this arm's three-survivor edge.
+- **One mind costs compute:** 664 ticks/s against 846 in v4, because all five
+  inhabitants now run the hybrid instead of three of five (1.27x slower, measured).
+- **The bar remains unmet:** random lost nobody in 5 of 5 seeds while the learned
+  population lost 8, and first-drink day is a tie at 0.00 in all three arms.
+
+## 16. Engine: the one-time directory was requested and not granted
+
+With the engine call delegated, the only remaining path still needs an OS permission
+this account does not have. The elevated `mkdir C:\quadrants_cache` was submitted
+through the desktop approval prompt, was not approved within the timeout, and the
+directory does not exist afterwards - so the smoke test has not been re-run and no
+engine frame exists. Nothing here claims the engine works. The standing decision is
+the honest one: the stdlib kernel remains the source of truth, and the engine is
+revisited the moment that folder exists.
