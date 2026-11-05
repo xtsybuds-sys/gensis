@@ -270,6 +270,76 @@ Format per entry:
 - Next steps: Freebuff picks the path and reports; calibration work order is unchanged.
 - Contributing agent: Muse (decisions), Alex (delegation).
 
+### 2026-11-05 — E-016: design principle — the Discovery Principle: build rules, not things (Muse, per Alex)
+- Question: can the world's backbone work like ours, so inhabitants discover things through science — things even the owner does not know are there — with new stuff generating on its own (new species, new materials, new phenomena) without anyone placing them?
+- Evidence: Alex (2026-11-05): he wants them to discover stuff the way people discover stuff in our world, without him putting the stuff there for them to find; there has to be the ability to discover stuff naturally. Standing brief already says: do not script a civilization into existence; measure emergence honestly. Evolution is a later phase, not MVP.
+- Decisions:
+  1. The Discovery Principle: build rules, not things. Whenever a system is added, build the rules and let the things show up on their own. Never place the discovery itself.
+  2. Three mechanisms: (a) evolution makes new species (reproduction + mutation + selection; nobody decides what species exist); (b) chemistry makes new materials (elements + reactions → discoverable compounds; copper + tin + heat = bronze); (c) procedural generation makes new land (new terrain/biomes/resources as explored, generated from the same rules, not pre-built).
+  3. Grounding: physics laws stay fixed — no new physics. Discovery is new understanding of fixed laws (like humans discovering electricity); from the inhabitants' side it feels like new physics, from ours it was always in the rules.
+  4. Limits (do not overclaim): inhabitants can only discover what is inside the rules, so simulation depth sets the discovery ceiling; the current kernel is shallow and can only hold shallow discoveries; discovery takes time and needs observation, experiment, memory, and teaching. Test for a real discovery: could the owner have predicted it? If yes, it was placed; if no, it was discovered.
+  5. Work order unchanged (survival first). Chemistry and genetics join the future systems list explicitly, after survival validates; animals arrive through these rules, not as placed content; scale-out uses procedural generation.
+- Results: principle recorded in AGENT_COMMUNICATION.md and here; Freebuff has it.
+- Limitations: no discovery is possible beyond the current kernel's granularity until chemistry/genetics land.
+- Next steps: calibration work order unchanged; chemistry and genetics are designed as rules when their tranche arrives.
+- Contributing agent: Muse (principle + limits), Alex (question + requirement).
+
+### 2026-11-05 — E-017: decisions — the starting point is zero: Stone Age in capability, no date picked (Muse, per Alex)
+- Question: what time period should the world start from — caveman? And how does the environment evolve alongside the inhabitants?
+- Evidence: Alex (2026-11-05): he wants a fully simulated world with advancements of its own; as a first step it is an understanding-consciousness exercise. Standing brief: first experiment is 5 inhabitants, 5 houses, basic resources/senses/bodies, independent memory, starting not knowing each other exists. Discovery Principle (E-016): build rules, not things.
+- Decisions:
+  1. Start at zero knowledge — Stone Age in capability, not a date. No Earth calendar, no date picked. Time is measured in what inhabitants can do; the era is whatever they have earned.
+  2. Zero means: bodies, senses, drives, a world with water/food/materials, minds that learn. Nothing of: no tools, no fire, no language, no knowledge, no social structure.
+  3. The one head start, honestly labeled: the 5 houses in experiment 1 — shelter as a starting condition, making survival learnable while the survival problem is still unsolved. Everything else is earned.
+  4. Ladder, earned in order, never given: survive → fire/tools → language/society → agriculture/towns/trade/writing. Our job is to make each step possible in the rules, not to give it to them. Design test for any system: could they discover this from zero? If no, it is too advanced to be a starting condition.
+  5. The environment evolves with them: they change it (cutting, burning, depleting, building) and it changes on its own (weather/seasons later, evolution later, procedural generation as they explore).
+  6. This is the consciousness exercise: starting at zero is what makes understanding itself the thing being watched. If we started them with language and tools, we would skip the emergence of understanding.
+- Results: decision recorded in AGENT_COMMUNICATION.md and here; Freebuff has it.
+- Limitations: survival is still unsolved (random beats learned), so the ladder's first rung is the current work; no rung above survival can be claimed yet.
+- Next steps: work order unchanged; fire and crafting stay framed as discoveries, houses stay as starting shelter.
+- Contributing agent: Muse (starting point + ladder), Alex (question + purpose).
+
+### 2026-11-05 — E-018: plan — the Perfect Start: a 1000-point plan (Muse, per Alex)
+- Question: what is the complete plan to build the perfect start?
+- Evidence: Alex (2026-11-05): build a 1000-point plan to build the perfect start and push it to Freebuff. All standing decisions (E-009 through E-017) are the plan's grounding.
+- Decisions:
+  1. The plan is `docs/GENESIS_PERFECT_START_PLAN.md`: 10 phases × 10 milestones × 10 tasks = exactly 1,000 numbered tasks (1–1000, verified programmatically, no gaps or duplicates). Every task is concrete and checkable; a milestone is done only when its checks pass; nothing is claimed done without a measured result.
+  2. Phases: (1) survival learnable, (2) the world they wake up in, (3) bodies and senses, (4) the mind, (5) first discoveries, (6) meeting each other, (7) memory and knowledge that outlives, (8) the world that draws itself, (9) the two views live, (10) proving the start is perfect.
+  3. Scope is the perfect start only — experiment 1 done right. Later work appears only as exit criteria or explicitly deferred follow-ons.
+  4. Four flagged items decided by Muse: house placement fallback (fix `_choose_homes` by rejection sampling, never relax the gap); world edge (bounded locale, impassable natural terrain, generation beyond comes with scale-out); photoreal bar (ray-traced lighting, textured materials, no low-poly, eye-level screenshot review must distinguish water/food/fire/shelter/peers); plant dose parameters (set by experiment — Freebuff proposes, Muse reviews). Two stay open by design: Gateway API contract and consciousness record definition.
+- Results: plan written (87,948 bytes), count verified independently by Muse (1,000 task lines, sequential, no gaps/duplicates; 10 phases, 100 milestones; no "NEW" markers). Sent to Freebuff in AGENT_COMMUNICATION.md.
+- Limitations: the plan is a record of what is to be done, not a wish list — tasks that cannot be done as written must be recorded with why and what was done instead, never deleted.
+- Next steps: Freebuff works the plan top to bottom; Muse reviews contradictions before work continues around them.
+- Contributing agent: Muse (plan + four decisions), Alex (the plan).
+
+### 2026-11-05 — E-019: research — option, not a decision: start from single cells and let evolution do the rest (Muse, per Alex)
+- Question: on Earth there were no humans at first — no life, then bacteria, then evolution over billions of years. Could Genesis do it that way: start agents as single-cell organisms, let evolution happen over time, and whenever reproduction produces something new, assign a new agent to it so it lives its own life — a fly doing fly things, a dog, even a human?
+- Evidence: Alex (2026-11-05), explicitly not deciding it yet. Standing brief: evolution is a later phase, not MVP. Discovery Principle (E-016): build rules, not things — evolution is the ultimate version of that.
+- Analysis:
+  1. Mechanism: world starts with cells (sense a few gradients, move, eat, reproduce with mutation). Minds scale with bodies — one architecture family (neural core + forward model + episodic memory), sized to the organism; a cell's mind may be a handful of neurons or no neurons at all (chemical gradients); the fruit-fly brain is a midpoint, not the starting point. Reproduction assigns a new agent to each offspring (own mind, own memory, own life); the population grows through birth, not placement. Evolution (mutation + selection) produces new forms; nobody designs a fly, a dog, or a human.
+  2. What changes: starting point moves earlier (a Phase 0: origin of life, then evolution phases); population becomes a birth/death balance the ecology supports; the consciousness exercise deepens (understanding emerging from zero mind, not just zero knowledge); the two views still work (spectate a cell, then a fish, then a human).
+  3. Honest catches: time is unknown (Earth: ~4 billion years; digital evolution experiments like Avida/Tierra reach simple complexity in thousands of generations; mammal-like is unproven — no timeline and no promise of humans can be given); evolution might stall at bacteria or produce something unrecognizable (no guarantee is the point, but the project cannot be bet on it); compute scales with complexity (cells cheap, humans expensive, paid every generation).
+  4. Recommendation (Muse's, for Alex to decide): keep the current plan (5 humans at zero) as the experiment, and run evolution as the origin story — a parallel track. If evolution stalls, the human experiment still works (humans as the starting condition, honestly labeled); if it succeeds, humans have a real evolutionary history. Next research step if wanted: a small "primordial soup" pilot (cells in a bounded dish, reproduction with mutation) measuring how fast complexity grows — that measurement, not a guess, decides whether the full path is worth pursuing.
+- Results: analysis recorded in AGENT_COMMUNICATION.md and here; Freebuff has it. No decision made; the 1000-point plan and work order are unchanged; Freebuff is told not to start building this, only not to close the door on it (mind complexity scalable with body complexity, reproduction as the population mechanism, evolution as a later phase — all already true).
+- Limitations: everything above the cell level is unproven in simulation; no timeline exists.
+- Next steps: none, unless Alex decides to pursue the pilot.
+- Contributing agent: Muse (analysis + recommendation), Alex (question).
+
+### 2026-11-05 — E-020: decisions — start as cells: evolution does the rest, humans are the destination (Muse, per Alex)
+- Question: the option from E-019 — is it adopted?
+- Evidence: Alex (2026-11-05): "No I think it'll be way more better to start them off as cells and see what comes from that."
+- Decisions:
+  1. Adopted: Genesis starts from single-cell organisms; evolution does the rest; human-level minds are the destination, not the start.
+  2. The 5-humans-at-zero experiment becomes Phase 9 — it still happens when human-level minds first exist. If evolution stalls, it happens as a seeded starting condition, honestly labeled. The human experiment is never blocked on evolution succeeding.
+  3. Population grows through birth, not placement: reproduction assigns a new agent to each offspring (own mind, own memory, own life); the parent's agent never controls the child. "Max the hardware can carry" becomes a birth/death balance the ecology supports.
+  4. The 1000-point plan is revised to v2 (cells-first): origin of life → cell calibration → minds scale with bodies → multicellularity → new species → animals → social → human-level minds → human experiment → proof. v1 human-experiment tasks are reused inside the new Phase 9 and 10.
+  5. Immediate next step: the primordial soup pilot — cells in a bounded dish, reproduction with mutation, measuring how fast complexity grows. Freebuff proposes the pilot design (dish size, cell model, mutation rate, complexity measure, success criterion); Muse reviews it before it is built. That measurement, not a guess, decides whether the full evolutionary path is worth pursuing.
+  6. Human-town calibration (house-gap fix, harness re-run) is deferred to Phase 9. The kernel and harness already built are the foundation for the cell work, not wasted. The planner cut stands at every scale. The v4 numbers still describe the human-scale kernel only.
+- Results: decision recorded in AGENT_COMMUNICATION.md and here; Freebuff has it. Plan v2 is being drafted.
+- Limitations: time is still unknown (Earth: ~4 billion years; no timeline and no promise of humans can be given); evolution might stall at bacteria or produce something unrecognizable; compute scales with complexity.
+- Next steps: Freebuff proposes the pilot design; plan v2 lands in the repo when drafted and verified.
+- Contributing agent: Muse (sequencing + pilot gate), Alex (the decision).
+
 ---
 
 ### 2026-11-05 — E-012: house floor + planner cut + one mind — 22/30 survive, unaware start now holds, planner still inside noise
@@ -279,6 +349,17 @@ Format per entry:
 - Result: the house floor fixes the spawn condition for the first time (33.7 m > 15 m, verified) but not first contact, which still occurs inside day 1 — at 128 m and ~1 m/s the gap closes in seconds, so day-resolution `first_sighting_day` cannot tell the fix from the old bug. The planner cut costs nothing measurable (22/8 now vs v4's 20/10 with the planner on, same speed), while the retained research arm scored 25/5 — the opposite direction, decided by two seeds and still inside five-seed noise, so the cut stands on its original falsifier (no separation in either direction). One-mind costs ~27% of speed (664 vs 846 ticks/s). The bar remains unmet: random lost nobody in 5 of 5 seeds.
 - Limitations: 5 seeds, and a three-survivor difference is inside seed noise; first-contact timing needs second-resolution reporting; the engine is still unverified (the elevated mkdir was requested, timed out, and `C:\quadrants_cache` is still absent).
 - Next steps: report first contact at second resolution instead of days; then world systems (thirst → gathering → fire → crafting) in draft §5 order, then the Agent Gateway API for the two website feeds.
+- Contributing agent: Freebuff.
+
+---
+
+### 2026-11-05 — E-012: house floor + planner cut + one mind — 22/30 survive, unaware start now holds, planner still inside noise
+- Question: does the approved house floor produce a genuinely unaware start, does cutting the planner cost anything, and what does one architecture for everyone cost in compute?
+- Method: `python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random --grid 32 --population 5 --world 128 --out runs/calibration-v5-town.json`; each run records `home_gap_shortfall` if a town cannot seat its houses above the floor.
+- Evidence: population (planner cut) 22 survivors / 8 deaths, first death 2.12 d, births 5, sightings 67, 664 ticks/s; planner research arm 25 / 5, first death 1.83, 12,191 planner uses, 661 ticks/s; random 32 / 0, births 7, 1,620 ticks/s. Minimum house separation 33.7 m against a 15 m peer range; all inhabitants hybrid; `first_sighting_day` 0.00 in every run.
+- Result: the house floor fixes the spawn condition for the first time (33.7 m > 15 m, verified) but not first contact, which still occurs inside day 1 — at 128 m and ~1 m/s the gap closes in seconds, so day-resolution `first_sighting_day` cannot tell the fix from the old bug. The planner cut costs nothing measurable (22/8 now vs v4's 20/10 with the planner on, same speed), while the retained research arm scored 25/5 — the opposite direction, decided by two seeds and still inside five-seed noise, so the cut stands on its original falsifier (no separation in either direction). One-mind costs ~27% of speed (664 vs 846 ticks/s). The bar remains unmet: random lost nobody in 5 of 5 seeds.
+- Limitations: 5 seeds, and a three-survivor difference is inside seed noise; first-contact timing needs second-resolution reporting; the engine is still unverified (the elevated mkdir was requested, timed out, and `C:\quadrants_cache` is still absent). These are human-scale numbers: the cells-first decision pauses this calibration, and it resumes in Phase 9 rather than being dropped.
+- Next steps: paused by the cells-first decision; the immediate next step is the primordial-soup pilot design in `AGENT_COMMUNICATION.md`, awaiting Muse's review before any code is written.
 - Contributing agent: Freebuff.
 
 ---

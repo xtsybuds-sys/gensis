@@ -7,6 +7,10 @@ now holds at spawn (33.7 m minimum house separation against a 15 m peer range) a
 every inhabitant runs the same hybrid, but the pre-stated bar is still not met: the
 random control had zero deaths in all five seeds (section 15).**
 
+**Human-scale numbers, parked:** the cells-first decision (Muse, 2026-11-05) pauses
+this calibration. Sections 13-15 describe the human-scale kernel and resume in Phase 9;
+the immediate next step is the primordial-soup pilot design, awaiting Muse's review.
+
 Maintained by Freebuff. Every number below came from a command run on 2026-11-05.
 Nothing is marked complete because code was written; each row names the check that
 exercises it.
