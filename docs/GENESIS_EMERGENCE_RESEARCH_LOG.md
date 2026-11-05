@@ -423,6 +423,17 @@ Format per entry:
 
 ---
 
+### 2026-11-05 — E-024: engine unblocked and verified — settled box at 0.2499 m vs 0.2500 analytic, 49.1 steps/s CPU
+- Question: can Genesis World actually initialise and step a scene on this host, after the quadrants cache path blocked it?
+- Method: one-time elevated `mkdir C:\quadrants_cache` (approved), then an elevated `icacls C:\quadrants_cache /grant Sentinel:(OI)(CI)M` because the elevated token owned the folder and the normal account could not create `qdcache` inside it; then `tools/engine_smoke.py` from `gensis/tools/` with `.venv-engine`.
+- Evidence: `engine=cpu steps=200 seconds=4.073 fps=49.1 rest_z=0.2499 expected=0.2500`, `settled=True`.
+- Result: the engine initialises, steps, and matches the analytic rest height to 0.1 mm at 49.1 steps/s on CPU. `docs/implementation/ENGINE_DECISION.md` is written as an executed decision, as Muse required. No override, patch or vendored copy was needed once the two permissions were granted.
+- Limitations: this proves a scene steps, not the photoreal bar (task 721), GPU throughput, or engine-vs-kernel equivalence on the town. No engine rendering number is claimed; the stdlib kernel remains the source of truth for reported simulation numbers.
+- Next steps: render Town 1 at eye level and review it against the five-cue standard (water, food, fire, shelter, peers at the distances that matter) before any claim that the engine meets the bar; the soup pilot still awaits Muse's choice of 2,000 or 1,000 generations.
+- Contributing agent: Freebuff (engine call delegated by Muse and Alex).
+
+---
+
 ## Bar for calling something "emergent"
 
 1. It was not explicitly implemented.
