@@ -11,7 +11,7 @@ from .brains import make_brain
 from .brains.hybrid import HybridBrain
 from .genetics import Genome
 from .physics import PhysicsWorld
-from .sensors import sense
+from .sensors import CODE_PLANT, CODE_WATER, CONSPECIFIC_RANGE_M, sense
 from .util import TAU, clamp, mean, normalize, stable_hash
 
 NAMES = ("Aster", "Brann", "Coral", "Dune", "Echo", "Fenn", "Gale", "Hollow")
@@ -44,6 +44,11 @@ class Simulation:
         self.skipped_decisions = 0
         self.dream_replays = 0
         self.first_drink = None
+        self.sightings = 0
+        self.first_sighting = None
+        self.seen_pairs = set()
+        self.shaped_reward = 0.0
+        self.reachability = {}
         if cfg.population:
             self._populate()
         if self.store is not None:
@@ -108,6 +113,9 @@ class Simulation:
                 home_cell=cell,
                 genome=genome,
             )
+            agent.social_range_m = self.cfg.social_range_m
+            agent.isolation_rise_per_day = self.cfg.isolation_rise_per_day
+            agent.isolation_relief_per_day = self.cfg.isolation_relief_per_day
             self.next_id += 1
             self.agents.append(agent)
             if self.store is not None:
@@ -122,6 +130,7 @@ class Simulation:
                     "home_cell": list(cell),
                 },
             )
+        self.reachability = self._measure_reachability()
 
     # -- bookkeeping ------------------------------------------------------
     def _record(self, kind, agent=None, detail=None):
@@ -161,6 +170,7 @@ class Simulation:
         dt = cfg.tick_seconds
         self.tick = tick
         self.world.step(dt, tick)
+        self._sense_peers()
 
         for agent in self.agents:
             if not agent.alive:
@@ -220,21 +230,186 @@ class Simulation:
             return
         self.decisions += 1
         if tick % self.cfg.sense_every == 0 or not agent.sensors:
-            vector, frame = sense(agent, self.world)
+            vector, frame = sense(agent, self.world, self.agents)
             agent.sensors = vector
             agent.frame = frame
         vector = agent.sensors
 
         if agent.pending is not None:
-            reward = (agent.wellbeing - agent.pending) * REWARD_SCALE
-            agent.brain.learn(reward, vector)
+            agent.brain.learn(self._shaping_reward(agent), vector)
 
         actions = agent.brain.act(
             vector,
             {"tick": tick, "heading": agent.heading, "pos": list(agent.pos)},
         )
+        if not self.cfg.sleep_enabled:
+            # Diagnostic ablation: zero the rest channel so nobody can fall asleep.
+            actions[4] = 0.0
         agent.last_actions = actions
-        agent.pending = agent.wellbeing
+        agent.pending = self._reward_state(agent)
+
+    # -- perception, drives and reward ------------------------------------
+    def _sense_peers(self):
+        """Nearest-peer distance for every living inhabitant, plus first sightings.
+
+        O(n^2) with n <= max_population, computed once per tick: this is the only
+        place the simulation lets one inhabitant's position reach another, and it
+        reaches it only as a distance the other could have seen for itself.
+        """
+        alive = [a for a in self.agents if a.alive]
+        for agent in alive:
+            agent.nearest_peer_m = None
+        for i in range(len(alive)):
+            for j in range(i + 1, len(alive)):
+                a = alive[i]
+                b = alive[j]
+                distance = math.hypot(a.pos[0] - b.pos[0], a.pos[1] - b.pos[1])
+                if a.nearest_peer_m is None or distance < a.nearest_peer_m:
+                    a.nearest_peer_m = distance
+                if b.nearest_peer_m is None or distance < b.nearest_peer_m:
+                    b.nearest_peer_m = distance
+                if distance <= CONSPECIFIC_RANGE_M:
+                    key = (a.aid, b.aid)
+                    if key not in self.seen_pairs:
+                        self.seen_pairs.add(key)
+                        self.sightings += 1
+                        if self.first_sighting is None:
+                            self.first_sighting = {
+                                "a": a.name,
+                                "b": b.name,
+                                "tick": self.tick,
+                                "distance_m": round(distance, 1),
+                                "clock": self.world.clock(),
+                            }
+                        self._record(
+                            "sighting",
+                            a.name,
+                            {
+                                "with": b.name,
+                                "distance_m": round(distance, 1),
+                                "clock": self.world.clock(),
+                            },
+                        )
+
+    def _measure_reachability(self):
+        """Nearest wadeable water and edible plant per house, in metres.
+
+        Re-derived for every world (Muse decision 4b): world size, grid spacing
+        and terrain seed all change the answer, so the 1024 m numbers do not
+        carry over to a 128 m world. Distances are straight-line between cell
+        centres and ignore impassable terrain, so they are a lower bound on the
+        walk an inhabitant actually has to make.
+        """
+        n = self.cfg.grid
+        terrain = self.world.terrain
+        water_cells = []
+        plant_cells = []
+        for j in range(n):
+            for i in range(n):
+                x, y = terrain.cell_centre(i, j)
+                depth = self.world.water.depth[j][i]
+                if 0.15 < depth <= 1.2:
+                    water_cells.append((x, y))
+                if self.world.plants.biomass[j][i] > 0.12:
+                    plant_cells.append((x, y))
+
+        def nearest(cells, x0, y0):
+            best = None
+            for x, y in cells:
+                d = math.hypot(x - x0, y - y0)
+                if best is None or d < best:
+                    best = d
+            return best
+
+        water = []
+        plant = []
+        for agent in self.agents:
+            x0, y0 = agent.pos
+            w = nearest(water_cells, x0, y0)
+            p = nearest(plant_cells, x0, y0)
+            water.append(None if w is None else round(w, 1))
+            plant.append(None if p is None else round(p, 1))
+
+        def summary(values):
+            present = [v for v in values if v is not None]
+            if not present:
+                return None
+            ordered = sorted(present)
+            return {
+                "min_m": ordered[0],
+                "median_m": ordered[len(ordered) // 2],
+                "max_m": ordered[-1],
+            }
+
+        return {
+            "world_m": self.cfg.world_size_m,
+            "water_cells": len(water_cells),
+            "plant_cells": len(plant_cells),
+            "water_per_house_m": water,
+            "plant_per_house_m": plant,
+            "water": summary(water),
+            "plant": summary(plant),
+        }
+
+    def _potentials(self, sensors):
+        """Sensed water/food proximity, from the inhabitant's own rays only."""
+        if not sensors or len(sensors) < 16:
+            return 0.0, 0.0
+        water = 0.0
+        food = 0.0
+        for r in range(8):
+            proximity = sensors[r]
+            code = sensors[8 + r]
+            if code == CODE_WATER and proximity > water:
+                water = proximity
+            elif code == CODE_PLANT and proximity > food:
+                food = proximity
+        return water, food
+
+    def _reward_state(self, agent):
+        water_phi, food_phi = self._potentials(agent.sensors)
+        return {
+            "hydration": agent.hydration,
+            "energy": agent.energy,
+            "nutrition": agent.nutrition,
+            "water_phi": water_phi,
+            "food_phi": food_phi,
+            "isolation": agent.isolation,
+        }
+
+    def _shaping_reward(self, agent):
+        """Dense shaping: immediate physiology and sensed approach, not death.
+
+        Before this, reward was the change in overall wellbeing, which is close
+        to zero for every decision except the second a drink lands - and a drink
+        only lands if the inhabitant already found water. The measured result was
+        a random policy outliving both learned arms on 2 of 3 seeds. These terms
+        make the consequence of a decision arrive at the next decision instead of
+        at death 1.5 days later.
+        """
+        cfg = self.cfg
+        prev = agent.pending
+        if not isinstance(prev, dict):
+            return 0.0
+        now = self._reward_state(agent)
+        thirst = clamp(1.0 - agent.hydration, 0.0, 1.0)
+        hunger = clamp(1.0 - agent.nutrition, 0.0, 1.0)
+        reward = (
+            cfg.shaping_hydration * (now["hydration"] - prev["hydration"])
+            + cfg.shaping_energy * (now["energy"] - prev["energy"])
+            + cfg.shaping_nutrition * (now["nutrition"] - prev["nutrition"])
+            + cfg.shaping_approach
+            * (
+                (now["water_phi"] - prev["water_phi"])
+                + (now["food_phi"] - prev["food_phi"])
+            )
+            + cfg.shaping_social * (prev["isolation"] - now["isolation"])
+            - cfg.drive_thirst * thirst
+            - cfg.drive_hunger * hunger
+        )
+        reward = clamp(reward, -3.0, 3.0)
+        self.shaped_reward += reward
+        return reward
 
     # -- social layer -----------------------------------------------------
     def _social(self, tick):
@@ -412,6 +587,10 @@ class Simulation:
             "water_sources": len(self.water_sources),
             "food_sources": len(self.food_sources),
             "knowledge_links": len(self.knowledge_links),
+            "sightings": self.sightings,
+            "mean_isolation": round(mean(a.isolation for a in alive), 3),
+            "first_sighting": self.first_sighting,
+            "reachability": self.reachability,
             "tokens": sum(
                 len(a.brain.tokens)
                 for a in alive
@@ -479,6 +658,10 @@ class Simulation:
             "skipped_sleep_decisions": self.skipped_decisions,
             "dream_replays": self.dream_replays,
             "first_drink": self.first_drink,
+            "first_sighting": self.first_sighting,
+            "sightings": self.sightings,
+            "shaped_reward": round(self.shaped_reward, 2),
+            "reachability": self.reachability,
             "snapshot": snap,
             "conservation": conservation,
             "agents": per_agent,
@@ -504,6 +687,11 @@ class Simulation:
             "skipped_decisions": self.skipped_decisions,
             "dream_replays": self.dream_replays,
             "first_drink": self.first_drink,
+            "sightings": self.sightings,
+            "first_sighting": self.first_sighting,
+            "seen_pairs": [list(k) for k in sorted(self.seen_pairs)],
+            "shaped_reward": self.shaped_reward,
+            "reachability": self.reachability,
             "world": self.world.state(),
             "agents": [a.state() for a in self.agents],
             "relationships": [[list(k), v] for k, v in self.relationships.items()],
@@ -526,6 +714,11 @@ class Simulation:
         self.skipped_decisions = data.get("skipped_decisions", 0)
         self.dream_replays = data.get("dream_replays", 0)
         self.first_drink = data.get("first_drink")
+        self.sightings = data.get("sightings", 0)
+        self.first_sighting = data.get("first_sighting")
+        self.seen_pairs = {tuple(k) for k in data.get("seen_pairs", [])}
+        self.shaped_reward = data.get("shaped_reward", 0.0)
+        self.reachability = data.get("reachability", {})
         self.world.load_state(data["world"])
         self.agents = []
         for entry in data["agents"]:

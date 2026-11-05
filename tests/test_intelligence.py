@@ -28,6 +28,26 @@ class IntelligenceValidation(unittest.TestCase):
         result = verify.check_knowledge_transfer()
         self.assertTrue(result["passed"], result)
 
+    def test_inhabitants_can_perceive_a_conspecific(self):
+        result = verify.check_conspecific_channel()
+        self.assertTrue(result["passed"], result)
+
+    def test_social_drive_rises_alone_and_eases_with_a_peer(self):
+        result = verify.check_social_drive()
+        self.assertTrue(result["passed"], result)
+
+    def test_dense_shaping_pays_for_drinking(self):
+        result = verify.check_shaping_attribution()
+        self.assertTrue(result["passed"], result)
+
+    def test_lives_start_at_dawn(self):
+        result = verify.check_dawn_start()
+        self.assertTrue(result["passed"], result)
+
+    def test_reachability_is_measured_per_world(self):
+        result = verify.check_reachability()
+        self.assertTrue(result["passed"], result)
+
 
 if __name__ == "__main__":
     unittest.main()

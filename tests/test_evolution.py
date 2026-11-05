@@ -6,6 +6,7 @@ from genesis.brains.baseline import RandomPolicy
 from genesis.config import Config
 from genesis.experiments import run_variant
 from genesis.genetics import HIDDEN_CHOICES, Genome
+from genesis.sensors import INPUT_DIM
 from genesis.sim import Simulation
 
 
@@ -120,8 +121,8 @@ class DreamModeTests(unittest.TestCase):
         sim = Simulation(cfg)
         for _ in range(40):
             sim.step()
-        # The world clock starts at night, so some ticks may legitimately be
-        # skipped for sleep; the point is that awake decision ticks happen.
+        # Lives now start at dawn (calibration fix), so the early decision slots
+        # are spent awake; the point is that awake decision ticks happen.
         self.assertGreater(sim.decisions, 0)
 
 
@@ -135,7 +136,7 @@ class AblationTests(unittest.TestCase):
     def test_random_baseline_is_not_an_inhabitant_architecture(self):
         self.assertEqual(BRAIN_KINDS, ("neural", "hybrid"))
         brain = RandomPolicy(random.Random(3))
-        output = brain.act([0.0] * 24)
+        output = brain.act([0.0] * INPUT_DIM)
         self.assertEqual(len(output), 6)
         self.assertTrue(all(-1.0 <= value <= 1.0 for value in output))
         self.assertEqual(brain.stats()["kind"], "baseline-random")

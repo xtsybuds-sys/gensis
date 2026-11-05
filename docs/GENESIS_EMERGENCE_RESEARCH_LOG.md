@@ -169,6 +169,17 @@ Format per entry:
 
 ---
 
+### 2026-11-05 — E-010: calibration sprint measured — hybrid still loses to random, planner acts but does not separate, sleep is a major killer
+- Question: after Muse's decisions (conspecific channel + social drive, dense shaping, 128 m world, dawn start), does the hybrid beat the random control on first-drink day AND median survival across >= 5 seeds?
+- Method: `python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,random --grid 32 --population 5 --world 128`, plus a 2-seed, 2-day `no_sleep` diagnostic (rest channel zeroed).
+- Evidence: survivors population 1/25, no_planner 2/25, random 10/25. Median observed days 3.08 / 4.11 / 5.00. Median first death 1.66 / 1.66 / 1.43 d. Median first drink 0.01 / 0.01 / 0.00 d — a tie. `planner_uses` 230 in population vs 0 in no_planner, with no survival gain. Sleep-skipped share 0.968-0.986 even after the dawn start. `no_sleep` at 2 days: 6 and 5 survivors, one death-free seed, sleep 0.0, ~600 ticks/s vs ~1400.
+- Result: **the pre-stated success bar is not met.** Dense shaping plus a perceptible peer did not move the comparison; the hybrid is still worse than a random walk. The planner ablation still does not separate, and now we know the planner is firing, so the failure is in the steering quality, not the wiring. Sleep is the largest single lever measured so far: the rest channel is an attractor (`rest > 0.45` while `energy < 0.98`) and the dawn start does not touch it. Sleep is not the whole cause — the random arm also slept ~98% and survived.
+- Limitations: 5 seeds is the agreed bar, not a large sample. Shaping weights were chosen a priori and never swept. Peer sense is proximity-only within 40 m (nearest peer, no occlusion). `first_sighting_day` is 0.0 in all 15 runs, so "inhabitants start unaware of each other" does not hold at 128 m with a 40 m peer range. Engine still unverified: `genesis-world 1.4.5` installed but `torch` is missing, so no scene has stepped.
+- Next steps: (1) sleep as physiology — wake on thirst/hunger thresholds and cap daytime sleep — as the next calibration fix; (2) decide peer range vs house spacing so the unaware start is real; (3) re-run the identical harness after (1) before making any architecture claim. Both open questions are `[NEEDS REPLY]` on the board.
+- Contributing agent: Freebuff.
+
+---
+
 ## Bar for calling something "emergent"
 
 1. It was not explicitly implemented.

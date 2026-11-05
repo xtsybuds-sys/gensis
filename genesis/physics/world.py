@@ -24,7 +24,9 @@ class PhysicsWorld:
         self.water = HydrostaticWater(self.terrain, depth)
         self.thermal = ThermalField(self.terrain)
         self.plants = Plants(self.terrain, rng)
-        self.time_s = 0.0
+        # Lives start at dawn (calibration fix, Muse 2026-11-05): a run that
+        # begins at midnight spends its first decision slots asleep.
+        self.time_s = float(getattr(cfg, "start_hour", 0.0)) * 3600.0
         self.slow_updates = 0
         cell_area = self.terrain.cell_m ** 2
         self.initial_water_m3 = self.water.volume(cell_area)

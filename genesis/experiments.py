@@ -13,7 +13,7 @@ from .brains.baseline import RandomPolicy
 from .config import Config
 from .sim import Simulation
 
-ARMS = ("population", "random", "no_planner")
+ARMS = ("population", "random", "no_planner", "no_sleep")
 
 
 def _override_for(arm):
@@ -23,7 +23,7 @@ def _override_for(arm):
 
 
 def run_variant(seed, days=5.0, arm="population", planner=True, grid=32,
-                population=5, world=1024):
+                population=5, world=128, sleep=True):
     cfg = Config(
         seed=seed,
         days=days,
@@ -31,6 +31,7 @@ def run_variant(seed, days=5.0, arm="population", planner=True, grid=32,
         population=population,
         world_size_m=world,
         planner=planner,
+        sleep_enabled=sleep,
         checkpoint_every=0,
         log_every=360,
     )
@@ -48,6 +49,7 @@ def run_variant(seed, days=5.0, arm="population", planner=True, grid=32,
         "arm": arm,
         "world_m": world,
         "planner": planner,
+        "sleep_enabled": sleep,
         "days": round(days, 3),
         "ticks": sim.tick,
         "elapsed_s": round(elapsed, 1),
@@ -80,26 +82,56 @@ def run_variant(seed, days=5.0, arm="population", planner=True, grid=32,
             else 0.0
         ),
         "dream_replays": sim.dream_replays,
+        "sightings": sim.sightings,
+        "first_sighting_day": (
+            None
+            if sim.first_sighting is None
+            else round(
+                sim.first_sighting["tick"] * cfg.tick_seconds / 86400.0, 2
+            )
+        ),
+        "mean_isolation": (
+            round(sum(a.isolation for a in alive) / len(alive), 3) if alive else None
+        ),
+        "planner_uses": sum(getattr(a.brain, "plan_uses", 0) for a in sim.agents),
+        "mean_drinks": (
+            round(sum(a.drinks for a in sim.agents) / len(sim.agents), 2)
+            if sim.agents
+            else None
+        ),
+        "reachability_water_min_m": (
+            (sim.reachability.get("water") or {}).get("min_m")
+        ),
+        "reachability_water_median_m": (
+            (sim.reachability.get("water") or {}).get("median_m")
+        ),
+        "shaped_reward": round(sim.shaped_reward, 2),
+        "start_hour": cfg.start_hour,
     }
 
 
-def calibrate(seeds, days=5.0, arms=ARMS, grid=32, population=5, world=1024):
+def calibrate(seeds, days=5.0, arms=ARMS, grid=32, population=5, world=128):
     results = []
     for arm in arms:
         planner = arm != "no_planner"
-        real_arm = "population" if arm == "no_planner" else arm
+        sleep = arm != "no_sleep"
+        real_arm = "population" if arm in ("no_planner", "no_sleep") else arm
         for seed in seeds:
-            results.append(
-                run_variant(
-                    seed,
-                    days=days,
-                    arm=real_arm,
-                    planner=planner,
-                    grid=grid,
-                    population=population,
-                    world=world,
-                )
+            row = run_variant(
+                seed,
+                days=days,
+                arm=real_arm,
+                planner=planner,
+                sleep=sleep,
+                grid=grid,
+                population=population,
+                world=world,
             )
+            # Keep the ablation label. run_variant records the architecture it
+            # actually ran, so without this every ablation row reads "population"
+            # and the table hides the comparison it exists to make.
+            row["arm"] = arm
+            results.append(row)
     return results
 
 
@@ -111,9 +143,12 @@ COLUMNS = (
     "observed_days",
     "first_death_day",
     "first_drink_day",
-    "first_drink_distance_m",
     "births",
-    "max_generation",
+    "sightings",
+    "first_sighting_day",
+    "planner_uses",
+    "mean_isolation",
+    "reachability_water_median_m",
     "sleep_skipped_fraction",
     "ticks_per_s",
 )

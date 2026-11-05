@@ -11,6 +11,12 @@ from __future__ import annotations
 
 import math
 
+from ..sensors import (
+    ISOLATION_INDEX,
+    PEER_BEARING_COS_INDEX,
+    PEER_BEARING_SIN_INDEX,
+    PEER_PROXIMITY_INDEX,
+)
 from ..util import TAU, clamp
 from .neural import NeuralBrain
 
@@ -47,6 +53,10 @@ class HybridBrain(NeuralBrain):
         self.replays = 0
         self._last_out = [0.0] * 6
         self._last_x = None
+        self.water_bearing = None
+        self.food_bearing = None
+        self.plan_uses = 0
+        self.plan_target = None
 
     # -- acting -----------------------------------------------------------
     def act(self, x, ctx=None):
@@ -57,6 +67,7 @@ class HybridBrain(NeuralBrain):
         plan = self._plan(x, ctx.get("heading", 0.0)) if self.planner_enabled else None
         if plan is not None:
             forward, turn = plan
+            self.plan_uses += 1
             out[0] = clamp(0.65 * forward + 0.35 * out[0], -1.0, 1.0)
             out[1] = clamp(0.75 * turn + 0.25 * out[1], -1.0, 1.0)
         if out[5] > 0.45:
@@ -78,20 +89,62 @@ class HybridBrain(NeuralBrain):
             else:
                 self.food_votes[r] *= 0.97
 
+    def _decay_memory(self):
+        if self.water_bearing is not None:
+            self.water_bearing *= 0.995
+        if self.food_bearing is not None:
+            self.food_bearing *= 0.995
+
     def _plan(self, x, heading):
+        """Drive-gated steering: biases the neural motor output, never replaces it.
+
+        Two additions for the calibration sprint. First, memory: the relative
+        bearing of the last sensible water/food ray is kept and decays, so a
+        failed look no longer erases what the inhabitant already saw. The bearing
+        came from its own sensors, so this is memory, not omniscience - and it is
+        exactly the component a pure-neural brain does not have, which is what
+        makes the planner ablation a real test rather than a formality.
+
+        Second, the social drive: when isolation is high and nothing more urgent
+        is missing, steer toward a perceived conspecific. Before the conspecific
+        channel existed there was nothing to steer toward.
+        """
         thirst = x[18]
         hunger = x[19]
         votes = None
+        remembered = None
         if thirst >= 0.5:
             votes = self.water_votes
+            remembered = "water"
         elif hunger >= 0.5:
             votes = self.food_votes
+            remembered = "food"
+        elif x[ISOLATION_INDEX] >= 0.6 and x[PEER_PROXIMITY_INDEX] > 0.02:
+            bearing = math.atan2(
+                x[PEER_BEARING_SIN_INDEX], x[PEER_BEARING_COS_INDEX]
+            )
+            turn = clamp(bearing * 1.6, -1.0, 1.0)
+            forward = clamp(0.35 + 0.65 * math.cos(bearing), 0.1, 1.0)
+            self.plan_target = "social"
+            return forward, turn
         if votes is None:
             return None
+        self._decay_memory()
         best = max(range(RAY_COUNT), key=lambda r: votes[r])
         if votes[best] < 0.15:
-            return None
+            memory = (
+                self.water_bearing if remembered == "water" else self.food_bearing
+            )
+            if memory is None:
+                return None
+            self.plan_target = remembered + "-memory"
+            return 0.6, clamp(memory * 1.2, -1.0, 1.0)
         offset = _wrap(best * (TAU / RAY_COUNT))
+        if remembered == "water":
+            self.water_bearing = offset
+        else:
+            self.food_bearing = offset
+        self.plan_target = remembered
         align = math.cos(offset)
         turn = clamp(offset * 1.6, -1.0, 1.0)
         forward = clamp(0.35 + 0.65 * align, 0.1, 1.0)
@@ -168,6 +221,8 @@ class HybridBrain(NeuralBrain):
                 "signals": self.signals,
                 "transfers": self.transfers,
                 "replays": self.replays,
+                "plan_uses": self.plan_uses,
+                "plan_target": self.plan_target,
             }
         )
         return base
@@ -184,6 +239,10 @@ class HybridBrain(NeuralBrain):
                 "signals": self.signals,
                 "transfers": self.transfers,
                 "replays": self.replays,
+                "plan_uses": self.plan_uses,
+                "plan_target": self.plan_target,
+                "water_bearing": self.water_bearing,
+                "food_bearing": self.food_bearing,
                 "last_x": self._last_x,
                 "last_out": self._last_out,
                 "tick": self.tick,
@@ -202,6 +261,10 @@ class HybridBrain(NeuralBrain):
         self.signals = data["signals"]
         self.transfers = data["transfers"]
         self.replays = data["replays"]
+        self.plan_uses = data.get("plan_uses", 0)
+        self.plan_target = data.get("plan_target")
+        self.water_bearing = data.get("water_bearing")
+        self.food_bearing = data.get("food_bearing")
         self._last_x = data.get("last_x")
         self._last_out = data.get("last_out", [0.0] * 6)
         self.tick = data.get("tick", 0)

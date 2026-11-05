@@ -267,7 +267,10 @@ def check_population_setup():
     kinds = sorted({a.brain.kind for a in sim.agents})
     return _check(
         "integration/five-separate-houses",
-        distinct and on_land and separation >= 100.0 and kinds == ["hybrid", "neural"],
+        distinct
+        and on_land
+        and separation >= max(12.0, 0.10 * cfg.world_size_m)
+        and kinds == ["hybrid", "neural"],
         houses=len(cells),
         distinct=distinct,
         min_separation_m=round(separation, 1),
@@ -331,17 +334,23 @@ def check_sensory_firewall():
     length_ok = len(vector) == INPUT_DIM
     range_ok = max(frame["distance_m"]) <= RAY_RANGE_M + 1e-6
     ix, iy = sim.world.terrain.cell_of(agent.pos[0], agent.pos[1])
-    far_x = (ix + 8) % cfg.grid
-    far_y = (iy + 8) % cfg.grid
-    distance = math.hypot(
-        (far_x - ix) * sim.world.terrain.cell_m, (far_y - iy) * sim.world.terrain.cell_m
+    cell = sim.world.terrain.cell_m
+    # Farthest grid corner, whatever the world size: the check is that a change
+    # beyond sense range cannot alter perception, not that the world is 1024 m.
+    far_x, far_y = max(
+        ((cx, cy) for cx in (0, cfg.grid - 1) for cy in (0, cfg.grid - 1)),
+        key=lambda c: math.hypot((c[0] - ix) * cell, (c[1] - iy) * cell),
     )
+    distance = math.hypot((far_x - ix) * cell, (far_y - iy) * cell)
     before = list(vector)
     sim.world.water.depth[far_y][far_x] = 9.0
     after, _ = sense(agent, sim.world)
     return _check(
         "intelligence/sensory-firewall",
-        length_ok and range_ok and before == after and distance > RAY_RANGE_M * 4,
+        length_ok
+        and range_ok
+        and before == after
+        and distance > RAY_RANGE_M * 1.5,
         sensor_dim=len(vector),
         max_ray_m=max(frame["distance_m"]),
         altered_cell_distance_m=round(distance, 1),
@@ -388,6 +397,106 @@ def check_knowledge_transfer():
     )
 
 
+def check_dawn_start():
+    cfg = _small_cfg()
+    sim = Simulation(cfg)
+    clock = sim.world.clock()
+    light = sim.world.light()
+    return _check(
+        "environment/lives-start-at-dawn",
+        clock.startswith("day 1 06:") and light > 0.05,
+        clock=clock,
+        light=round(light, 3),
+        start_hour=cfg.start_hour,
+    )
+
+
+def check_conspecific_channel():
+    """An inhabitant can perceive a peer, egocentrically, and only when close."""
+    cfg = _small_cfg(population=2)
+    sim = Simulation(cfg)
+    a, b = sim.agents[0], sim.agents[1]
+    a.heading = 0.0
+    b.pos = [a.pos[0], min(cfg.world_size_m - 2.0, a.pos[1] + 10.0)]
+    vector, frame = sense(a, sim.world, sim.agents)
+    proximity, cos_b, sin_b, isolation = vector[-4:]
+    alone, _ = sense(a, sim.world, [a])
+    return _check(
+        "intelligence/conspecific-channel",
+        len(vector) == INPUT_DIM
+        and proximity > 0.5
+        and sin_b > 0.9
+        and abs(cos_b) < 0.1
+        and alone[24] == 0.0
+        and frame["conspecific"]["distance_m"] is not None,
+        sensor_dim=len(vector),
+        peer_proximity=round(proximity, 3),
+        bearing_sin=round(sin_b, 3),
+        bearing_cos=round(cos_b, 3),
+        alone_peer_element=alone[24],
+        isolation_element=round(isolation, 3),
+    )
+
+
+def check_social_drive():
+    """Isolation rises alone and is relieved by a peer: a homeostatic drive."""
+    cfg = _small_cfg(population=1)
+    sim = Simulation(cfg)
+    agent = sim.agents[0]
+    agent.nearest_peer_m = None
+    for _ in range(10):
+        agent.update(3600.0, sim.world, [0.0] * 6, 1)
+    alone = agent.isolation
+    agent.nearest_peer_m = 2.0
+    for _ in range(4):
+        agent.update(3600.0, sim.world, [0.0] * 6, 2)
+    together = agent.isolation
+    return _check(
+        "biology/social-drive-homeostatic",
+        alone > 0.1 and together < alone,
+        isolation_after_10h_alone=round(alone, 4),
+        isolation_after_4h_with_peer=round(together, 4),
+        relief_per_day=agent.isolation_relief_per_day,
+    )
+
+
+def check_shaping_attribution():
+    """Dense shaping pays for a drink immediately, not at death."""
+    cfg = _small_cfg(population=1)
+    sim = Simulation(cfg)
+    agent = sim.agents[0]
+    agent.hydration = 0.5
+    agent.pending = sim._reward_state(agent)
+    agent.hydration = 0.6
+    drink = sim._shaping_reward(agent)
+    agent.pending = sim._reward_state(agent)
+    drift = sim._shaping_reward(agent)
+    return _check(
+        "intelligence/dense-shaping-attribution",
+        drink > 0.5 and drift < 0.0,
+        drink_reward=round(drink, 4),
+        no_change_reward=round(drift, 4),
+        hydration_step=0.1,
+    )
+
+
+def check_reachability():
+    cfg = _small_cfg(population=5)
+    sim = Simulation(cfg)
+    water = sim.reachability.get("water")
+    return _check(
+        "environment/reachability-measured-per-world",
+        water is not None
+        and sim.reachability.get("water_cells", 0) > 0
+        and len(sim.reachability.get("water_per_house_m", [])) == 5,
+        world_m=cfg.world_size_m,
+        water_min_m=None if water is None else water["min_m"],
+        water_median_m=None if water is None else water["median_m"],
+        water_cells=sim.reachability.get("water_cells"),
+        per_house_m=sim.reachability.get("water_per_house_m"),
+    )
+
+
 def check_only_two_architectures():
     return _check(
         "architecture/two-inhabitant-architectures",
@@ -408,6 +517,11 @@ CHECKS = (
     check_determinism,
     check_checkpoint_resume,
     check_population_setup,
+    check_dawn_start,
+    check_conspecific_channel,
+    check_social_drive,
+    check_shaping_attribution,
+    check_reachability,
     check_prediction_learning,
     check_brain_parity,
     check_sensory_firewall,

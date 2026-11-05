@@ -30,6 +30,14 @@ DRINK_PER_MIN = 0.55       # hydration units per minute of drinking
 EAT_PER_MIN = 0.40         # nutrition units per minute of eating
 HARVEST_PER_MIN = 0.22     # biomass removed per minute of eating
 
+# Social drive (Muse decision 4a). Homeostatic like thirst: it rises while the
+# inhabitant is alone and is relieved by a conspecific within range. It never
+# kills - isolation degrades wellbeing, not health - because a drive that kills
+# would make the first lonely inhabitant a death mechanic, not a motivation.
+SOCIAL_RANGE_M = 40.0
+ISOLATION_RISE_PER_DAY = 0.75
+ISOLATION_RELIEF_PER_DAY = 2.5
+
 
 class Inhabitant:
     def __init__(self, aid, name, brain, pos, heading=0.0, home_cell=(0, 0),
@@ -66,6 +74,14 @@ class Inhabitant:
         self.meals = 0
         self.sleep_seconds = 0.0
 
+        # Social drive and conspecific contact bookkeeping.
+        self.isolation = 0.0
+        self.nearest_peer_m = None
+        self.together_s = 0.0
+        self.social_range_m = SOCIAL_RANGE_M
+        self.isolation_rise_per_day = ISOLATION_RISE_PER_DAY
+        self.isolation_relief_per_day = ISOLATION_RELIEF_PER_DAY
+
         self.last_actions = [0.0] * 6
         self.sensors = [0.0] * INPUT_DIM
         self.frame = {}
@@ -74,11 +90,18 @@ class Inhabitant:
     # -- state of being ---------------------------------------------------
     @property
     def wellbeing(self):
+        """Physiological wellbeing, now including the social drive.
+
+        The weights were renormalised when isolation was added, so wellbeing is
+        not comparable with pre-calibration runs; the calibration harness is the
+        comparison, and it runs every arm on this definition.
+        """
         return (
-            0.30 * self.energy
-            + 0.28 * self.hydration
-            + 0.22 * self.nutrition
-            + 0.20 * self.health
+            0.26 * self.energy
+            + 0.26 * self.hydration
+            + 0.20 * self.nutrition
+            + 0.18 * self.health
+            + 0.10 * (1.0 - self.isolation)
         )
 
     def update(self, dt, world, actions, tick=0):
@@ -91,6 +114,17 @@ class Inhabitant:
         self.age_s += dt
         if self.cooldown_s > 0.0:
             self.cooldown_s = max(0.0, self.cooldown_s - dt)
+
+        peer = self.nearest_peer_m
+        if peer is not None and peer <= self.social_range_m:
+            self.isolation = clamp(
+                self.isolation - self.isolation_relief_per_day * days, 0.0, 1.0
+            )
+            self.together_s += dt
+        else:
+            self.isolation = clamp(
+                self.isolation + self.isolation_rise_per_day * days, 0.0, 1.0
+            )
         self.energy = clamp(self.energy - ENERGY_DRAIN_PER_DAY * days, 0.0, 1.0)
         self.hydration = clamp(
             self.hydration - HYDRATION_DRAIN_PER_DAY * days, 0.0, 1.0
@@ -202,6 +236,11 @@ class Inhabitant:
             "drinks": self.drinks,
             "meals": self.meals,
             "sleep_hours": round(self.sleep_seconds / 3600.0, 2),
+            "isolation": round(self.isolation, 3),
+            "nearest_peer_m": (
+                None if self.nearest_peer_m is None else round(self.nearest_peer_m, 1)
+            ),
+            "together_h": round(self.together_s / 3600.0, 2),
             "blocked_ticks": self.blocked_ticks,
             "home_cell": list(self.home_cell),
             "died_tick": self.died_tick,
@@ -238,6 +277,9 @@ class Inhabitant:
             "drinks": self.drinks,
             "meals": self.meals,
             "sleep_seconds": self.sleep_seconds,
+            "isolation": self.isolation,
+            "nearest_peer_m": self.nearest_peer_m,
+            "together_s": self.together_s,
             "last_actions": self.last_actions,
             "sensors": self.sensors,
             "frame": self.frame,
@@ -271,6 +313,9 @@ class Inhabitant:
         self.drinks = data["drinks"]
         self.meals = data["meals"]
         self.sleep_seconds = data["sleep_seconds"]
+        self.isolation = data.get("isolation", 0.0)
+        self.nearest_peer_m = data.get("nearest_peer_m")
+        self.together_s = data.get("together_s", 0.0)
         self.last_actions = data["last_actions"]
         self.sensors = data["sensors"]
         self.frame = data.get("frame", {})
