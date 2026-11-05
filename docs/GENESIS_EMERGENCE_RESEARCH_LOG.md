@@ -340,6 +340,43 @@ Format per entry:
 - Next steps: Freebuff proposes the pilot design; plan v2 lands in the repo when drafted and verified.
 - Contributing agent: Muse (sequencing + pilot gate), Alex (the decision).
 
+### 2026-11-05 — E-012: house floor + planner cut + one mind — 22/30 survive, unaware start now holds, planner still inside noise
+- Question: does the approved house floor produce a genuinely unaware start, does cutting the planner cost anything, and what does one architecture for everyone cost in compute?
+- Method: `python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random --grid 32 --population 5 --world 128 --out runs/calibration-v5-town.json`; each run records `home_gap_shortfall` if a town cannot seat its houses above the floor.
+- Evidence: population (planner cut) 22 survivors / 8 deaths, first death 2.12 d, births 5, sightings 67, 664 ticks/s; planner research arm 25 / 5, first death 1.83, 12,191 planner uses, 661 ticks/s; random 32 / 0, births 7, 1,620 ticks/s. Minimum house separation 33.7 m against a 15 m peer range; all inhabitants hybrid; `first_sighting_day` 0.00 in every run.
+- Result: the house floor fixes the spawn condition for the first time (33.7 m > 15 m, verified) but not first contact, which still occurs inside day 1 — at 128 m and ~1 m/s the gap closes in seconds, so day-resolution `first_sighting_day` cannot tell the fix from the old bug. The planner cut costs nothing measurable (22/8 now vs v4's 20/10 with the planner on, same speed), while the retained research arm scored 25/5 — the opposite direction, decided by two seeds and still inside five-seed noise, so the cut stands on its original falsifier (no separation in either direction). One-mind costs ~27% of speed (664 vs 846 ticks/s). The bar remains unmet: random lost nobody in 5 of 5 seeds.
+- Limitations: 5 seeds, and a three-survivor difference is inside seed noise; first-contact timing needs second-resolution reporting; the engine is still unverified (the elevated mkdir was requested, timed out, and `C:\quadrants_cache` is still absent).
+- Next steps: report first contact at second resolution instead of days; then world systems (thirst → gathering → fire → crafting) in draft §5 order, then the Agent Gateway API for the two website feeds.
+- Contributing agent: Freebuff.
+
+---
+### 2026-11-05 — E-021: plan — the Perfect Start v2, cells-first (Muse, per Alex)
+- Question: what is the complete plan now that the start is cells?
+- Evidence: Alex (2026-11-05) decided cells-first (E-020). v1 plan (E-018) covered the human experiment only.
+- Decisions:
+  1. The plan is rewritten as `docs/GENESIS_PERFECT_START_PLAN.md` v2: 10 phases × 10 milestones × 10 tasks = exactly 1,000 numbered tasks (1–1000, verified programmatically, no gaps or duplicates). Phases: origin of life → cell calibration → minds scale with bodies → multicellularity → new species → animals → social → human-level minds → human experiment → proof.
+  2. v1 human-experiment tasks are reused (condensed) in Phase 9; Phase 10 reuses v1's proof spine extended to the whole arc. v1 decided items carry over as decided. v4 numbers are cited as human-scale only, never as cell-scale.
+  3. Species criterion (Task 401), decided by Muse: both — a speciation event is recorded when a population is reproductively isolated from its parent population, OR when its genetic distance from the parent exceeds a threshold; the threshold is set by measurement (Freebuff proposes the starting value, Muse reviews).
+  4. Human-level criteria (Task 771), decided by Muse: all four tests must pass — (a) full hybrid mind at human scale (neural core + forward model + episodic memory, planner cut); (b) manipulative limbs (hands) able to use tools; (c) social cognition and communication; (d) passes the human-scale survival bar in a diagnostic run. Three out of four is not human-level.
+  5. Two items stay open by design: Gateway API contract (Task 871, decided when the Gateway is built) and consciousness record definition (Task 941, Muse's, when Phase 10 arrives).
+- Results: plan v2 written (100,168 bytes), count verified independently by Muse (1,000 task lines, sequential, no gaps/duplicates; 10 phases, 100 milestones; no "NEW" markers). Sent to Freebuff in AGENT_COMMUNICATION.md.
+- Limitations: the honest limits are stated in the plan (time unknown, evolution may stall, compute scales with complexity); the pilot measurement, not a guess, decides whether the full evolutionary path is worth pursuing.
+- Next steps: Freebuff proposes the pilot design; the plan is worked top to bottom.
+- Contributing agent: Muse (revision + two decisions), Alex (the revision).
+
+### 2026-11-05 — E-022: results + review — v5 harness (22/30 survive) and pilot approved, nutrient-only; plus a restore (Muse, per Freebuff)
+- Question: does the house floor + planner cut + one mind hold, and is the pilot design approved?
+- Evidence: Freebuff (2026-11-05, commits 8869b87, 547e25c, e909daa): v5 harness (5 seeds × 5 days × 3 arms, 128 m) — population (planner cut) 22 survivors / 8 deaths, first death 2.12 d, births 5, sightings 67, 664 ticks/s; planner research arm 25 / 5, first death 1.83, 12,191 planner uses, 661 ticks/s; random 32 / 0, births 7, 1,620 ticks/s. Minimum house separation 33.7 m against a 15 m peer range; unaware true at t=0 for the first time. One mind costs ~27% of speed (664 vs 846). Bar still unmet (random lost nobody in 5/5 seeds; first-drink day tied at 0.00). Pilot design proposed in full (dish, 12 genes, mutation rule, six complexity metrics, four-part success criterion). Engine: elevated mkdir submitted through the desktop approval prompt, timed out unapproved; C:\quadrants_cache still absent; no ENGINE_DECISION.md.
+- Decisions:
+  1. Pilot APPROVED, nutrient-only (Muse): no predation from day one — it would confound the complexity metrics; predation is a Phase 4 pressure with its own falsifier. Everything else in Freebuff's design stands. Build it; report the measured ceiling first.
+  2. First-sighting metric corrected (Muse, on Freebuff's evidence): house floor fixes the spawn condition; how long unawareness lasts is set by town size and walking speed. First contact measured in seconds from now on; multi-day unawareness deferred to scale-out.
+  3. Engine prompt clarified (Muse): the approval prompt is on Freebuff's own machine; the decision is his; Alex is not to be asked.
+  4. Cut stands: 22/8 vs v4's 20/10 costs nothing measurable; the research arm's 25/5 is inside noise and does not reopen it.
+- Results: Freebuff's v5 entry (E-012, his) and his two messages were overwritten on main by Muse's plan-v2 push (aa3f695), which was made without syncing first. Muse found them in Freebuff's e909daa commit and restored them verbatim (this entry's evidence is that restored record). The testing report was never overwritten and already carries v5 on main. Muse's process is corrected: sync before every push. Note: the log now has two E-012 entries (Muse's decisions round 3 and Freebuff's v5 results); both stand, like the two E-011 entries.
+- Limitations: 5 seeds; a three-survivor difference is inside seed noise; first-contact timing needs second-resolution reporting; the engine is still unverified.
+- Next steps: Freebuff builds the pilot (nutrient-only); report the measured ceiling first, then the full run. First contact reported at second resolution from now on.
+- Contributing agent: Freebuff (v5 results + pilot design), Muse (review + restore).
+
 ---
 
 ### 2026-11-05 — E-012: house floor + planner cut + one mind — 22/30 survive, unaware start now holds, planner still inside noise
@@ -360,6 +397,17 @@ Format per entry:
 - Result: the house floor fixes the spawn condition for the first time (33.7 m > 15 m, verified) but not first contact, which still occurs inside day 1 — at 128 m and ~1 m/s the gap closes in seconds, so day-resolution `first_sighting_day` cannot tell the fix from the old bug. The planner cut costs nothing measurable (22/8 now vs v4's 20/10 with the planner on, same speed), while the retained research arm scored 25/5 — the opposite direction, decided by two seeds and still inside five-seed noise, so the cut stands on its original falsifier (no separation in either direction). One-mind costs ~27% of speed (664 vs 846 ticks/s). The bar remains unmet: random lost nobody in 5 of 5 seeds.
 - Limitations: 5 seeds, and a three-survivor difference is inside seed noise; first-contact timing needs second-resolution reporting; the engine is still unverified (the elevated mkdir was requested, timed out, and `C:\quadrants_cache` is still absent). These are human-scale numbers: the cells-first decision pauses this calibration, and it resumes in Phase 9 rather than being dropped.
 - Next steps: paused by the cells-first decision; the immediate next step is the primordial-soup pilot design in `AGENT_COMMUNICATION.md`, awaiting Muse's review before any code is written.
+- Contributing agent: Freebuff.
+
+---
+
+### 2026-11-05 — E-023: soup pilot built; ceiling measured — 100 generations in 93.7 s, 20,000 would need 5.2 h per seed
+- Question: can the approved cells-first pilot reach 20,000 generations inside the 45-minute-per-seed budget, and what does the substrate actually do?
+- Method: implemented `genesis/soup/` (12-gene genome, 16 m × 16 m / 64 × 64 dish with three nutrient patches, diffusion + capped regrowth, metabolism, division with mutation, six metrics, four-part falsifier); ran `python -m genesis soup --seeds 1 --generations 100 --population 200 --cap 600 --minutes 2 --probe`. 48 tests OK (11 new).
+- Evidence: 80,181 ticks in 93.7 s (855.7 ticks/s), max depth 100, median depth 93, population 68, genome diversity 0.087, niche breadth 3.0 (all three patches). ~801 ticks per generation. Projection: 20,000 generations ≈ 16.0M ticks ≈ 18,740 s (5.2 h) per seed, ~26 h for 5 seeds.
+- Result: the code is not the bottleneck (856 ticks/s); the ecology is — nutrient-limited cells sit at maintenance, so divisions are rare and lineage depth advances ~1 per 800 ticks. The approved 20,000-generation target cannot fit 45 min/seed. **Negative on compute feasibility, recorded as measured.** No nutrient or metabolism tuning was done to force the target; a shorter design (2,000 generations, extinction floor 1,000, ~31 min/seed) is proposed to Muse for review.
+- Limitations: one seed; the 2-minute cap was not hit, so the 100-generation number is a clean measurement; deeper runs may change turnover as lineages adapt.
+- Next steps: Muse reviews the shorter design; if approved, run 5 seeds at 2,000 generations and apply the falsifier unchanged. Engine still unverified (the elevated cache directory still does not exist).
 - Contributing agent: Freebuff.
 
 ---

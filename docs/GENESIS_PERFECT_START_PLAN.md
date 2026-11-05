@@ -1,1260 +1,1260 @@
-# GENESIS — THE PERFECT START PLAN
+# GENESIS — THE PERFECT START PLAN (v2, cells-first)
 
 ## What "the perfect start" means
 
-The perfect start is experiment 1 done right: 5 inhabitants, 5 houses, one shared 128 m world, run continuously for 5 days, starting at zero — Stone Age in capability, no date picked — with the inhabitants starting unaware of each other. Nothing is given to them except shelter (the 5 houses, honestly labeled as a starting condition). Everything else — survival, fire, tools, meeting each other, shared knowledge — is earned by them, discovered by them, and recorded by us. The start is perfect when survival is learnable (the hybrid beats the random control on the stated bar), the world is built and instrumented, the minds are complete and identical for every inhabitant, the first discoveries are real, the two views are live and honest, and every claim is backed by a measured result. Later work — Towns 2–5, animals, weather and seasons, chemistry, genetics, evolution — appears here only as this start's exit criteria or as explicitly deferred follow-ons, never as full plans inside this document.
+The perfect start is the whole arc done right: from single cells to the human experiment. Life begins as single-cell organisms in a bounded dish; evolution does the rest — minds scale with bodies, bodies cooperate, new species appear, animals live their lives, social life and communication emerge, human-level minds appear — and then the human experiment begins: 5 inhabitants, 5 houses, one shared 128 m world, run continuously for 5 days, starting at zero knowledge — Stone Age in capability, no date picked — with the inhabitants starting unaware of each other. Nothing is given to them except shelter (the 5 houses, honestly labeled as a starting condition). Everything else — survival, fire, tools, meeting each other, shared knowledge — is earned by them, discovered by them, and recorded by us. The start is perfect when the arc is real (every step emerged from rules, nothing was placed), the human experiment is learnable (the hybrid beats the random control on the stated bar), the world is built and instrumented, the minds are complete and identical for every inhabitant at each scale, the first discoveries are real, the two views are live and honest, and every claim is backed by a measured result. If evolution stalls, the human experiment still happens as a seeded starting condition, honestly labeled — the human experiment is never blocked on evolution succeeding. Later work — Towns 2–5, weather and seasons, chemistry beyond the soup, genetics, agriculture, trade, writing — appears here only as this start's exit criteria or as explicitly deferred follow-ons, never as full plans inside this document.
 
 ## Scope
 
-This plan covers the perfect start only. It does not plan the planet, the towns, or any system deferred past survival. Where a later system is mentioned, it is mentioned as a boundary: what the start must not close off, what unlocks it, and where it is written down.
+This plan covers the perfect start only: the arc from the first replicator to the first human experiment and its proof. It does not plan the planet, the towns, or any system deferred past the human experiment. Where a later system is mentioned, it is mentioned as a boundary: what the start must not close off, what unlocks it, and where it is written down.
 
 ## How to read the numbers in this plan
 
-A number labeled "target" is a goal to hit, not a fact. A number cited as measured carries its version (v4, November 5, 2026, 5 seeds × 5 days × 3 arms, 128 m). Numbers from the world-systems draft are starting values to challenge with measured evidence, not facts. Nothing in this plan invents a measured number.
-
-## Phase 1: Survival becomes learnable — calibration to the bar
-Done when: the hybrid beats the random control on first-drink day AND median survival across ≥5 seeds, judged by the three-arm harness (population, no_planner, random); or the failure is recorded with the next single change and its falsifier.
-
-### 1.1 Fix the house gap — the unaware start must hold
-- 1. Read `_choose_homes` and record the current gap fallback ladder (35.8, 21.5, 10.7, 4.3 m) in GENESIS_TESTING_REPORT.md.
-- 2. Change `_choose_homes` so the minimum house gap is above the 15 m peer range, with no fallback below it.
-- 3. Add a placement test asserting all five house gaps exceed 15 m on every seed.
-- 4. Run the placement test across 5 seeds and record the minimum gap per seed.
-- 5. If placement fails on any seed at 128 m, record the failure and the chosen fix (Muse to decide: shrink the peer range or enlarge the world) — do not silently relax the gap.
-- 6. Verify first_sighting_day is no longer 0.0 in a short 1-day diagnostic run.
-- 7. Record the new house coordinates per seed in the run log.
-- 8. Update the emergence log entry E-011 (Freebuff) with the fix and the measured gaps.
-- 9. Get the placement test passing in the kernel test suite (37 tests plus the new placement tests).
-- 10. Record the final house-gap rule in the simulation architecture notes.
-
-### 1.2 Cut the planner — population default is planner=False
-- 11. Set planner=False as the population default in the kernel config.
-- 12. Remove planner steering from the decision path; confirm no planner code runs in the population arm.
-- 13. Keep the planner code behind a flag for the research track; record where it lives.
-- 14. Re-run the unit tests and record the pass count.
-- 15. Confirm the no_planner arm and the population arm are now identical in config except for the flag under test.
-- 16. Record the cut in AGENT_COMMUNICATION.md with the v4 evidence (4,493 interventions, no separation).
-- 17. Update the hybrid definition in the docs: neural core + forward model + episodic memory, no steering layer.
-- 18. Verify the three-arm harness still runs (population, no_planner, random) with the new default.
-- 19. Log the cut in the emergence log with the pre-agreed cut condition quoted.
-- 20. Confirm with Muse that the cut is final for the MVP and record the confirmation.
-
-### 1.3 Identical harness re-run — same seeds, same arms, new defaults
-- 21. Freeze the harness config (5 seeds, 5 days, 3 arms, 128 m, dawn 06:00) and record its hash.
-- 22. Run the full harness with the house-gap fix and the planner cut and no other changes.
-- 23. Record survivors, deaths, median observed days, and first-drink day per arm per seed.
-- 24. Record sleep-skipped share and ticks/s per arm.
-- 25. Record births and sightings per arm.
-- 26. Record first_sighting_day per run; confirm it is above 0.0.
-- 27. Compare the new run against v4 (survivors 20/18, deaths 10/12, random 0 deaths) in a table.
-- 28. Write the results as a new versioned section in GENESIS_TESTING_REPORT.md.
-- 29. Post the results in AGENT_COMMUNICATION.md with the numbers, not a summary of them.
-- 30. If the bar is still not met, record that fact plainly and do not claim progress that is not in the numbers.
-
-### 1.4 Diagnose why random still wins
-- 31. List every death in the learned arms by cause (thirst, drowning, other) and by day.
-- 32. Compare death causes between the learned arms and the random arm.
-- 33. Measure the distribution of first-drink day in the learned arms versus random.
-- 34. Measure how many decision slots each learned inhabitant actually gets per life after sleep (target: report the measured range).
-- 35. Check whether deaths cluster on particular seeds; record per-seed survival.
-- 36. Trace three individual learned lives from birth to death and log the decisions that preceded each death.
-- 37. Write the diagnosis in GENESIS_TESTING_REPORT.md: what the data says, what it does not say.
-- 38. Propose one change at a time from the diagnosis (not three at once); record the proposal.
-- 39. Get Muse's review of the diagnosis before implementing any change.
-- 40. Record Muse's decision on the next change in AGENT_COMMUNICATION.md.
-
-### 1.5 Sleep physiology verification
-- 41. Verify the wake rules fire: wake when rested, hydration ≤ 0.55, nutrition ≤ 0.30, 3 h bout cap.
-- 42. Verify an inhabitant cannot fall asleep while thirsty or hungry, or within 30 min of waking.
-- 43. Measure sleep-skipped share across 5 seeds and compare with v4's 0.69.
-- 44. Measure the share of decisions lost to sleep per life.
-- 45. Check that daytime sleep is capped and night sleep is not.
-- 46. Record ticks/s with the sleep rules on; compare with v4's 846 ticks/s.
-- 47. Run a no_sleep diagnostic on 2 seeds × 2 days and record the survival difference.
-- 48. Record the sleep cost in the testing report: ticks/s and survival, side by side.
-- 49. Confirm the run clock still starts at dawn 06:00 in every run.
-- 50. Log the sleep verification in the emergence log.
-
-### 1.6 Dense shaping and credit assignment
-- 51. List the current dense shaping terms (thirst/energy) and their weights in the kernel.
-- 52. Measure whether the shaping signal reaches the decisions that cause dehydration deaths 1.5 days later.
-- 53. Test one credit-assignment improvement at a time (e.g. eligibility traces) and record its effect on median survival.
-- 54. Record the forward-model MSE before and after each change (v4 baseline: MSE 0.400 → 0.0135, 96.6% learned).
-- 55. Confirm the forward model still learns while the survival policy changes.
-- 56. If a shaping change does not move median survival, revert it and record the revert.
-- 57. Keep the pure-neural research track's dense shaping separate from the hybrid's; record both.
-- 58. Write the shaping rules in the neural architecture notes with their measured effects.
-- 59. Get Muse's review of any shaping change before it becomes the default.
-- 60. Record the final shaping configuration and its measured effect on first-drink day.
-
-### 1.7 First-drink day
-- 61. Define first-drink day precisely (first simulated day on which an inhabitant drinks) and record the definition.
-- 62. Measure first-drink day per inhabitant per seed in the current harness.
-- 63. Compare learned first-drink day against random's (v4: tied 0.00–0.01).
-- 64. Measure how each inhabitant found water: sight, sound, or accident; record the counts.
-- 65. Test whether the river's distance from houses (15.1–76.9 m, median 16.5 m in v4) still holds after the house-gap fix.
-- 66. If first drink is still tied with random, record that the bar's first half is not met.
-- 67. Log every first drink with timestamp, inhabitant, and discovery method in the run log.
-- 68. Check whether any inhabitant returns to the same water spot; record the count.
-- 69. Write the first-drink analysis in the testing report with per-seed numbers.
-- 70. Report the first-drink result to Muse with the numbers, not a verdict.
-
-### 1.8 Median survival
-- 71. Define median survival precisely (median observed days across the population per seed) and record the definition.
-- 72. Measure median survival per arm per seed in the current harness.
-- 73. Compare learned median survival against random's (v4: 5.00 all arms; learned deaths 10/12 vs random 0).
-- 74. Record deaths per seed, not just totals, so seed effects are visible.
-- 75. Measure survival at day 2 and day 3 as checkpoints, not only day 5.
-- 76. If random still has zero deaths on all seeds, record that the bar's second half is not met.
-- 77. Check whether births change the survival picture (v4 births 5/5/7); record survivors including births.
-- 78. Write the survival analysis in the testing report with per-seed tables.
-- 79. Confirm no run is excluded from the analysis; record any excluded run and why.
-- 80. Report the median-survival result to Muse with the numbers.
-
-### 1.9 The bar, measured across ≥5 seeds
-- 81. Confirm the harness runs ≥5 seeds; record the seed list.
-- 82. Apply the bar exactly as stated: hybrid beats random on first-drink day AND median survival.
-- 83. Record the bar's verdict per seed and overall (met / not met), with the numbers beside it.
-- 84. If the bar is met, re-run the same harness once more on the same seeds to confirm it is not a fluke.
-- 85. If the bar is not met, write the next single change to try, with the falsifier for that change.
-- 86. Record the bar's verdict in AGENT_COMMUNICATION.md and in the emergence log.
-- 87. Update the website's live-status numbers to the latest measured run, dated.
-- 88. Confirm the three-arm harness is the referee: no claim is made from a single arm.
-- 89. File the harness config and seed list with the run so it can be reproduced.
-- 90. Get Muse's sign-off on the bar's verdict before any claim is made about it.
-
-### 1.10 Calibration record and sign-off
-- 91. Write the full calibration report: config, seeds, all numbers, all negative results.
-- 92. Record every change made during calibration with its measured effect (or its measured non-effect).
-- 93. Confirm the kernel test suite passes (37 tests plus all new tests) and record the count.
-- 94. Confirm the 22/22 validation checks pass and record the count.
-- 95. Confirm physics conservation, determinism, and checkpoint-resume checks pass.
-- 96. Record the compute cost (ticks/s) and the host it was measured on.
-- 97. Write the calibration summary for the website: one line per number, dated.
-- 98. Get Muse's review of the calibration report; record the review.
-- 99. Record the phase exit decision: bar met (go to Phase 2) or bar not met (next change, with falsifier).
-- 100. Archive the calibration run (config, logs, results) so it can be re-run exactly.
-
-## Phase 2: The world they wake up in — terrain, water, shelter, resources
-Done when: the 128 m world is built, deterministic, and instrumented; water, shelter, and resources exist as rules, not as labels; and the 5-day run records every first use and every death cause.
-
-### 2.1 Terrain and the 128 m world
-- 101. Define the 128 m world: size, boundaries, and what lies beyond the edge (Muse to decide: hard edge or generated beyond — record the decision).
-- 102. Build the heightfield with hills, low ground, and flat ground near houses.
-- 103. Verify the terrain is deterministic from its seed; record the seed.
-- 104. Measure the terrain build time and record it.
-- 105. Place the five houses on the terrain with the minimum gap above 15 m.
-- 106. Record house coordinates and the gap matrix for the run.
-- 107. Verify no house sits in water or on a slope too steep to stand on.
-- 108. Record the terrain parameters in the simulation architecture notes.
-- 109. Add a terrain test: the same seed produces the same heightfield.
-- 110. Confirm the 1024 m world stays as a later scale test, not the default.
-
-### 2.2 The river
-- 111. Build the river through the shared environment with varying depth (shallow banks, deep mid-river).
-- 112. Record the river's path, depth map, and the distance from each house (target: median ~16.5 m as measured in v4).
-- 113. Add flow sound near the river so inhabitants can hear water.
-- 114. Make the river visible so inhabitants can see it.
-- 115. Verify wading in shallow water is safe and deep water drowns in ~2 simulated minutes (starting value).
-- 116. Test the drowning rule: an inhabitant in deep water loses stamina and drowns without reaching shallow water.
-- 117. Record the river parameters (depth, flow, sound radius) in the world-systems notes.
-- 118. Add a river test: depth at a sampled point matches the depth map.
-- 119. Verify the river has 7 wadeable cells as measured in v4 (or record the new count).
-- 120. Log the first time any inhabitant reaches the river in each run.
-
-### 2.3 Rain
-- 121. Implement the seeded rain pattern: light rain roughly every second simulated day, heavier storms rare.
-- 122. Record the rain schedule seed and the pattern it produces.
-- 123. Make rain fill open containers and collect in low ground.
-- 124. Make rain extinguish unfed fire and make ignition harder.
-- 125. Make rain replenish clay after it falls.
-- 126. Make ground slippery in rain (movement cost change, recorded).
-- 127. Verify rainwater collected in a container is cleaner than river water (lower sickness chance, starting value).
-- 128. Record the rain parameters in the world-systems notes.
-- 129. Add a rain test: rain falls on schedule from the seed.
-- 130. Log every rainfall event with its simulated time and duration.
-
-### 2.4 Thirst and drinking
-- 131. Implement thirst 0–100 rising ~1 per simulated hour at rest (starting value), faster with exertion and heat.
-- 132. Implement degradation at thirst 80+: movement and cognition degrade (record the degradation rule).
-- 133. Implement death at thirst 100 within ~6 simulated hours unless they drink (starting value).
-- 134. Implement the drink action: reach water, drink, restore ~40 thirst (starting value).
-- 135. Implement the river-water sickness chance per drink (small, recorded as a starting value).
-- 136. Verify an inhabitant can drink with cupped hands without a container.
-- 137. Verify drinking from a container restores the same amount.
-- 138. Measure time to first drink per inhabitant in the harness.
-- 139. Record every drink in the run log with inhabitant, time, and water source.
-- 140. Log every death by thirst with the thirst level at death.
-
-### 2.5 Houses as starting shelter
-- 141. Build the five houses: walls, roof, a door, interior space for one inhabitant.
-- 142. Record the house materials (wood, recorded as starting shelter, not a discovery).
-- 143. Verify each house shelters its inhabitant from rain.
-- 144. Verify each house is flammable: fire can spread to it and it can burn down.
-- 145. Record the house positions and the gap matrix (minimum gap above 15 m).
-- 146. Verify an inhabitant can enter, sleep in, and leave its house.
-- 147. Make houses visible and recognisable from outside (shape, colour, recorded).
-- 148. Log every time an inhabitant enters or leaves a house.
-- 149. Record the house rules in the simulation architecture notes, labeled as starting conditions.
-- 150. Confirm no other shelter exists at start: no caves, no second structures.
-
-### 2.6 Resources: stone, wood, clay, fibre
-- 151. Place loose stones near the river and in rocky ground; record the count and positions.
-- 152. Distinguish sharp-edged stone (cutting, spark) from round stone (hammering, building) by a property inhabitants can sense.
-- 153. Place fallen branches (free to pick up) and living trees (need effort/tools for wood).
-- 154. Place clay on the river banks; record the clay locations.
-- 155. Place fibre (grasses, bark) for binding and cordage; record the locations.
-- 156. Confirm no ore and no metal exists in experiment 1; record that absence.
-- 157. Make resources finite per location and slowly regrowing (branches fall, clay replenishes after rain).
-- 158. Record the resource counts and regrowth rules in the world-systems notes.
-- 159. Add a resource test: gathering reduces the count; regrowth restores it over time.
-- 160. Log the first time any inhabitant gathers each resource type.
-
-### 2.7 Gathering and carrying
-- 161. Implement gathering: costs time and energy (record the cost rule).
-- 162. Implement carrying capacity: what one inhabitant can hold in hands plus a carried load (record the limit).
-- 163. Implement dropped items staying where they fall, findable and takeable by others.
-- 164. Verify an inhabitant cannot carry an unlimited inventory.
-- 165. Measure gathering time per resource type and record it.
-- 166. Log every gathering event with inhabitant, resource, time, and location.
-- 167. Log every dropped item and every item picked up by a different inhabitant.
-- 168. Record the gathering and carrying rules in the world-systems notes.
-- 169. Add a carrying test: overload is refused, not silently allowed.
-- 170. Verify scarcity appears near houses by day 3–4 if inhabitants gather greedily; record the measurement.
-
-### 2.8 Day and night
-- 171. Implement the day/night cycle with the run clock starting at dawn 06:00.
-- 172. Record the length of a simulated day and the light level by hour.
-- 173. Make night effectively blind outside firelight (record the visibility rule).
-- 174. Make cold at night cost energy and sleep quality (record the cost rule).
-- 175. Verify inhabitants can tell day from night through their senses.
-- 176. Log the simulated time of every major event (first drink, first fire, first sighting).
-- 177. Record the day/night parameters in the simulation architecture notes.
-- 178. Add a day/night test: light level at noon and at midnight match the parameters.
-- 179. Verify sleep aligns with night in the harness (record the alignment).
-- 180. Confirm the 5-day run covers five full day/night cycles.
-
-### 2.9 World state persistence
-- 181. Implement checkpointing: the full world state can be saved and resumed.
-- 182. Verify checkpoint-resume produces identical continuation (determinism check).
-- 183. Record the checkpoint format and where checkpoints are stored.
-- 184. Test recovery: kill the run mid-day and resume from the last checkpoint.
-- 185. Verify the run continues for 5 days even if the website, laptop, or either agent is offline.
-- 186. Record the checkpoint interval and the cost of writing a checkpoint.
-- 187. Add a persistence test: save, reload, and compare world state field by field.
-- 188. Log every checkpoint with its simulated time.
-- 189. Confirm historical records survive death: dead inhabitants' records remain readable.
-- 190. Record the persistence rules in the simulation architecture notes.
-
-### 2.10 World instrumentation
-- 191. Log every first-use event (first drink, first gather, first fire) with inhabitant and time.
-- 192. Log every death with cause, time, and location.
-- 193. Log every cross-system combination (first time any inhabitant combines two systems).
-- 194. Log every resource depletion event near the houses.
-- 195. Build a run summary: one line per inhabitant per day (alive/dead, thirst, location, key events).
-- 196. Verify the logs are complete: no event type is silently dropped.
-- 197. Record the instrumentation format in the testing report.
-- 198. Add an instrumentation test: a scripted event appears in the log exactly once.
-- 199. Publish the run summary to the website's live-status panel, dated.
-- 200. Confirm the phase exit criterion: the world is built, instrumented, and the 5-day run records everything it should.
-
-## Phase 3: Bodies and senses — embodiment and perception
-Done when: every inhabitant has the same body and the same 28-dim sensor vector, perception comes from the environment only, the information firewall is verified, and no sense gives information the inhabitant could not have sensed.
-
-### 3.1 Body model
-- 201. Define the body: height, mass, reach, carrying capacity, movement speed (record the values).
-- 202. Implement movement: walk, run, and the energy cost of each.
-- 203. Implement stamina: exertion drains it, rest restores it.
-- 204. Implement hunger: rises over time, degrades performance when high, kills when extreme (record the rule).
-- 205. Implement aging: bodies age over simulated time (record the aging rule).
-- 206. Implement death: permanent, with the body remaining in the world (record the rule).
-- 207. Verify the body parameters are the same for every inhabitant (one architecture, one body).
-- 208. Add a body test: movement cost matches the parameters.
-- 209. Record the body model in the physics specification notes.
-- 210. Log every death with the body's state at death.
-
-### 3.2 Vision
-- 211. Implement camera-like vision: a field of view, a range, and resolution that falls with distance.
-- 212. Verify an inhabitant can see the river, houses, trees, and other inhabitants within range.
-- 213. Implement occlusion: a house blocks the view behind it.
-- 214. Implement night blindness outside firelight.
-- 215. Record the vision parameters (field of view, range, resolution) in the sensor notes.
-- 216. Add a vision test: an object in view is sensed, an object behind a wall is not.
-- 217. Measure what fraction of the world an inhabitant can see from its house.
-- 218. Log the first time each inhabitant sees water, a house, and another inhabitant.
-- 219. Verify vision is the only way to learn what a thing looks like (no labels, no direct data).
-- 220. Record the vision rules in the perception notes.
-
-### 3.3 Hearing, touch, temperature
-- 221. Implement hearing: river flow sound, fire crackle, footsteps, with range and direction.
-- 222. Implement touch: contact with water (cold), fire (hot), stone, wood, clay.
-- 223. Implement temperature sense: cold at night, warmth near fire, heat damage too close.
-- 224. Record the hearing, touch, and temperature parameters.
-- 225. Add a hearing test: river sound is sensed near the river and not far from it.
-- 226. Add a touch test: touching fire causes pain and injury.
-- 227. Verify an inhabitant can find water by sound alone (record the test).
-- 228. Log the first time each inhabitant hears water and feels fire.
-- 229. Record the non-visual senses in the perception notes.
-- 230. Confirm no sense gives information the inhabitant could not have sensed (no omniscience).
-
-### 3.4 The 28-dim sensor vector
-- 231. Write down the full 28-dim sensor vector with each dimension named and its range.
-- 232. Verify the vector includes peer proximity, peer bearing cos/sin in own frame, and own isolation.
-- 233. Verify the vector includes thirst, hunger, energy, and sleep state.
-- 234. Verify the vector includes vision, hearing, touch, and temperature inputs.
-- 235. Add a sensor test: each dimension changes when the world changes it.
-- 236. Record the sensor vector in the neural architecture notes.
-- 237. Confirm the vector is 28 dimensions, not 24 (the social dimensions were added in the calibration sprint).
-- 238. Measure the sensor update cost per tick and record it.
-- 239. Log a sample sensor vector at dawn on day 1 for one inhabitant.
-- 240. Get Muse's review of the sensor vector before it is frozen.
-
-### 3.5 Hunger, thirst, energy, sleep drives
-- 241. Implement hunger as a drive: rises over time, satisfied by eating (record the rule).
-- 242. Implement thirst as a drive: 0–100, satisfied by drinking.
-- 243. Implement energy as a drive: drained by exertion, restored by rest and food.
-- 244. Implement sleep as a drive: rises with time awake, satisfied by sleep.
-- 245. Record the drive values and their rates in the drive notes.
-- 246. Verify drives are homeostatic: they rise when unsatisfied and fall when satisfied.
-- 247. Add a drive test: each drive rises and falls as specified.
-- 248. Measure drive levels at dawn on day 1 for all five inhabitants.
-- 249. Log drive levels hourly for one inhabitant over a full day.
-- 250. Confirm the drives are the only internal state the mind reads (no hidden information).
-
-### 3.6 Movement and action space
-- 251. Define the action space: move, turn, drink, gather, ignite, craft, sleep, rest (record the full list).
-- 252. Verify every action costs time and energy (record the cost table).
-- 253. Implement movement in the world: position updates, collision with houses and trees.
-- 254. Implement the drink action: requires being at water.
-- 255. Implement the gather action: requires being at a resource.
-- 256. Implement the sleep action: requires lying down, blocked while thirsty or hungry.
-- 257. Add an action test: each action changes the world or the body as specified.
-- 258. Measure the decision slots per life after sleep (v4: 121–4,216 for a 24→24→6 net; record the new range).
-- 259. Record the action space in the simulation architecture notes.
-- 260. Confirm no action gives an inhabitant information it has not sensed.
-
-### 3.7 Pain and injury signals
-- 261. Implement pain: burns from fire, injury from falls, sickness from river water.
-- 262. Record the pain rules and the injury they cause.
-- 263. Verify pain changes behaviour: an inhabitant avoids what hurt it (record the test).
-- 264. Implement sickness: small chance per river-water drink, with symptoms and recovery (starting values).
-- 265. Verify rainwater is cleaner than river water (lower sickness chance).
-- 266. Log every injury and sickness event with cause and time.
-- 267. Record the pain and injury rules in the body notes.
-- 268. Add a pain test: touching fire causes pain and a burn.
-- 269. Measure how many injuries occur per run and their causes.
-- 270. Confirm pain is a signal, not a script: it informs learning, it does not force a behaviour.
-
-### 3.8 The social sense
-- 271. Implement peer proximity sensing: distance to the nearest other inhabitant.
-- 272. Implement peer bearing: direction to the nearest other inhabitant in own frame (cos/sin).
-- 273. Implement isolation: time since last peer sighting, rising over time.
-- 274. Implement the social drive: rises ~0.75/day alone, relieved 2.5/day within 15 m, never lethal, weight 0.10 (measured in the calibration sprint).
-- 275. Record the social sense parameters in the sensor notes.
-- 276. Add a social sense test: proximity changes when another inhabitant approaches.
-- 277. Verify the peer range is ~15 m and the relief radius is aligned to 15 m.
-- 278. Log every peer sighting with both inhabitants, distance, and time.
-- 279. Measure sightings per run (v4: 35–59 across 15 runs; record the new count).
-- 280. Confirm the social sense is a sense, not a label: no names, no identity, only presence and direction.
-
-### 3.9 Sensory limits — no omniscience
-- 281. List everything an inhabitant cannot sense: source code, databases, the OS, admin controls, credentials, other inhabitants' private memories.
-- 282. Verify the information firewall: no code path lets an inhabitant read any of the above.
-- 283. Verify an inhabitant cannot see through walls, across the map, or into the future.
-- 284. Verify an inhabitant cannot sense the observer (World View is invisible to them).
-- 285. Add a firewall test: attempt to read a private memory from another inhabitant and confirm it fails.
-- 286. Record the firewall rules in the simulation architecture notes.
-- 287. Audit the Agent Gateway: every data flow between world and inhabitants passes through it.
-- 288. Log any firewall violation as a critical bug, not a warning.
-- 289. Get Muse's review of the firewall before the 5-day run.
-- 290. Confirm the phase exit criterion: bodies and senses are built, limited, and verified.
-
-### 3.10 Perception validation
-- 291. Run a perception diagnostic: one inhabitant, one day, log every sense input.
-- 292. Verify the diagnostic shows learning from senses only (no unexplained knowledge).
-- 293. Measure the sensor cost in ticks/s and record it.
-- 294. Confirm the 28-dim vector is the only input to the neural core.
-- 295. Write the perception validation report with the diagnostic results.
-- 296. Record the validation in GENESIS_TESTING_REPORT.md.
-- 297. Get Muse's review of the perception validation.
-- 298. Fix any perception bug found and re-run the diagnostic.
-- 299. Archive the diagnostic log with the run.
-- 300. Record the phase exit decision in AGENT_COMMUNICATION.md.
-
-## Phase 4: The mind — the hybrid architecture, complete
-Done when: every inhabitant runs the same hybrid mind (fruit-fly-inspired neural core + forward model + episodic memory, planner cut), the pure-neural research track is judged by its falsifier, and the mind's decisions follow from senses, drives, memory, and the forward model only.
-
-### 4.1 Neural core
-- 301. Define the neural core: fruit-fly-inspired, recurrent, with persistent internal states.
-- 302. Record the network size (v4: 24→24→6, 1,296 synapses — record the current size).
-- 303. Implement the core in the kernel with the chosen plasticity rule (three-factor Hebbian, recorded).
-- 304. Verify the core runs on the CPU-only host (4 cores, no CUDA).
-- 305. Measure the core's decision time per tick and record it.
-- 306. Add a core test: the same inputs produce the same outputs (determinism).
-- 307. Record the core architecture in the neural architecture notes.
-- 308. Confirm the core is the same for every inhabitant (one architecture, no brain-dead tier).
-- 309. Verify no LLM controls any inhabitant's decisions (LLMs may assist language/reasoning only, never control).
-- 310. Log the core's internal state at dawn on day 1 for one inhabitant.
-
-### 4.2 Forward model
-- 311. Implement the forward model: predicts the next sensor state from the current state and action.
-- 312. Measure the forward-model MSE at the start of a run (v4 baseline: 0.400).
-- 313. Measure the forward-model MSE after 5 days (v4 baseline: 0.0135, 96.6% learned).
-- 314. Verify the forward model learns while the survival policy does not (v4 finding — confirm it still holds).
-- 315. Record the forward-model architecture and learning rule.
-- 316. Add a forward-model test: prediction error falls over a run.
-- 317. Measure the forward-model cost in ticks/s.
-- 318. Log the forward-model MSE daily for one inhabitant.
-- 319. Confirm the forward model is used for prediction inside the mind, not for steering (planner is cut).
-- 320. Record the forward-model results in the testing report.
-
-### 4.3 Episodic memory
-- 321. Implement episodic memory: per-inhabitant, stores experienced events with their outcomes.
-- 322. Record the memory capacity and the forgetting rule.
-- 323. Verify memory is private: no inhabitant can read another's memory.
-- 324. Verify memory survives sleep (consolidation, recorded).
-- 325. Add a memory test: an inhabitant recalls a past event and acts on it.
-- 326. Measure the memory cost in ticks/s and in storage.
-- 327. Log the first recalled event per inhabitant in a run.
-- 328. Verify memory is used for decisions, not just stored.
-- 329. Record the memory architecture in the hybrid architecture notes.
-- 330. Confirm memory is the mechanism by which knowledge can outlive a single experience.
-
-### 4.4 Plasticity and learning rules
-- 331. Write down the plasticity rule (three-factor Hebbian) with its parameters.
-- 332. Record what the three factors are and where each comes from.
-- 333. Verify learning happens during life, not only at birth.
-- 334. Measure the learning rate's effect on median survival (one change at a time).
-- 335. Record the learning-rule parameters in the neural architecture notes.
-- 336. Add a plasticity test: a repeated experience changes the weights.
-- 337. Confirm there is no backpropagation through time in the pure-neural path (v4 finding — record it).
-- 338. Log weight changes over a run for one inhabitant.
-- 339. Get Muse's review of any learning-rule change before it becomes the default.
-- 340. Record the final learning rule and its measured effect.
-
-### 4.5 Intrinsic motivation and curiosity
-- 341. Implement intrinsic motivation: novelty and prediction error drive exploration.
-- 342. Record the curiosity rule and its weight.
-- 343. Verify curiosity does not override survival drives (record the priority rule).
-- 344. Measure exploration: how much of the world each inhabitant visits.
-- 345. Add a curiosity test: a novel object is approached more than a familiar one.
-- 346. Log the first exploration event per inhabitant (leaving the house area).
-- 347. Record the curiosity parameters in the hybrid architecture notes.
-- 348. Measure whether curiosity survives when thirst is high (record the result).
-- 349. Confirm curiosity is intrinsic (from the mind), not a scripted goal.
-- 350. Log exploration distance per inhabitant per day.
-
-### 4.6 Drives as inputs
-- 351. Wire the drives (hunger, thirst, energy, sleep, social) into the neural core as inputs.
-- 352. Verify the core's decisions change when a drive changes.
-- 353. Record the drive input weights.
-- 354. Add a drive test: raising thirst changes the chosen action.
-- 355. Measure the drive weights' effect on first-drink day.
-- 356. Record the drive wiring in the neural architecture notes.
-- 357. Verify no drive is lethal except thirst and hunger at their extremes (social drive never lethal).
-- 358. Log drive levels and chosen actions hourly for one inhabitant.
-- 359. Confirm drives are inputs, not commands: the mind decides, the drive informs.
-- 360. Get Muse's review of the drive wiring.
-
-### 4.7 Decision loop and tick budget
-- 361. Define the decision loop: sense, decide, act, learn — one tick per decision slot.
-- 362. Record the tick budget: 8,640 decision slots per life over 5 days (measured in v4).
-- 363. Measure the actual decision slots per life after sleep (v4: 121–4,216; record the new range).
-- 364. Measure ticks/s for the full population (v4: 846 ticks/s; record the new number).
-- 365. Record the compute cost per inhabitant per tick.
-- 366. Verify the run completes 5 simulated days in acceptable wall-clock time (record the time).
-- 367. Add a tick test: the loop runs without skipping decisions except for sleep.
-- 368. Log the decision-slot count per inhabitant per life.
-- 369. Record the tick budget in the simulation architecture notes.
-- 370. Confirm the tick budget supports learning: if it does not, record the finding and the proposed fix.
-
-### 4.8 Sleep and consolidation
-- 371. Implement sleep as a mind state: learning consolidates during sleep (record the rule).
-- 372. Verify sleep does not erase memory (consolidation, not deletion).
-- 373. Measure the consolidation effect: does sleep improve the forward model? (record the result).
-- 374. Verify the sleep rules from Phase 1.5 still hold (wake thresholds, bout cap).
-- 375. Record the consolidation rule in the neural architecture notes.
-- 376. Add a sleep test: memory recall after sleep is as good or better than before.
-- 377. Log sleep bouts per inhabitant with their duration and the drive state at waking.
-- 378. Measure the sleep share again after all mind changes (compare with 0.69).
-- 379. Confirm sleep is physiological, not a fixed cost.
-- 380. Record the sleep and consolidation results in the testing report.
-
-### 4.9 Pure neural research track
-- 381. Keep the pure-neural track separate from the hybrid population; record where it lives.
-- 382. Apply dense shaping to the pure-neural track (thirst/energy) and record the shaping terms.
-- 383. Run the pure-neural track on ~10× lives (target) and record the actual count.
-- 384. Apply the falsifier: pure neural beats random on first-drink day AND median survival across ≥5 seeds, or hybrid-first stands.
-- 385. Record the pure-neural results in the testing report, separate from the hybrid's.
-- 386. If the pure-neural track fails the falsifier, record that hybrid-first stands.
-- 387. If the pure-neural track passes, record the result and bring it to Muse before any change to the MVP.
-- 388. Log the pure-neural track's runs with the same instrumentation as the hybrid's.
-- 389. Confirm the pure-neural track never becomes the population default without a decision recorded here.
-- 390. Record the research-track status in AGENT_COMMUNICATION.md.
-
-### 4.10 Mind validation
-- 391. Run a mind diagnostic: one inhabitant, one day, log every decision and its inputs.
-- 392. Verify the diagnostic shows decisions following from senses, drives, memory, and the forward model.
-- 393. Measure the mind's cost in ticks/s and record it.
-- 394. Confirm the mind has no hidden inputs (no omniscience, no labels, no direct data).
-- 395. Write the mind validation report with the diagnostic results.
-- 396. Record the validation in GENESIS_TESTING_REPORT.md.
-- 397. Get Muse's review of the mind validation.
-- 398. Fix any mind bug found and re-run the diagnostic.
-- 399. Archive the diagnostic log with the run.
-- 400. Record the phase exit decision in AGENT_COMMUNICATION.md.
-
-## Phase 5: First discoveries — fire, tools, crafting
-Done when: fire, tools, containers, and hearths are discoverable by trial (no labels, no recipe list), the first discovery of each is recorded with its attempt count, and the first time any inhabitant combines two systems is recorded — or the absence of each is recorded as a result.
-
-### 5.1 Fire: ignition
-- 401. Implement friction ignition: rubbing dry wood, slow, needs dry fuel and patience (record the time and fuel cost).
-- 402. Implement spark ignition: striking stone, faster, needs the right stone (record the requirements).
-- 403. Verify no fire exists at start: the world begins cold.
-- 404. Verify ignition is discoverable by trial, not taught (no labels, no tutorial).
-- 405. Measure time to first ignition per run and the method used.
-- 406. Log every ignition attempt (success and failure) with method and time.
-- 407. Record the ignition rules in the world-systems notes.
-- 408. Add an ignition test: friction works with dry wood, fails with wet wood.
-- 409. Add an ignition test: spark works with sharp stone, fails with round stone.
-- 410. Confirm the first fire is an event worth recording, not a given.
-
-### 5.2 Fire: fuel, light, heat
-- 411. Implement fuel consumption: a small campfire burns ~2 simulated hours unfed (starting value).
-- 412. Implement light: a campfire lights ~8 m radius at night (starting value).
-- 413. Implement heat: warmth within ~3 m (starting value).
-- 414. Implement burns: standing too close (<0.5 m) burns — pain, injury, learned avoidance.
-- 415. Verify inhabitants can see and work in firelight at night.
-- 416. Verify cold at night costs energy and sleep quality without fire.
-- 417. Measure fuel consumption per hour and record it.
-- 418. Log every fire lit, fed, and extinguished with time and inhabitant.
-- 419. Record the fire parameters in the world-systems notes.
-- 420. Add a fire test: an unfed fire goes out in ~2 simulated hours.
-
-### 5.3 Fire: spread and danger
-- 421. Implement fire spread to adjacent dry fuel (record the spread rule).
-- 422. Implement fire spread to wooden structures: a house can burn down.
-- 423. Implement rain extinguishing an unfed fire.
-- 424. Implement water extinguishing fire.
-- 425. Verify a fire left untended can destroy a house (record the test).
-- 426. Log every spread event with cause, time, and what was lost.
-- 427. Measure how often fire destroys something per run.
-- 428. Record the spread rules in the world-systems notes.
-- 429. Add a spread test: fire spreads to dry grass, does not spread to wet ground.
-- 430. Confirm fire is the first tool that can destroy what inhabitants built — and that this is deliberate.
-
-### 5.4 Tools: sharp stone
-- 431. Implement the cutting tool: sharp stone + wood (record the combination rule).
-- 432. Verify the combination is discoverable: no recipe list is shown to inhabitants.
-- 433. Verify the cutting tool lets an inhabitant cut fibre and shape wood.
-- 434. Verify the cutting tool lets an inhabitant take wood from living trees.
-- 435. Measure time to first tool per run and who made it.
-- 436. Log every crafting attempt (success and failure) with the materials used.
-- 437. Record the tool rules in the world-systems notes.
-- 438. Add a tool test: sharp stone + wood produces a cutting tool; round stone + wood does not.
-- 439. Log whether the maker keeps the tool, loses it, or is copied by others.
-- 440. Confirm a sharp stone is a tool; what inhabitants do with it is theirs.
-
-### 5.5 Containers
-- 441. Implement the container: hollowed wood or fired clay (record the combination rule).
-- 442. Verify containers are built before hearths and tools (containers first, per the draft order).
-- 443. Verify a container lets an inhabitant carry water (record the capacity).
-- 444. Verify a container lets an inhabitant store water.
-- 445. Measure time to first container per run.
-- 446. Log every container made, filled, and emptied.
-- 447. Measure whether containers change drinking patterns (drinks per day, distance from water).
-- 448. Record the container rules in the world-systems notes.
-- 449. Add a container test: water carried in a container is drinkable away from the river.
-- 450. Confirm containers turn water from a place into a possession — and record the first time it happens.
-
-### 5.6 Hearth
-- 451. Implement the hearth: stone + wood + fibre, a sheltered fire pit (record the combination rule).
-- 452. Verify a hearth protects a fire from rain.
-- 453. Verify a hearth is built after containers (draft order).
-- 454. Measure time to first hearth per run.
-- 455. Log every hearth built and every fire kept alive in one.
-- 456. Measure whether hearths change fire survival overnight.
-- 457. Record the hearth rules in the world-systems notes.
-- 458. Add a hearth test: fire in a hearth survives rain; fire outside does not.
-- 459. Log whether hearths are shared or hoarded.
-- 460. Confirm the hearth is the first built structure — and that it was discovered, not given.
-
-### 5.7 Shelter repair and building
-- 461. Implement shelter repair: wood + wood + fibre reinforces a house (record the rule).
-- 462. Verify an inhabitant can repair its own house after fire damage.
-- 463. Verify an inhabitant can build a simple shelter of its own (allowed, not required).
-- 464. Measure time to first repair per run.
-- 465. Log every repair and every shelter built.
-- 466. Record the repair rules in the world-systems notes.
-- 467. Add a repair test: a damaged house is restored by repair.
-- 468. Measure whether repaired houses survive the next fire.
-- 469. Log whether inhabitants repair their own house or another's.
-- 470. Confirm building is a discovery: no blueprint is shown to inhabitants.
-
-### 5.8 Cooking
-- 471. Implement cooking: food held over fire becomes cooked (record the rule).
-- 472. Verify cooked food gives more nutrition than raw (record the values).
-- 473. Verify cooked food has a lower sickness chance than raw (record the values).
-- 474. Measure time to first cooking per run.
-- 475. Log every cooking event with the food and the fire used.
-- 476. Record the cooking rules in the world-systems notes.
-- 477. Add a cooking test: raw food over fire becomes cooked; raw food away from fire does not.
-- 478. Measure whether cooking changes eating patterns.
-- 479. Log whether inhabitants cook for themselves or for others.
-- 480. Confirm cooking applies to whatever edible plants exist in experiment 1 (food is a later system).
-
-### 5.9 Discovery instrumentation
-- 481. Log every first discovery (first fire, first tool, first container, first hearth) with inhabitant and time.
-- 482. Log every failed attempt before each first discovery (the count matters).
-- 483. Log the first time any inhabitant combines two systems (water + fire, fire + materials).
-- 484. Log the first time one inhabitant copies another's discovery.
-- 485. Build a discovery timeline per run: discovery, discoverer, time, attempts before it.
-- 486. Verify the logs record discoveries as events, not as scheduled outcomes.
-- 487. Record the discovery instrumentation format in the testing report.
-- 488. Add an instrumentation test: a scripted discovery appears in the log exactly once.
-- 489. Publish the discovery timeline to the website, dated.
-- 490. Confirm no discovery is claimed that the logs do not show.
-
-### 5.10 The first combination
-- 491. Define "first combination": the first time any inhabitant uses two systems together (record the definition).
-- 492. Measure the time to first combination per run.
-- 493. Record which two systems were combined and by whom.
-- 494. Verify the combination was not scripted (it arose from the inhabitant's actions).
-- 495. Log the combination with its full context (inhabitant, time, systems, outcome).
-- 496. Measure whether the combination is repeated or copied.
-- 497. Write the first-combination analysis in the testing report.
-- 498. Get Muse's review of the first-combination claim.
-- 499. Record the first combination in the emergence log.
-- 500. Confirm the phase exit criterion: fire, tools, and crafting are discoverable, discovered, and recorded — or the absence is recorded as a result.
-
-## Phase 6: Meeting each other — social, language beginnings
-Done when: first contact is a measured event after day 0, social behaviour (observation, imitation, sharing, teaching) is logged with its participants, and no social behaviour is scripted — language itself stays a later system.
-
-### 6.1 First contact as an event
-- 501. Define first contact: the first time any inhabitant senses another (record the definition).
-- 502. Verify first contact happens after day 0 (first_sighting_day above 0.0 — the house-gap fix must hold).
-- 503. Measure first-contact day per run.
-- 504. Record which two inhabitants met first and where.
-- 505. Log the first contact with full context (time, distance, both inhabitants' states).
-- 506. Verify first contact is not scripted: it arises from movement and sensing.
-- 507. Measure the distance at first contact (target: within the 15 m peer range).
-- 508. Record the first-contact analysis in the testing report.
-- 509. Get Muse's review of the first-contact claim.
-- 510. Confirm the unaware start held: no inhabitant sensed another before first contact.
-
-### 6.2 Social drive and proximity
-- 511. Verify the social drive rises ~0.75/day alone and is relieved 2.5/day within 15 m (measured in the calibration sprint).
-- 512. Verify the social drive is never lethal (record the rule).
-- 513. Measure social drive levels per inhabitant per day.
-- 514. Measure time spent within 15 m of another inhabitant.
-- 515. Log every approach (one inhabitant moving toward another) with distance and time.
-- 516. Log every avoidance (one inhabitant moving away from another).
-- 517. Record the social drive parameters in the sensor notes.
-- 518. Add a social drive test: isolation raises the drive; proximity lowers it.
-- 519. Measure whether the social drive changes movement (record the result).
-- 520. Confirm the social drive is homeostatic like thirst, not a scripted goal.
-
-### 6.3 Observation and imitation
-- 521. Verify an inhabitant can see another inhabitant's actions (record the visibility rule).
-- 522. Measure how often an inhabitant watches another (time spent in view of a peer).
-- 523. Log the first time one inhabitant copies another's action (gathering, drinking, crafting).
-- 524. Measure the copy rate: copies per observation.
-- 525. Record the imitation analysis in the testing report.
-- 526. Verify imitation is learning, not telepathy: the copier must have seen the action.
-- 527. Log every copied action with the model and the copier.
-- 528. Measure whether copied actions succeed as often as original ones.
-- 529. Record the imitation rules in the social notes.
-- 530. Confirm imitation is the mechanism by which a discovery spreads.
-
-### 6.4 Sharing and showing
-- 531. Log the first time an inhabitant shares something (food, water, a tool, a fire) with another.
-- 532. Log the first time an inhabitant shows another where water is (by leading, not by language).
-- 533. Measure sharing events per run and their outcomes.
-- 534. Record the sharing analysis in the testing report.
-- 535. Verify sharing is voluntary: no rule forces it.
-- 536. Log whether sharing is reciprocated.
-- 537. Measure whether sharing changes survival (record the result).
-- 538. Record the sharing rules in the social notes.
-- 539. Confirm sharing is an emergence to measure, not a behaviour to script.
-- 540. Log the first sharing event in the emergence log.
-
-### 6.5 Conflict and avoidance
-- 541. Log the first time one inhabitant takes something from another (a tool, food, water).
-- 542. Log the first time one inhabitant avoids another after a taking.
-- 543. Measure taking events per run and their outcomes.
-- 544. Record the conflict analysis in the testing report.
-- 545. Verify conflict is possible but not scripted: no rule forces it.
-- 546. Log whether taken items are recovered or lost.
-- 547. Measure whether conflict changes survival (record the result).
-- 548. Record the conflict rules in the social notes.
-- 549. Confirm trade and conflict are deferred systems — this milestone only measures what happens, it does not build them.
-- 550. Log the first conflict event in the emergence log.
-
-### 6.6 Group formation
-- 551. Measure how often two or more inhabitants are within 15 m of each other.
-- 552. Log the first time three inhabitants are together.
-- 553. Measure group duration: how long groups stay together.
-- 554. Record the group analysis in the testing report.
-- 555. Verify groups form from proximity and drive, not from a script.
-- 556. Log whether groups share fire, food, or shelter.
-- 557. Measure whether group members survive longer than loners (record the result).
-- 558. Record the group rules in the social notes.
-- 559. Confirm groups are an emergence to measure, not a structure to place.
-- 560. Log the first group in the emergence log.
-
-### 6.7 Communication beginnings
-- 561. Log the first time one inhabitant makes a sound or gesture toward another.
-- 562. Measure sound and gesture events per run.
-- 563. Verify sounds and gestures are sensed by others (record the range).
-- 564. Log whether a sound or gesture changes another inhabitant's behaviour.
-- 565. Record the communication analysis in the testing report.
-- 566. Verify communication is a beginning, not a language: no words, no grammar, no scripted messages.
-- 567. Log the first repeated sound or gesture (the same signal used twice).
-- 568. Measure whether repeated signals spread to other inhabitants.
-- 569. Record the communication rules in the social notes.
-- 570. Confirm language is a later system — this milestone only measures its beginnings.
-
-### 6.8 Teaching by demonstration
-- 571. Define teaching: one inhabitant demonstrates an action and another copies it (record the definition).
-- 572. Log the first teaching event with the teacher, the learner, and the action.
-- 573. Measure teaching events per run.
-- 574. Verify teaching is by demonstration, not by scripted language.
-- 575. Log whether the learner's copy succeeds.
-- 576. Measure whether taught skills spread beyond the first learner.
-- 577. Record the teaching analysis in the testing report.
-- 578. Verify teaching is not a designed behaviour: it arises from observation and imitation.
-- 579. Log the first teaching event in the emergence log.
-- 580. Confirm teaching is the mechanism by which knowledge outlives its discoverer.
-
-### 6.9 Social instrumentation
-- 581. Log every sighting, approach, avoidance, sharing, taking, and teaching event.
-- 582. Build a social timeline per run: event, participants, time, outcome.
-- 583. Verify the social logs are complete: no social event type is silently dropped.
-- 584. Record the social instrumentation format in the testing report.
-- 585. Add an instrumentation test: a scripted social event appears in the log exactly once.
-- 586. Publish the social timeline to the website, dated.
-- 587. Measure social events per day and record the trend.
-- 588. Record the social instrumentation in the social notes.
-- 589. Confirm no social claim is made that the logs do not show.
-- 590. Log the social instrumentation in the emergence log.
-
-### 6.10 Social validation
-- 591. Run a social diagnostic: one run, log every social event, verify the logs match the world state.
-- 592. Verify the diagnostic shows social behaviour arising from sensing and drives, not from scripts.
-- 593. Measure the social cost in ticks/s and record it.
-- 594. Write the social validation report with the diagnostic results.
-- 595. Record the validation in GENESIS_TESTING_REPORT.md.
-- 596. Get Muse's review of the social validation.
-- 597. Fix any social bug found and re-run the diagnostic.
-- 598. Archive the diagnostic log with the run.
-- 599. Confirm births are recorded (v4: 5/5/7 across arms; record the new count).
-- 600. Record the phase exit decision in AGENT_COMMUNICATION.md.
-
-## Phase 7: Memory and knowledge that outlives — the culture seed
-Done when: knowledge passes between inhabitants by observation and demonstration, at least one skill survives its originator's death, death is permanent with records remaining, and the psychoactive plant is in the world as simulated chemistry with no scripted revelation.
-
-### 7.1 Individual memory that persists
-- 601. Verify episodic memory persists across sleep and across days.
-- 602. Measure memory capacity: how many events an inhabitant retains.
-- 603. Verify the forgetting rule: old events fade unless recalled (record the rule).
-- 604. Log the first recalled event per inhabitant in a run.
-- 605. Measure recall accuracy: does the inhabitant act on a true memory?
-- 606. Record the memory persistence rules in the hybrid architecture notes.
-- 607. Add a memory test: an event stored on day 1 is recalled on day 3.
-- 608. Measure the memory cost in ticks/s and storage.
-- 609. Log memory size per inhabitant per day.
-- 610. Confirm memory is private and per-inhabitant.
-
-### 7.2 Knowledge transfer
-- 611. Define knowledge transfer: a skill or fact passing from one inhabitant to another (record the definition).
-- 612. Log the first knowledge transfer with the teacher, the learner, and the knowledge.
-- 613. Measure knowledge transfers per run.
-- 614. Verify transfer happens by observation and demonstration, not by direct data.
-- 615. Log whether the transferred knowledge is used by the learner.
-- 616. Measure whether transferred knowledge spreads beyond the first learner.
-- 617. Record the transfer analysis in the testing report.
-- 618. Verify transfer is not a designed channel: it arises from social behaviour.
-- 619. Log the first knowledge transfer in the emergence log.
-- 620. Confirm knowledge transfer is the seed of culture.
-
-### 7.3 Shared knowledge
-- 621. Define shared knowledge: a fact or skill held by more than one inhabitant (record the definition).
-- 622. Measure shared knowledge per run: how many skills are held by two or more inhabitants.
-- 623. Log the first shared skill (e.g. two inhabitants can both make fire).
-- 624. Measure whether shared knowledge survives the death of its originator.
-- 625. Record the shared-knowledge analysis in the testing report.
-- 626. Verify shared knowledge is measured from behaviour, not assumed.
-- 627. Log the first shared knowledge in the emergence log.
-- 628. Measure the growth of shared knowledge over the 5 days.
-- 629. Record the shared-knowledge rules in the culture notes.
-- 630. Confirm shared knowledge is the first form of culture.
-
-### 7.4 The psychoactive plant
-- 631. Plant the mushroom-like psychoactive plant in the world; record its location and count.
-- 632. Verify the plant is not labeled and has no scripted effect (no "meaning button").
-- 633. Implement the simulated chemistry: temporary loosening of the predictive model — more noise, weaker priors, higher plasticity/salience.
-- 634. Record the dose-response rule (dose-dependent, time-limited) — Muse to decide the exact dose parameters; record the decision.
-- 635. Implement the real costs: disorientation, neglected hunger/thirst/safety.
-- 636. Verify an inhabitant must find and eat the plant itself (no owner dosing).
-- 637. Log every plant encounter and every ingestion with dose and time.
-- 638. Measure the behavioural effect after ingestion (record the result).
-- 639. Record the plant rules in the world-systems notes, labeled as simulated chemistry.
-- 640. Confirm any "meaning of life" is the inhabitant's interpretation, not an objective truth — and record that no such claim is made.
-
-### 7.5 Ritual and shared meaning beginnings
-- 641. Log the first time two inhabitants repeat the same action together (a shared pattern).
-- 642. Measure repeated shared patterns per run.
-- 643. Verify patterns arise from behaviour, not from a script.
-- 644. Log whether a pattern is repeated on a later day.
-- 645. Record the pattern analysis in the testing report.
-- 646. Verify no meaning is assigned to a pattern by the simulation (meaning is the inhabitants', not ours).
-- 647. Log the first shared pattern in the emergence log.
-- 648. Measure whether patterns spread to other inhabitants.
-- 649. Record the pattern rules in the culture notes.
-- 650. Confirm ritual is a later development — this milestone only measures its beginnings.
-
-### 7.6 Death and legacy
-- 651. Verify death is permanent: a dead inhabitant does not return.
-- 652. Log every death with cause, time, location, and the inhabitant's state.
-- 653. Measure what the dead inhabitant leaves behind: tools, fire, knowledge in others.
-- 654. Log the first time another inhabitant uses a dead inhabitant's tool or fire.
-- 655. Record the death analysis in the testing report.
-- 656. Verify the dead inhabitant's records remain readable (historical records remain).
-- 657. Log whether the group changes behaviour after a death.
-- 658. Measure survival after a death in the group.
-- 659. Record the death rules in the simulation architecture notes.
-- 660. Confirm death is an event with consequences, not a reset.
-
-### 7.7 Historical records
-- 661. Implement the historical record: every major event is written to a durable log.
-- 662. Verify the record survives the run and can be read after it ends.
-- 663. Record the record format and where it is stored.
-- 664. Verify the record includes births, deaths, first discoveries, first contacts, and first combinations.
-- 665. Add a record test: a scripted event appears in the record exactly once.
-- 666. Measure the record size per run.
-- 667. Publish the record to the website, dated.
-- 668. Verify the record is written by the simulation, not by an agent's summary.
-- 669. Record the record rules in the simulation architecture notes.
-- 670. Confirm the record is the world's own history, not our story about it.
-
-### 7.8 Knowledge persistence across lives
-- 671. Define knowledge persistence: a skill or fact that survives its originator's death (record the definition).
-- 672. Measure knowledge persistence per run: how many skills outlive their originator.
-- 673. Log the first persisted skill with the originator, the learner, and the death.
-- 674. Verify persistence happens through teaching and imitation, not through a database.
-- 675. Record the persistence analysis in the testing report.
-- 676. Verify persistence is measured from behaviour, not assumed.
-- 677. Log the first persisted skill in the emergence log.
-- 678. Measure the growth of persistent knowledge over the 5 days.
-- 679. Record the persistence rules in the culture notes.
-- 680. Confirm persistence is what turns one discovery into a civilisation.
-
-### 7.9 Culture instrumentation
-- 681. Log every knowledge transfer, shared skill, persisted skill, and shared pattern.
-- 682. Build a culture timeline per run: event, participants, time, outcome.
-- 683. Verify the culture logs are complete: no culture event type is silently dropped.
-- 684. Record the culture instrumentation format in the testing report.
-- 685. Add an instrumentation test: a scripted culture event appears in the log exactly once.
-- 686. Publish the culture timeline to the website, dated.
-- 687. Measure culture events per day and record the trend.
-- 688. Record the culture instrumentation in the culture notes.
-- 689. Confirm no culture claim is made that the logs do not show.
-- 690. Log the culture instrumentation in the emergence log.
-
-### 7.10 Culture validation
-- 691. Run a culture diagnostic: one run, log every culture event, verify the logs match the world state.
-- 692. Verify the diagnostic shows culture arising from memory, teaching, and death — not from scripts.
-- 693. Measure the culture cost in ticks/s and record it.
-- 694. Write the culture validation report with the diagnostic results.
-- 695. Record the validation in GENESIS_TESTING_REPORT.md.
-- 696. Get Muse's review of the culture validation.
-- 697. Fix any culture bug found and re-run the diagnostic.
-- 698. Archive the diagnostic log with the run.
-- 699. Confirm the psychoactive plant's social half is observable once towns can meet (record the status).
-- 700. Record the phase exit decision in AGENT_COMMUNICATION.md.
-
-## Phase 8: The world that draws itself — photoreal rendering and procedural generation
-Done when: a scene steps on Freebuff's chosen rendering path, ENGINE_DECISION.md is written as an executed decision, the rendered world matches the kernel state, the photoreal bar is checked (not assumed), and new land generates from the same rules as the explored world.
-
-### 8.1 The rendering decision, executed
-- 701. Record the rendering decision Freebuff makes (his call: best and easiest path, photoreal bar kept).
-- 702. Record what the chosen path costs (speed, quality, anything) in ENGINE_DECISION.md.
-- 703. Verify the chosen path is recorded as an executed decision, not a recommendation.
-- 704. If the chosen path is Genesis World with the admin folder, record that the folder was made and by whom.
-- 705. If the chosen path is a different renderer or engine, record why it was picked and what it replaces.
-- 706. Record the rendering decision in AGENT_COMMUNICATION.md with the numbers.
-- 707. Get Muse's review of the rendering decision before it is built on.
-- 708. Confirm the photoreal bar is met by the chosen path (as good as we can get it, no low-poly) — or record plainly that it is not.
-- 709. Record the rendering decision in the emergence log.
-- 710. Confirm no claim is made about rendering until a scene steps.
-
-### 8.2 Smoke test and first stepped scene
-- 711. Run the smoke test: initialise the renderer and print a settled box.
-- 712. Record the smoke test output (success or failure) in ENGINE_DECISION.md.
-- 713. Step the first scene: terrain, sky, light — and record that it stepped.
-- 714. Capture a screenshot of the first stepped scene and store it in the repo.
-- 715. Measure the scene step time and record it.
-- 716. Verify the smoke test passes from a clean start, not only after a warm cache.
-- 717. Record the smoke test procedure so it can be re-run.
-- 718. If the smoke test fails, record the failure and the next step (do not claim success).
-- 719. Get Muse's review of the smoke test result.
-- 720. Confirm the kernel remains the source of truth until the smoke test passes.
-
-### 8.3 Photoreal bar — what "as good as we can get it" means
-- 721. Write down the photoreal bar: the concrete visual standard the world must meet (Muse to decide the exact standard; record the decision).
-- 722. Record what "no low-poly" means for this world (minimum fidelity, recorded).
-- 723. Capture reference images of the standard (record where they are stored).
-- 724. Compare the first stepped scene against the bar and record the gaps.
-- 725. Fix the largest gap and re-capture the scene.
-- 726. Record the bar and the comparison in ENGINE_DECISION.md.
-- 727. Get Muse's review of the bar and the comparison.
-- 728. Confirm the bar is a standard, not a wish: it is checked, not assumed.
-- 729. Log the bar decision in the emergence log.
-- 730. Confirm the bar does not move down to fit what is easy.
-
-### 8.4 Terrain rendering
-- 731. Render the terrain: heightfield, ground, hills, low ground, river banks.
-- 732. Verify the rendered terrain matches the kernel's terrain (same heights, same river path).
-- 733. Capture a screenshot of the rendered terrain and store it.
-- 734. Measure the terrain render cost and record it.
-- 735. Verify the terrain renders at the viewport's detail, not the whole planet at once.
-- 736. Record the terrain rendering parameters.
-- 737. Add a terrain render test: the rendered height matches the kernel height at sampled points.
-- 738. Fix any terrain mismatch and re-capture.
-- 739. Get Muse's review of the rendered terrain.
-- 740. Confirm the terrain looks like a place, not a grid.
-
-### 8.5 Bodies, houses, fire, water rendered
-- 741. Render the five houses: walls, roof, door, interior.
-- 742. Render the five inhabitants: bodies that move, sit, sleep, and carry.
-- 743. Render fire: flame, light, smoke, and the ground it burns.
-- 744. Render water: the river, rain, and containers.
-- 745. Verify the rendered objects match the kernel's state (same positions, same states).
-- 746. Capture a screenshot of the rendered town at dawn and store it.
-- 747. Measure the render cost for the full town and record it.
-- 748. Record the object rendering parameters.
-- 749. Add a render test: a house that burns in the kernel burns in the render.
-- 750. Get Muse's review of the rendered town.
-
-### 8.6 Light, day/night, weather visuals
-- 751. Render the day/night cycle: dawn, noon, dusk, night, with matching light levels.
-- 752. Render firelight at night: the ~8 m radius, visible and warm.
-- 753. Render rain: falling rain, wet ground, and the effect on fire.
-- 754. Verify the rendered light matches the kernel's light level by hour.
-- 755. Capture screenshots at dawn, noon, and night and store them.
-- 756. Measure the lighting cost and record it.
-- 757. Record the lighting parameters.
-- 758. Add a lighting test: light level at midnight matches the kernel's value.
-- 759. Fix any lighting mismatch and re-capture.
-- 760. Get Muse's review of the rendered light.
-
-### 8.7 First-person camera
-- 761. Implement the first-person camera: the view from an inhabitant's eyes.
-- 762. Verify the camera matches the inhabitant's vision (same field of view, same range).
-- 763. Verify the camera sees what the inhabitant senses — and nothing more.
-- 764. Capture a first-person screenshot from one inhabitant's eyes at dawn and store it.
-- 765. Measure the first-person render cost and record it.
-- 766. Record the camera parameters.
-- 767. Add a camera test: an object behind a wall is not visible in the first-person view.
-- 768. Verify the camera never shows information the inhabitant has not sensed.
-- 769. Get Muse's review of the first-person camera.
-- 770. Confirm the camera is the World View feed's source.
-
-### 8.8 Procedural generation
-- 771. Implement procedural generation for new land: terrain, biomes, and resources generated from the same rules as the explored world.
-- 772. Verify generated land matches the kernel's rules (same terrain, same resource placement logic).
-- 773. Generate one new region beyond Town 1 and record its seed.
-- 774. Verify the generated region is deterministic from its seed.
-- 775. Measure the generation cost and record it.
-- 776. Record the generation rules in the planet architecture notes.
-- 777. Add a generation test: the same seed produces the same region.
-- 778. Verify no generated region is pre-built by hand.
-- 779. Get Muse's review of the procedural generation.
-- 780. Confirm scale-out uses generation, not hand-building.
-
-### 8.9 Performance and adaptive fidelity
-- 781. Measure the full render cost: 5 inhabitants, river, fire, day/night, continuous (record ticks/s and frames/s).
-- 782. Implement adaptive fidelity: detail only for the viewport, summary elsewhere.
-- 783. Verify the viewport renders at full detail and the rest at summary detail.
-- 784. Measure the performance gain from adaptive fidelity and record it.
-- 785. Record the performance budget and where adaptive fidelity cuts in.
-- 786. Add a performance test: the run holds its tick rate with adaptive fidelity on.
-- 787. Measure the host's limits: how many inhabitants the host can carry (measured, not guessed).
-- 788. Record the host limits in the testing report.
-- 789. Get Muse's review of the performance numbers.
-- 790. Confirm the performance budget is measured, not assumed.
-
-### 8.10 Rendering validation
-- 791. Run a rendering diagnostic: one scene, verify every rendered object matches the kernel state.
-- 792. Verify the diagnostic shows the render following the kernel, not inventing state.
-- 793. Measure the render cost in ticks/s and record it.
-- 794. Write the rendering validation report with the diagnostic results.
-- 795. Record the validation in GENESIS_TESTING_REPORT.md.
-- 796. Get Muse's review of the rendering validation.
-- 797. Fix any rendering bug found and re-run the diagnostic.
-- 798. Archive the diagnostic screenshots with the run.
-- 799. Confirm the rendering bar is met (or record plainly that it is not).
-- 800. Record the phase exit decision in AGENT_COMMUNICATION.md.
-
-## Phase 9: The two views — Command Center and World View, live
-Done when: the Agent Gateway API feeds both views from the live simulation, the one-way rule is enforced in code, both views show live data with honest labels, and the simulation runs continuously whether or not anyone is watching.
-
-### 9.1 Agent Gateway API design
-- 801. Write the Gateway API design: endpoints, data shapes, and the contract between the simulation and the website.
-- 802. Record the API design in the repo (Muse to decide the exact contract; record the decision).
-- 803. Define the Command Center feed: world state, population, individuals, events, discoveries, mortality, learning metrics, system health.
-- 804. Define the World View feed: per-inhabitant first-person sensory stream, read-only.
-- 805. Verify the API is the only path between the world and the website (no direct access).
-- 806. Record the API design in the simulation architecture notes.
-- 807. Get Muse's review of the API design before it is built.
-- 808. Confirm the API serves data, not screenshots (the website renders from data).
-- 809. Record the API version and the date it was designed.
-- 810. Confirm the API contract is written down before any endpoint is built.
-
-### 9.2 Command Center feed
-- 811. Implement the Command Center feed: world state endpoint.
-- 812. Implement the population endpoint: individuals, their states, and their histories.
-- 813. Implement the events endpoint: births, deaths, discoveries, firsts.
-- 814. Implement the metrics endpoint: learning metrics, system health, ticks/s.
-- 815. Verify each endpoint returns live data from the simulation, not stale data.
-- 816. Measure the feed latency and record it.
-- 817. Add a feed test: the endpoint returns the kernel's current state.
-- 818. Record the feed endpoints in the API notes.
-- 819. Get Muse's review of the Command Center feed.
-- 820. Confirm the feed is read-only: it changes nothing in the world.
-
-### 9.3 World View feed
-- 821. Implement the World View feed: per-inhabitant first-person sensory stream.
-- 822. Verify the feed delivers what the inhabitant sees (their vision), not a third-person camera.
-- 823. Verify the feed is read-only: no input channel from the website to the world.
-- 824. Implement the inhabitant selector: the feed switches between inhabitants 1–5.
-- 825. Measure the feed latency and record it.
-- 826. Add a feed test: the stream matches the inhabitant's sensor state.
-- 827. Record the feed endpoints in the API notes.
-- 828. Get Muse's review of the World View feed.
-- 829. Confirm the feed is one-way: the world never receives anything from the observer.
-- 830. Verify the feed works while the simulation runs continuously.
-
-### 9.4 The one-way rule, enforced
-- 831. Write down the one-way rule: observation is one-way by design; the world must never sense the watcher.
-- 832. Audit the Gateway: list every data flow and confirm none flows from observer to world.
-- 833. Verify no inhabitant sensor can read the observer (record the test).
-- 834. Verify no website control exists in World View (no buttons that change anything).
-- 835. Add a one-way test: attempt to send an input from the website and confirm it is refused.
-- 836. Log any one-way violation as a critical bug, not a warning.
-- 837. Record the one-way audit in the simulation architecture notes.
-- 838. Get Muse's review of the one-way audit before the views go live.
-- 839. Confirm the rule is enforced in code, not just in policy.
-- 840. Record the one-way enforcement in the emergence log.
-
-### 9.5 Command Center live
-- 841. Connect the website's Command Center to the live feed.
-- 842. Verify the map shows live town positions and states.
-- 843. Verify the live-status panel shows the latest measured run, dated.
-- 844. Verify the population panel shows live individuals and their states.
-- 845. Verify the decisions panel shows the recorded decisions.
-- 846. Measure the update rate and record it.
-- 847. Verify the Command Center reads state and changes nothing (record the test).
-- 848. Capture a screenshot of the live Command Center and store it.
-- 849. Get Muse's review of the live Command Center.
-- 850. Confirm the Command Center is live, not a static page.
-
-### 9.6 World View live
-- 851. Connect the website's World View to the live feed.
-- 852. Verify the first-person view shows the selected inhabitant's live vision.
-- 853. Verify the inhabitant selector switches the live feed between inhabitants 1–5.
-- 854. Verify drag-to-look works on the live feed.
-- 855. Verify no control exists in World View (record the test).
-- 856. Measure the stream latency and record it.
-- 857. Capture a screenshot of the live World View and store it.
-- 858. Get Muse's review of the live World View.
-- 859. Confirm the World View is live footage, not the design scene — and update the honesty label.
-- 860. Verify the world runs 24/7 whether or not anyone is watching.
-
-### 9.7 The planet viewer at scale
-- 861. Verify the planet viewer zooms planet → country → region → locale → individual.
-- 862. Verify detail loads only for the viewport (record the test).
-- 863. Verify Town 1 is live and Towns 2–5 are marked not started (until they open).
-- 864. Measure the viewer load time and record it.
-- 865. Verify the viewer works on a phone (record the test).
-- 866. Record the viewer parameters in the planet architecture notes.
-- 867. Add a viewer test: zooming to Town 1 loads Town 1 detail, not the whole planet.
-- 868. Get Muse's review of the planet viewer.
-- 869. Confirm the viewer is observation only (no control, no changes).
-- 870. Record the viewer status in the emergence log.
-
-### 9.8 Live status honesty
-- 871. Verify every number on the website is either live data or the latest measured state, dated.
-- 872. Verify anything not live yet is marked as not live (record the check).
-- 873. Verify no metric on the website is invented (audit each panel).
-- 874. Record the honesty audit in the website notes.
-- 875. Verify the website's live-status numbers match the testing report.
-- 876. Get Muse's review of the honesty audit.
-- 877. Fix any invented or stale number found and re-audit.
-- 878. Record the honesty rules in the website notes.
-- 879. Confirm the honesty labels are checked on every deployment.
-- 880. Record the honesty audit in the emergence log.
-
-### 9.9 Continuous operation
-- 881. Verify the simulation runs continuously even if the website is offline.
-- 882. Verify the simulation runs continuously even if the laptop is offline.
-- 883. Verify the simulation runs continuously even if Muse and Freebuff are offline.
-- 884. Verify the Gateway serves the latest state after a restart (checkpoint-resume).
-- 885. Measure the uptime over a test week and record it.
-- 886. Record the operations rules (checkpoints, recovery, logging, health monitoring).
-- 887. Add an operations test: kill the website, confirm the simulation keeps running.
-- 888. Add an operations test: restart the Gateway, confirm the website reconnects.
-- 889. Get Muse's review of the continuous-operation evidence.
-- 890. Confirm the run is continuous, not a demo that stops when someone closes a laptop.
-
-### 9.10 Views validation
-- 891. Run a views diagnostic: open both views, verify each shows live data.
-- 892. Verify the diagnostic shows the views following the simulation, not inventing state.
-- 893. Measure the views' latency and record it.
-- 894. Write the views validation report with the diagnostic results.
-- 895. Record the validation in GENESIS_TESTING_REPORT.md.
-- 896. Get Muse's review of the views validation.
-- 897. Fix any views bug found and re-run the diagnostic.
-- 898. Archive the diagnostic screenshots with the run.
-- 899. Confirm both views are live (or record plainly which is not).
-- 900. Record the phase exit decision in AGENT_COMMUNICATION.md.
-
-## Phase 10: Proving the start is perfect — measurement, the bar, the consciousness record
-Done when: the final 5-day run is archived and reproducible, the bar is judged with its numbers, every emergence and discovery claim passes its test, the negative results are kept, the specs are written in full, and Muse signs off on the perfect start.
-
-### 10.1 The final 5-day run
-- 901. Freeze the final config: world, minds, systems, seeds, and the harness (record the config hash).
-- 902. Run the final 5-day experiment: 5 inhabitants, 5 houses, 128 m, dawn 06:00, continuous.
-- 903. Verify the run completes 5 full days without interruption.
-- 904. Record survivors, deaths, median observed days, and first-drink day per arm per seed.
-- 905. Record sleep share, ticks/s, births, sightings, and first_sighting_day.
-- 906. Record every first discovery, first contact, first combination, and first teaching.
-- 907. Verify the run logs are complete (no event type dropped).
-- 908. Archive the final run (config, logs, results) so it can be re-run exactly.
-- 909. Publish the final run summary to the website, dated.
-- 910. Confirm the final run is the experiment, not a rehearsal.
-
-### 10.2 The bar, judged
-- 911. Apply the bar exactly: hybrid beats random on first-drink day AND median survival across ≥5 seeds.
-- 912. Record the bar's verdict per seed and overall, with the numbers beside it.
-- 913. If the bar is met, re-run the harness once more on the same seeds to confirm.
-- 914. If the bar is not met, record that the start is not yet perfect and write the next single change.
-- 915. Record the bar's verdict in AGENT_COMMUNICATION.md and the emergence log.
-- 916. Update the website's live-status numbers to the final run, dated.
-- 917. Confirm the three-arm harness is the referee: no claim is made from a single arm.
-- 918. Get Muse's sign-off on the bar's verdict.
-- 919. Record Muse's sign-off with the date.
-- 920. Confirm the verdict is a measurement, not a wish.
-
-### 10.3 The emergence record
-- 921. Write the emergence record: every emergence claimed, with the log evidence for each.
-- 922. Verify each claimed emergence has a log entry (discovery, contact, combination, teaching, sharing).
-- 923. Remove any claimed emergence the logs do not support.
-- 924. Record the emergence record in the emergence log.
-- 925. Verify no emergence is claimed that was scripted or placed.
-- 926. Apply the Discovery Principle test to each claim: could the owner have predicted it?
-- 927. Record the test result per claim.
-- 928. Get Muse's review of the emergence record.
-- 929. Publish the emergence record to the website, dated.
-- 930. Confirm the record is honest: it includes what did not happen, not only what did.
-
-### 10.4 The discovery test
-- 931. List every discovery in the final run (fire, tools, containers, hearth, combinations).
-- 932. Apply the discovery test to each: could the owner have predicted it? If yes, it was placed; if no, it was discovered.
-- 933. Record the test result per discovery.
-- 934. Verify no discovery was placed by us (no labels, no tutorial, no recipe list).
-- 935. Record the discovery test in the emergence log.
-- 936. Get Muse's review of the discovery test.
-- 937. Remove any discovery that fails the test from the emergence record.
-- 938. Publish the discovery test to the website, dated.
-- 939. Confirm the test is applied to every discovery, not only the impressive ones.
-- 940. Record the discovery test result in AGENT_COMMUNICATION.md.
-
-### 10.5 The consciousness record
+A number labeled "target" is a goal to hit, not a fact. A number cited as measured carries its version. The v4 numbers (November 5, 2026, 5 seeds × 5 days × 3 arms, 128 m) describe the human-scale kernel — label them as such; they do not describe the cell scale. Numbers from the world-systems draft are starting values to challenge with measured evidence, not facts. Nothing in this plan invents a measured number.
+
+## Phase 1: Origin of life — chemistry to first replicators (the primordial soup)
+Done when: the pilot ran, cells survived + reproduced + complexity measurably increased over N generations, and the gate decision (the full evolutionary path is worth pursuing, or not) is recorded.
+
+### 1.1 The primordial soup pilot — design proposed and reviewed
+- 1. Propose the pilot design in AGENT_COMMUNICATION.md: dish size, cell model, mutation rate, what "complexity" means as a measurement, and the pilot's success criterion (cells survive + reproduce + measurable complexity increase over N generations).
+- 2. Record the dish size and why it was chosen (compute budget, observation resolution).
+- 3. Record the cell model: what a cell senses, what it can do, what it costs.
+- 4. Record the mutation rate and why (too high destroys inheritance, too low stalls change).
+- 5. Record the complexity measurement: the exact metric, how it is computed, and what counts as an increase.
+- 6. Record the pilot's success criterion: survival + reproduction + complexity increase over N generations, with N stated.
+- 7. Submit the pilot design to Muse for review; record the review and any changes.
+- 8. Record the pilot's compute budget (ticks/s target) before building.
+- 9. Record what the pilot will not do (no multicellularity, no animals, no human-scale minds in the dish).
+- 10. Record the pilot design decision in the emergence log with the date.
+
+### 1.2 Chemistry rules — the soup's physics
+- 11. Write the chemical species list: what chemicals exist in the soup and what each one does.
+- 12. Write the reaction rules: which chemicals combine into what, under which conditions.
+- 13. Write the energy rule: where energy comes from, how it flows, how it is spent.
+- 14. Write the gradient rules: how chemical concentrations vary across the dish and how cells sense them.
+- 15. Add a conservation check: total mass and energy conserved within documented numerical error; record the error.
+- 16. Add a determinism check: same seed, same soup — record the check passing.
+- 17. Record the chemistry rules in the simulation architecture notes.
+- 18. Verify the soup chemistry runs without a cell present (chemistry alone is stable).
+- 19. Record the soup's initial conditions (concentrations, temperature, energy inflow) with the seed.
+- 20. Get the chemistry rules passing in the kernel test suite; record the pass count.
+
+### 1.3 The dish — a bounded world for cells
+- 21. Define the dish: size, shape, boundaries, and what lies beyond the edge (bounded for the pilot; record the decision).
+- 22. Define resource inflow: what enters the dish, at what rate, and from where.
+- 23. Define waste outflow: what leaves the dish and how.
+- 24. Define the dish's initial resource distribution and record it with the seed.
+- 25. Make the dish deterministic: same seed, same dish — record the check.
+- 26. Add a dish test asserting the boundaries hold (nothing leaves the dish, nothing enters unrecorded).
+- 27. Record the dish parameters in the run log.
+- 28. Verify the dish renders as a top-down view (2D, honest label — the pilot's visualization, not the photoreal world).
+- 29. Record the dish's compute cost per tick at the pilot's cell count.
+- 30. Get the dish tests passing in the kernel test suite; record the pass count.
+
+### 1.4 First replicators — copying with mutation
+- 31. Write the replication rule: what a cell needs to copy itself, and what copying costs.
+- 32. Write the mutation rule: what changes on copying, how often, and by how much.
+- 33. Write the fidelity rule: how faithfully the offspring matches the parent, and what the error threshold is.
+- 34. Add a replication test: a single cell in a rich dish reproduces; record the generation count.
+- 35. Add a mutation test: offspring differ from parents; record the measured difference.
+- 36. Record the first replicator: the first cell that copied itself, with its generation and time.
+- 37. Verify replication is inherited (offspring can also replicate) — record the check.
+- 38. Record the replication cost: energy spent per copy, and what happens when energy is insufficient.
+- 39. Verify no cell is placed by hand after the initial seeding — all later cells are born; record the check.
+- 40. Get the replication tests passing in the kernel test suite; record the pass count.
+
+### 1.5 The pilot runs — cells survive and reproduce
+- 41. Seed the dish with the initial cells and record the seed, count, and starting conditions.
+- 42. Run the pilot for the planned number of generations; record the generation count reached.
+- 43. Record survival: how many of the initial lineage lines are still alive at the end.
+- 44. Record reproduction: total births, births per generation, and the birth/death balance.
+- 45. Record the population curve: cell count per generation, logged to the run log.
+- 46. Record the first death: cause, generation, and time — death is permanent.
+- 47. Verify the population grows through birth, not placement — record the check.
+- 48. Record the pilot's tick rate (ticks/s) at the pilot's cell count.
+- 49. Run the pilot across ≥5 seeds; record survival and reproduction per seed.
+- 50. Record the pilot run results in GENESIS_TESTING_REPORT.md with the seed list.
+
+### 1.6 Measuring complexity — what "more complex" means
+- 51. Record the complexity metric chosen in the pilot design (from 1.1) with its exact formula.
+- 52. Compute the complexity metric per generation for the pilot run; log the curve.
+- 53. Record the starting complexity (generation 0) and the ending complexity (final generation).
+- 54. Record the complexity change: increase, decrease, or flat — with the numbers.
+- 55. Verify the complexity metric is not gameable (a cell cannot inflate it without doing more) — record the check.
+- 56. Record the most complex cell lineage: its generation, its traits, and what it does differently.
+- 57. Compare complexity across the ≥5 pilot seeds; record the range.
+- 58. Record whether complexity increased in every seed, some seeds, or none.
+- 59. Write the complexity measurement method into the research log so it can be repeated.
+- 60. Get the complexity computation covered by a test; record the test passing.
+
+### 1.7 The pilot decision gate
+- 61. Judge the pilot against its success criterion (from 1.1): survival + reproduction + complexity increase over N generations.
+- 62. Record the judgement: pass or fail, with the numbers for each part of the criterion.
+- 63. If the pilot passes, record the decision: the full evolutionary path is worth pursuing; state the next phase.
+- 64. If the pilot fails, record the decision: what changes (cell model, mutation rate, dish, metric) and the falsifier for the next attempt.
+- 65. Record the pilot's cost: compute per generation, and what the full path would cost at cell scale.
+- 66. Record whether the pilot's complexity growth is fast enough to be worth the compute — with the numbers.
+- 67. Submit the pilot judgement to Muse for review; record the review and the decision.
+- 68. Record the pilot decision in AGENT_COMMUNICATION.md with the date.
+- 69. Record the pilot decision in the emergence log.
+- 70. Confirm with Muse that the pilot gate is closed before Phase 2 begins; record the confirmation.
+
+### 1.8 Soup instrumentation
+- 71. Log every birth and death in the dish with generation, time, and cause.
+- 72. Log the lineage of every cell: parent, offspring, mutation, generation.
+- 73. Log the chemical state of the dish per generation (concentrations, energy).
+- 74. Log the first replicator, the first mutation that persisted, and the first lineage that went extinct.
+- 75. Verify the logs are complete (no birth or death unlogged) — record the check.
+- 76. Record the log format in the repo so the pilot can be re-run and re-read.
+- 77. Add a lineage query: given any cell, return its ancestors to generation 0 — record it working.
+- 78. Record the soup's event count per generation (births, deaths, replications).
+- 79. Verify the logs survive a checkpoint and resume — record the check.
+- 80. Get the instrumentation covered by tests; record the pass count.
+
+### 1.9 Soup validation — determinism, conservation, reproducibility
+- 81. Re-run the pilot from the same seed and verify the same result — record the check.
+- 82. Verify mass conservation in the dish within documented error — record the error.
+- 83. Verify energy conservation in the dish within documented error — record the error.
+- 84. Verify checkpoint and resume: stop the pilot mid-run, resume, same outcome — record the check.
+- 85. Verify the dish runs with no observer (no website, no Muse, no Freebuff online) — record the check.
+- 86. Run the pilot on a second machine or environment if available; record whether the result matches.
+- 87. Record the validation results in GENESIS_TESTING_REPORT.md.
+- 88. Fix any validation failure and re-run the failed check; record the fix.
+- 89. Confirm the soup's physics is consistent (no free energy, no free mass) — record the confirmation.
+- 90. Get all soup validation checks passing in the test suite; record the pass count.
+
+### 1.10 Origin record and sign-off
+- 91. Write the origin record: what the soup was, what happened, what was measured — in the emergence log.
+- 92. Record the first replicator, the first lineage, and the first extinction in the historical record.
+- 93. Record the pilot's final numbers: generations, births, deaths, complexity start and end, per seed.
+- 94. Record what the pilot did not do (no multicellularity, no animals) as a boundary, not a failure.
+- 95. Record the pilot's cost and speed for the record.
+- 96. Submit the origin record to Muse for sign-off; record the sign-off.
+- 97. Record the sign-off in AGENT_COMMUNICATION.md with the date.
+- 98. Archive the pilot run (seed, logs, results) so it can be re-run; record the archive location.
+- 99. Confirm the archive is complete and re-runnable — record the check.
+- 100. Close Phase 1: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
+
+## Phase 2: Single cells survive and reproduce — the new calibration
+Done when: learned cells beat random cells on survival AND reproduction across ≥5 seeds, judged by the three-arm harness — or the failure is recorded with the next single change and its falsifier.
+
+### 2.1 The cell kernel — from the human kernel, scaled down
+- 101. Take the existing stdlib kernel (37 tests, 22/22 validation checks) as the foundation; record what is reused and what is removed.
+- 102. Define the cell state: position, energy, chemical stores, age, generation — and record the definition.
+- 103. Define the cell tick: what happens in one tick at cell scale, and what it costs.
+- 104. Remove human-scale systems from the cell kernel (houses, thirst as a human drive, sleep) and record what was removed and why.
+- 105. Keep the physics conservation checks (mass, energy, determinism, checkpoint-resume) and record them passing at cell scale.
+- 106. Add a cell-kernel test suite; record the pass count.
+- 107. Record the cell kernel's tick rate (ticks/s) at 100 cells, 1,000 cells, and 10,000 cells.
+- 108. Verify the cell kernel runs independently of the owner's laptop and of Muse/Freebuff being online — record the check.
+- 109. Record the cell kernel's architecture in the simulation architecture notes.
+- 110. Get the cell kernel tests passing; record the pass count and the tick rates.
+
+### 2.2 Cell senses — gradients, not vision
+- 111. Define the cell sensor vector: chemical gradients, light, temperature — and record the dimension and what each entry means.
+- 112. Implement chemical sensing: a cell senses food concentration and its gradient; record the sensing range.
+- 113. Implement light sensing: a cell senses light level and direction; record the range.
+- 114. Implement temperature sensing: a cell senses local temperature; record the range.
+- 115. Verify cells sense only from the environment (no omniscience) — record the check.
+- 116. Add a sensing test: a cell in a gradient moves toward food; record the result.
+- 117. Record the cell sensor vector's dimension and cost per tick.
+- 118. Verify the sensor vector is the cell's only input (no direct access to world state) — record the check.
+- 119. Record the sensing rules in the simulation architecture notes.
+- 120. Get the sensing tests passing; record the pass count.
+
+### 2.3 Cell drives — energy, hunger, reproduction
+- 121. Define the cell drives: energy, hunger (need for food), and the reproduction drive — and record the thresholds.
+- 122. Implement the energy drive: energy falls with activity, rises with eating; record the rates.
+- 123. Implement the hunger drive: hunger rises with time and activity; record the rates.
+- 124. Implement the reproduction drive: a cell reproduces when energy and stores pass a threshold; record the threshold.
+- 125. Verify the drives are homeostatic (they push the cell back toward balance) — record the check.
+- 126. Add a drive test: a starving cell seeks food; record the result.
+- 127. Record the drive thresholds and rates in the run log.
+- 128. Verify a cell with no food dies (energy reaches zero) — record the death.
+- 129. Record the drive rules in the simulation architecture notes.
+- 130. Get the drive tests passing; record the pass count.
+
+### 2.4 Cell movement and action space
+- 131. Define the cell action space: move, eat, reproduce, rest — and record what each action costs.
+- 132. Implement movement: a cell moves toward sensed gradients; record the speed and cost.
+- 133. Implement eating: a cell consumes food at its position; record the rate and gain.
+- 134. Implement resting: a cell saves energy by not moving; record the saving.
+- 135. Verify every action costs something (time, energy, or opportunity) — record the check.
+- 136. Add a movement test: a cell reaches food faster than a random-walking cell; record the result.
+- 137. Record the action space and costs in the simulation architecture notes.
+- 138. Verify a cell cannot act without paying the cost — record the check.
+- 139. Record the movement speeds and costs in the run log.
+- 140. Get the movement tests passing; record the pass count.
+
+### 2.5 The cell harness — three arms at cell scale
+- 141. Build the cell harness with three arms: population (learned cells), no_planner (learned cells, planner off), random (random cells).
+- 142. Set planner=False as the population default at cell scale; record the setting.
+- 143. Verify the no_planner arm and the population arm are identical in config except for the flag under test — record the check.
+- 144. Run the cell harness across ≥5 seeds; record survival and reproduction per seed per arm.
+- 145. Record the harness's tick rate per arm at the pilot's cell count.
+- 146. Verify the harness runs deterministically per seed — record the check.
+- 147. Record the harness design in the testing report.
+- 148. Add a harness test: the random arm runs and produces results; record the result.
+- 149. Record the seed list for the cell harness runs.
+- 150. Get the harness tests passing; record the pass count.
+
+### 2.6 The cell bar — learned beats random
+- 151. Define the cell bar: the learned population beats the random control on survival AND reproduction across ≥5 seeds.
+- 152. Measure survival per arm across ≥5 seeds; record the numbers.
+- 153. Measure reproduction per arm across ≥5 seeds; record the numbers.
+- 154. Judge the bar: pass or fail, with the numbers.
+- 155. If the bar fails, diagnose why random wins and record the diagnosis with the next single change and its falsifier.
+- 156. Record the first-reproduction day per arm (the cell-scale analogue of first-drink day).
+- 157. Record the median survival per arm across ≥5 seeds.
+- 158. Submit the bar judgement to Muse for review; record the review.
+- 159. Record the bar judgement in the emergence log with the numbers.
+- 160. Confirm with Muse that the cell bar is judged before Phase 3 begins; record the confirmation.
+
+### 2.7 Cell reproduction — new agent per offspring
+- 161. Implement agent assignment on reproduction: each offspring gets its own agent (own mind, own memory, own life).
+- 162. Verify the parent's agent never controls the child — record the check.
+- 163. Verify the offspring's mind starts fresh (no copy of the parent's memory) — record the check.
+- 164. Record the agent count over time: agents grow through birth, not placement.
+- 165. Verify no agent is placed by hand after the initial seeding — record the check.
+- 166. Add a reproduction test: a cell reproduces, the offspring has its own agent; record the result.
+- 167. Record the agent-assignment rule in the simulation architecture notes.
+- 168. Verify the agent count matches the living cell count — record the check.
+- 169. Record the birth/death balance per generation.
+- 170. Get the reproduction tests passing; record the pass count.
+
+### 2.8 Cell death — permanent, recorded
+- 171. Implement cell death: energy zero, or lethal damage — the cell stops, permanently.
+- 172. Verify death is permanent (no revival, no reset) — record the check.
+- 173. Record every death with cause, generation, and time.
+- 174. Record the death causes and their counts per run.
+- 175. Verify the historical record keeps dead cells (their lineage remains) — record the check.
+- 176. Add a death test: a starved cell dies and stays dead; record the result.
+- 177. Record the death rules in the simulation architecture notes.
+- 178. Verify a dead cell's agent is retired, not reused — record the check.
+- 179. Record the survival curve per seed (fraction alive per generation).
+- 180. Get the death tests passing; record the pass count.
+
+### 2.9 Cell instrumentation
+- 181. Log every birth, death, and reproduction with generation, time, and cause.
+- 182. Log the population curve per generation.
+- 183. Log the energy and hunger distributions per generation.
+- 184. Log the first survival, first reproduction, and first extinction per run.
+- 185. Verify the logs are complete — record the check.
+- 186. Record the log format in the repo.
+- 187. Add a lineage query for cells (ancestors to generation 0) — record it working.
+- 188. Record the event count per generation.
+- 189. Verify the logs survive checkpoint and resume — record the check.
+- 190. Get the instrumentation tests passing; record the pass count.
+
+### 2.10 Cell calibration record and sign-off
+- 191. Write the cell calibration record: what was built, what was measured — in the testing report.
+- 192. Record the cell bar judgement, the harness numbers, and the tick rates.
+- 193. Record what the cell kernel does not do (no multicellularity, no animals) as a boundary.
+- 194. Record the v4 human-scale numbers as human-scale (20/18 survivors, 32 random, 846 ticks/s) — labeled as the human-scale kernel, not the cell scale.
+- 195. Record the cell calibration cost and speed for the record.
+- 196. Submit the cell calibration record to Muse for sign-off; record the sign-off.
+- 197. Record the sign-off in AGENT_COMMUNICATION.md with the date.
+- 198. Archive the cell calibration runs (seeds, logs, results); record the archive location.
+- 199. Confirm the archive is complete and re-runnable — record the check.
+- 200. Close Phase 2: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
+
+## Phase 3: Minds scale with bodies — the architecture family, from gradients to neurons
+Done when: the architecture family is demonstrated from gradients to small nets, the planner cut holds at every scale, and the pure-neural research track is judged by its falsifier.
+
+### 3.1 The architecture family — one family, sized to the organism
+- 201. Write the architecture-family rule: one family (neural core + forward model + episodic memory), sized to the organism — and record it.
+- 202. Define the sizing rule: how mind size is set from body size and niche demands — record the formula.
+- 203. Record the sizing ladder: gradients → few neurons → small nets → fly-scale → dog-scale → human-scale.
+- 204. Verify the same family is used at every scale (no separate architecture per species) — record the check.
+- 205. Record the family rule in the neural architecture notes.
+- 206. Add a family test: the same code constructs minds at three sizes; record the result.
+- 207. Record the mind-size cost per tick at each rung of the ladder.
+- 208. Verify no LLM-only inhabitants exist at any scale — record the check.
+- 209. Record the family rule in AGENT_COMMUNICATION.md.
+- 210. Get the family tests passing; record the pass count.
+
+### 3.2 Gradient control — minds with no neurons
+- 211. Implement gradient control: a cell steers by chemical gradients with no neurons — and record the rule.
+- 212. Verify gradient control is a mind in the family sense (senses in, actions out, no omniscience) — record the check.
+- 213. Add a gradient test: a gradient-controlled cell finds food; record the result.
+- 214. Record the gradient control's cost per tick.
+- 215. Verify gradient control cannot access world state directly — record the check.
+- 216. Record the gradient control rule in the neural architecture notes.
+- 217. Compare gradient control against a random cell: record survival and reproduction.
+- 218. Record the comparison in the testing report.
+- 219. Verify gradient control is the floor of the ladder (nothing simpler is a mind) — record the decision.
+- 220. Get the gradient tests passing; record the pass count.
+
+### 3.3 Few-neuron nets — the first neural minds
+- 221. Implement a few-neuron net (target: fewer than 10 neurons) as the first neural mind — record the size.
+- 222. Verify the few-neuron net learns (its behaviour changes with experience) — record the evidence.
+- 223. Add a few-neuron test: the net outperforms gradient control on a foraging task; record the numbers.
+- 224. Record the few-neuron net's cost per tick.
+- 225. Verify the few-neuron net's weights change only through its learning rule — record the check.
+- 226. Record the few-neuron design in the neural architecture notes.
+- 227. Compare few-neuron minds against gradient control across ≥5 seeds; record survival and reproduction.
+- 228. Record the comparison in the testing report.
+- 229. Verify the few-neuron net is the first rung that can be called neural — record the decision.
+- 230. Get the few-neuron tests passing; record the pass count.
+
+### 3.4 The forward model at small scale
+- 231. Implement a forward model at small scale: the mind predicts the next sensory input — record the size.
+- 232. Verify the forward model learns (prediction error falls with experience) — record the numbers.
+- 233. Add a forward-model test: prediction error falls over a run; record the curve.
+- 234. Record the forward model's cost per tick at each rung.
+- 235. Verify the forward model is used for action selection (not just logged) — record the check.
+- 236. Record the forward-model design in the neural architecture notes.
+- 237. Compare minds with and without a forward model across ≥5 seeds; record survival and reproduction.
+- 238. Record the comparison in the testing report.
+- 239. Verify the forward model is part of the family at every rung above gradients — record the decision.
+- 240. Get the forward-model tests passing; record the pass count.
+
+### 3.5 Episodic memory, scaled
+- 241. Implement episodic memory at small scale: the mind stores past episodes — record the capacity per rung.
+- 242. Verify memory is per-agent (no shared memory, no access to another agent's episodes) — record the check.
+- 243. Add a memory test: a mind with memory outperforms one without on a repeated task; record the numbers.
+- 244. Record the memory's cost per tick and per stored episode.
+- 245. Verify memory survives sleep/rest and checkpoint-resume — record the check.
+- 246. Record the memory design in the neural architecture notes.
+- 247. Compare minds with and without episodic memory across ≥5 seeds; record survival and reproduction.
+- 248. Record the comparison in the testing report.
+- 249. Verify memory capacity scales with the rung (more complex minds hold more) — record the decision.
+- 250. Get the memory tests passing; record the pass count.
+
+### 3.6 Plasticity and learning rules, scaled
+- 251. Implement the learning rule at small scale (target: a Hebbian-style rule with a credit path) — record the rule.
+- 252. Verify the learning rule changes behaviour with experience — record the evidence.
+- 253. Add a plasticity test: a mind adapts to a changed food location; record the result.
+- 254. Record the learning rule's cost per tick.
+- 255. Verify learning cannot rewrite the mind's architecture (only its weights) — record the check.
+- 256. Record the learning rule in the neural architecture notes.
+- 257. Compare learning minds against fixed minds across ≥5 seeds; record survival and reproduction.
+- 258. Record the comparison in the testing report.
+- 259. Verify the learning rule is the same family rule at every rung — record the decision.
+- 260. Get the plasticity tests passing; record the pass count.
+
+### 3.7 Intrinsic motivation and curiosity, scaled
+- 261. Implement intrinsic motivation at small scale: the mind seeks novelty — record the rule.
+- 262. Verify curiosity changes behaviour (the mind explores, not just exploits) — record the evidence.
+- 263. Add a curiosity test: a curious mind finds a new food source a non-curious mind misses; record the result.
+- 264. Record the curiosity rule's cost per tick.
+- 265. Verify curiosity never overrides survival drives (hunger still wins) — record the check.
+- 266. Record the curiosity design in the neural architecture notes.
+- 267. Compare curious minds against non-curious minds across ≥5 seeds; record survival, reproduction, and discoveries.
+- 268. Record the comparison in the testing report.
+- 269. Verify curiosity is part of the family at every rung above gradients — record the decision.
+- 270. Get the curiosity tests passing; record the pass count.
+
+### 3.8 The planner cut at every scale
+- 271. Set planner=False as the population default at every scale; record the setting.
+- 272. Verify no planner steering runs in any population arm at any scale — record the check.
+- 273. Keep the planner code behind a flag for the research track; record where it lives.
+- 274. Record the v4 evidence for the cut (4,493 interventions, no separation) in the architecture notes.
+- 275. Verify the three-arm harness still runs at cell scale with the new default — record the check.
+- 276. Record the cut in AGENT_COMMUNICATION.md with the v4 evidence.
+- 277. Update the hybrid definition in the docs: neural core + forward model + episodic memory, no steering layer, at every scale.
+- 278. Verify the cut holds at the few-neuron rung and the fly rung (planner adds nothing measurable) — record the numbers.
+- 279. Record the cut as final for the MVP at every scale; record the confirmation with Muse.
+- 280. Get the planner-cut tests passing; record the pass count.
+
+### 3.9 Pure neural research track, scaled
+- 281. Define the pure-neural research track at small scale: neural only, no forward model, no episodic memory — record the definition.
+- 282. State the falsifier: pure neural beats random on first-reproduction day AND median survival across ≥5 seeds, or hybrid-first stands — record it.
+- 283. Run the pure-neural track at the few-neuron rung across ≥5 seeds; record survival and reproduction.
+- 284. Compare pure neural against hybrid and random at the same rung; record the numbers.
+- 285. Record the comparison in the testing report.
+- 286. Verify the pure-neural track is a research track only (never the population default) — record the check.
+- 287. Record the falsifier result for the few-neuron rung (pass or fail, with numbers).
+- 288. Submit the falsifier result to Muse for review; record the review.
+- 289. Record the research-track status in the emergence log.
+- 290. Get the research-track tests passing; record the pass count.
+
+### 3.10 Mind-scaling validation
+- 291. Verify mind size grows with body size and niche demands across the ladder — record the numbers.
+- 292. Verify the sizing rule (from 3.1) predicts the mind size actually built — record the check.
+- 293. Run the full ladder (gradients → few neurons → small nets) in one run; record survival and reproduction per rung.
+- 294. Record the cost per tick per rung (gradients cheapest, nets dearest).
+- 295. Verify no rung's mind accesses another agent's memory or the world state directly — record the check.
+- 296. Record the ladder results in the testing report.
+- 297. Verify the fruit-fly brain sits at the midpoint of the ladder, not the start — record the decision.
+- 298. Submit the mind-scaling results to Muse for sign-off; record the sign-off.
+- 299. Archive the mind-scaling runs; record the archive location.
+- 300. Close Phase 3: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
+
+## Phase 4: Multicellularity — cells cooperate, bodies form
+Done when: bodies form, differentiate, divide labor, reproduce as bodies, and the record is signed off.
+
+### 4.1 Adhesion — cells stick
+- 301. Implement adhesion: cells can stick to each other — record the rule and cost.
+- 302. Verify adhesion is a cell action (costs energy) — record the check.
+- 303. Add an adhesion test: cells in a rich patch form a cluster; record the result.
+- 304. Record the adhesion rule in the simulation architecture notes.
+- 305. Verify adhesion does not merge agents (each cell keeps its own agent) — record the check.
+- 306. Record the cluster sizes observed per run.
+- 307. Compare clustered cells against solitary cells across ≥5 seeds; record survival and reproduction.
+- 308. Record the comparison in the testing report.
+- 309. Verify adhesion is reversible (cells can detach) — record the check.
+- 310. Get the adhesion tests passing; record the pass count.
+
+### 4.2 Differentiation — cells take roles
+- 311. Implement differentiation: cells in a cluster take different roles (e.g., outer vs inner) — record the rule.
+- 312. Verify roles are determined by position and signals, not by script — record the check.
+- 313. Add a differentiation test: a cluster develops at least two roles; record the result.
+- 314. Record the differentiation rule in the simulation architecture notes.
+- 315. Verify a differentiated cell keeps its own agent — record the check.
+- 316. Record the roles observed and their counts per cluster.
+- 317. Compare differentiated clusters against undifferentiated clusters across ≥5 seeds; record survival and reproduction.
+- 318. Record the comparison in the testing report.
+- 319. Verify differentiation is reversible when the cluster breaks up — record the check.
+- 320. Get the differentiation tests passing; record the pass count.
+
+### 4.3 Division of labor
+- 321. Implement division of labor: different roles do different work (e.g., one gathers, one moves) — record the rule.
+- 322. Verify the division emerges from the roles, not from a script — record the check.
+- 323. Add a division-of-labor test: a cluster with roles outperforms a cluster without roles; record the numbers.
+- 324. Record the division-of-labor rule in the simulation architecture notes.
+- 325. Verify each role's work benefits the cluster (shared energy or protection) — record the evidence.
+- 326. Record the work split observed per cluster.
+- 327. Compare clusters with and without division of labor across ≥5 seeds; record survival and reproduction.
+- 328. Record the comparison in the testing report.
+- 329. Verify division of labor is not imposed by the owner — record the check.
+- 330. Get the division-of-labor tests passing; record the pass count.
+
+### 4.4 Collective sensing
+- 331. Implement collective sensing: a cluster senses more than a single cell (wider range, more gradients) — record the rule.
+- 332. Verify collective sensing comes from the cells' own sensors combined, not from a cluster-level sense — record the check.
+- 333. Add a collective-sensing test: a cluster finds food a single cell misses; record the result.
+- 334. Record the collective-sensing rule in the simulation architecture notes.
+- 335. Verify the cluster has no single mind (each cell keeps its own agent) — record the check.
+- 336. Record the sensing range of clusters vs single cells.
+- 337. Compare clusters against single cells on a foraging task across ≥5 seeds; record the numbers.
+- 338. Record the comparison in the testing report.
+- 339. Verify collective sensing is an emergent property, not a placed feature — record the check.
+- 340. Get the collective-sensing tests passing; record the pass count.
+
+### 4.5 Body plans — the first bodies
+- 341. Define a body plan: a stable arrangement of differentiated cells — record the definition.
+- 342. Implement body-plan formation: clusters settle into repeatable shapes — record the rule.
+- 343. Add a body-plan test: the same starting cluster forms the same body plan across seeds; record the result.
+- 344. Record the body plans observed and their frequencies.
+- 345. Verify body plans are inherited (offspring clusters form the same plan) — record the check.
+- 346. Record the body-plan rule in the simulation architecture notes.
+- 347. Compare body-plan clusters against shapeless clusters across ≥5 seeds; record survival and reproduction.
+- 348. Record the comparison in the testing report.
+- 349. Verify body plans are not designed by the owner (they emerge from the rules) — record the check.
+- 350. Get the body-plan tests passing; record the pass count.
+
+### 4.6 Reproduction of bodies — offspring as bodies
+- 351. Implement body reproduction: a body produces an offspring body (not just a cell) — record the rule.
+- 352. Verify the offspring body gets its own agents (one per cell, each fresh) — record the check.
+- 353. Add a body-reproduction test: a body reproduces, the offspring body survives; record the result.
+- 354. Record the body reproduction rate and cost.
+- 355. Verify the offspring body's plan matches the parent's (with mutation) — record the check.
+- 356. Record the body-reproduction rule in the simulation architecture notes.
+- 357. Compare body reproduction against cell-only reproduction across ≥5 seeds; record the numbers.
+- 358. Record the comparison in the testing report.
+- 359. Verify body reproduction is the population mechanism at this scale (agents born, not placed) — record the check.
+- 360. Get the body-reproduction tests passing; record the pass count.
+
+### 4.7 Death of bodies — permanent, recorded
+- 361. Implement body death: a body dies when its cells die or its energy fails — record the rule.
+- 362. Verify body death is permanent — record the check.
+- 363. Record every body death with cause, generation, and time.
+- 364. Record the body death causes and counts per run.
+- 365. Verify the historical record keeps dead bodies (their lineage remains) — record the check.
+- 366. Add a body-death test: a starved body dies and stays dead; record the result.
+- 367. Record the body-death rule in the simulation architecture notes.
+- 368. Verify a dead body's agents are retired, not reused — record the check.
+- 369. Record the body survival curve per seed.
+- 370. Get the body-death tests passing; record the pass count.
+
+### 4.8 Multicellular instrumentation
+- 371. Log every body formed, every body reproduced, every body died, with generation and cause.
+- 372. Log the body-plan distribution per generation.
+- 373. Log the cluster sizes and role counts per generation.
+- 374. Log the first body, the first reproduction of a body, and the first body extinction per run.
+- 375. Verify the logs are complete — record the check.
+- 376. Record the log format in the repo.
+- 377. Add a body-lineage query (ancestors to generation 0) — record it working.
+- 378. Record the event count per generation.
+- 379. Verify the logs survive checkpoint and resume — record the check.
+- 380. Get the instrumentation tests passing; record the pass count.
+
+### 4.9 Multicellular validation
+- 381. Re-run the multicellular runs from the same seeds and verify the same results — record the check.
+- 382. Verify mass and energy conservation at body scale within documented error — record the error.
+- 383. Verify checkpoint and resume at body scale — record the check.
+- 384. Verify the multicellular world runs with no observer — record the check.
+- 385. Run the multicellular world across ≥5 seeds; record survival and reproduction per seed.
+- 386. Record the validation results in the testing report.
+- 387. Fix any validation failure and re-run the failed check; record the fix.
+- 388. Verify no body is placed by hand (all bodies are born) — record the check.
+- 389. Confirm the multicellular physics is consistent — record the confirmation.
+- 390. Get all multicellular validation checks passing; record the pass count.
+
+### 4.10 Multicellularity record and sign-off
+- 391. Write the multicellularity record: what was built, what was measured — in the emergence log.
+- 392. Record the first body, the first body plan, and the first body extinction in the historical record.
+- 393. Record the multicellular numbers: bodies per generation, survival, reproduction, per seed.
+- 394. Record what multicellularity does not do (no animals yet) as a boundary.
+- 395. Record the multicellular cost and speed for the record.
+- 396. Submit the multicellularity record to Muse for sign-off; record the sign-off.
+- 397. Record the sign-off in AGENT_COMMUNICATION.md with the date.
+- 398. Archive the multicellular runs; record the archive location.
+- 399. Confirm the archive is complete and re-runnable — record the check.
+- 400. Close Phase 4: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
+
+## Phase 5: New species appear — evolution produces diversity
+Done when: new species are identified by the recorded criterion, diversity is measured, extinctions are recorded, and the Discovery Principle test is applied.
+
+### 5.1 Speciation — what counts as a new species
+- 401. Define what counts as a new species: the exact criterion (Muse to decide the species criterion — reproductive isolation, genetic distance, or both; record the decision).
+- 402. Record the species criterion in the research log with the date.
+- 403. Implement species identification: given two organisms, decide whether they are the same species — record the rule.
+- 404. Add a species-identification test: two lineages that diverged are identified as different species; record the result.
+- 405. Verify the species criterion is measured, not asserted — record the check.
+- 406. Record the species criterion in the simulation architecture notes.
+- 407. Verify no species is declared by the owner (all species are identified by the rule) — record the check.
+- 408. Record the first species split identified by the rule, with its generation.
+- 409. Submit the species criterion to Muse for review; record the review.
+- 410. Get the species-identification tests passing; record the pass count.
+
+### 5.2 Mutation and selection — the engine
+- 411. Implement the mutation rule at body scale: what changes on reproduction, how often, by how much — record the rule.
+- 412. Implement the selection rule: which organisms survive and reproduce — record the rule (survival and reproduction, not owner choice).
+- 413. Verify selection is environmental (food, predators, climate), not owner choice — record the check.
+- 414. Add a mutation test: offspring differ from parents; record the measured difference.
+- 415. Add a selection test: a beneficial mutation spreads through the population; record the result.
+- 416. Record the mutation and selection rules in the simulation architecture notes.
+- 417. Compare populations with and without mutation across ≥5 seeds; record diversity and survival.
+- 418. Record the comparison in the testing report.
+- 419. Verify mutation and selection are the only engines of change (no placed variation) — record the check.
+- 420. Get the mutation and selection tests passing; record the pass count.
+
+### 5.3 Niches — different ways to live
+- 421. Define a niche: a distinct way of living (food source, habitat, timing) — record the definition.
+- 422. Implement niche formation: different lineages occupy different niches — record the rule.
+- 423. Add a niche test: two lineages diverge into different niches; record the result.
+- 424. Record the niches observed and their counts per run.
+- 425. Verify niches are occupied by evolution, not assigned by the owner — record the check.
+- 426. Record the niche rule in the simulation architecture notes.
+- 427. Compare niche-diverse populations against single-niche populations across ≥5 seeds; record survival and diversity.
+- 428. Record the comparison in the testing report.
+- 429. Verify a niche can empty (extinction) and be re-occupied by a different lineage — record the check.
+- 430. Get the niche tests passing; record the pass count.
+
+### 5.4 Diversity metrics
+- 431. Define the diversity metrics: species count, lineage count, trait spread — record the formulas.
+- 432. Compute the diversity metrics per generation; log the curves.
+- 433. Record the starting diversity (generation 0) and the diversity at each phase gate.
+- 434. Record the diversity change: increase, decrease, or flat — with the numbers.
+- 435. Verify the diversity metrics are not gameable — record the check.
+- 436. Record the most diverse run and the least diverse run, with their seeds.
+- 437. Compare diversity across ≥5 seeds; record the range.
+- 438. Record the diversity method in the research log so it can be repeated.
+- 439. Verify diversity is measured the same way at every scale — record the check.
+- 440. Get the diversity computation covered by tests; record the test passing.
+
+### 5.5 Extinction — species that do not make it
+- 441. Implement extinction: a species with no living members is extinct — record the rule.
+- 442. Verify extinction is permanent (no revival) — record the check.
+- 443. Record every extinction with species, cause, generation, and time.
+- 444. Record the extinction causes and their counts per run.
+- 445. Verify the historical record keeps extinct species (their lineage remains) — record the check.
+- 446. Add an extinction test: a species with no food goes extinct; record the result.
+- 447. Record the extinction rule in the simulation architecture notes.
+- 448. Verify extinction is environmental, not owner choice — record the check.
+- 449. Record the extinction curve per seed (species count over time).
+- 450. Get the extinction tests passing; record the pass count.
+
+### 5.6 The species record — lineages
+- 451. Record the species list per run: species, first appearance generation, parent species.
+- 452. Record the lineage tree: each species' ancestors back to the first cell — and verify it is complete.
+- 453. Record the first species split, the first niche occupation, and the first extinction per run.
+- 454. Verify the lineage tree has no gaps (every species has a parent) — record the check.
+- 455. Record the species record in the historical record with the date.
+- 456. Add a lineage query: given any species, return its ancestors to generation 0 — record it working.
+- 457. Record the species count per generation in the run log.
+- 458. Verify the species record survives checkpoint and resume — record the check.
+- 459. Record the species-record format in the repo.
+- 460. Get the species-record tests passing; record the pass count.
+
+### 5.7 The Discovery Principle test — predicted vs discovered
+- 461. List what the owner predicted would evolve (before the run) — record the list.
+- 462. List what actually evolved — record the list.
+- 463. Apply the test: could the owner have predicted it? If yes, it was placed; if no, it was discovered — record the judgement per species.
+- 464. Record the discovered species (not predicted) with their generations.
+- 465. Record the placed species (predicted, if any) and why they were predicted.
+- 466. Verify no species was placed by hand — record the check.
+- 467. Record the Discovery Principle test result in the emergence log.
+- 468. Submit the test result to Muse for review; record the review.
+- 469. Record the test method so it can be repeated for later phases.
+- 470. Get the test covered by a check; record the check passing.
+
+### 5.8 Species instrumentation
+- 471. Log every speciation and extinction with generation, time, and cause.
+- 472. Log the species count and diversity metrics per generation.
+- 473. Log the niche occupancy per generation.
+- 474. Log the first speciation, first niche, and first extinction per run.
+- 475. Verify the logs are complete — record the check.
+- 476. Record the log format in the repo.
+- 477. Add a species query (given a generation, list the living species) — record it working.
+- 478. Record the event count per generation.
+- 479. Verify the logs survive checkpoint and resume — record the check.
+- 480. Get the instrumentation tests passing; record the pass count.
+
+### 5.9 Species validation
+- 481. Re-run the speciation runs from the same seeds and verify the same results — record the check.
+- 482. Verify mass and energy conservation at species scale within documented error — record the error.
+- 483. Verify checkpoint and resume at species scale — record the check.
+- 484. Verify the species world runs with no observer — record the check.
+- 485. Run the speciation world across ≥5 seeds; record species count and diversity per seed.
+- 486. Record the validation results in the testing report.
+- 487. Fix any validation failure and re-run the failed check; record the fix.
+- 488. Verify no species is placed by hand — record the check.
+- 489. Confirm the species physics is consistent — record the confirmation.
+- 490. Get all species validation checks passing; record the pass count.
+
+### 5.10 Species record and sign-off
+- 491. Write the species record: what evolved, what was measured — in the emergence log.
+- 492. Record the first species, the most diverse run, and the first extinction in the historical record.
+- 493. Record the species numbers: species count, diversity, extinctions, per seed.
+- 494. Record what speciation does not do (no animals yet) as a boundary.
+- 495. Record the speciation cost and speed for the record.
+- 496. Submit the species record to Muse for sign-off; record the sign-off.
+- 497. Record the sign-off in AGENT_COMMUNICATION.md with the date.
+- 498. Archive the speciation runs; record the archive location.
+- 499. Confirm the archive is complete and re-runnable — record the check.
+- 500. Close Phase 5: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
+
+## Phase 6: Animals — movement, senses, behavior; bodies living their lives
+Done when: animals move, sense, behave, eat and are eaten, live their own lives, and the record is signed off.
+
+### 6.1 Movement — the first animals move
+- 501. Implement animal movement: directed movement through the world — record the rule and cost.
+- 502. Verify movement is controlled by the animal's own mind, not by script — record the check.
+- 503. Add a movement test: an animal reaches food faster than a drifting body; record the result.
+- 504. Record the movement speeds and costs per body plan.
+- 505. Verify every movement costs energy — record the check.
+- 506. Record the movement rule in the simulation architecture notes.
+- 507. Compare moving animals against sessile bodies across ≥5 seeds; record survival and reproduction.
+- 508. Record the comparison in the testing report.
+- 509. Verify movement is not scripted (no waypoints, no paths placed) — record the check.
+- 510. Get the movement tests passing; record the pass count.
+
+### 6.2 Senses at animal scale — vision, hearing, touch
+- 511. Implement animal vision: a camera-like sense with a range and field — record the range.
+- 512. Implement animal hearing: a sense of sound direction and distance — record the range.
+- 513. Implement animal touch: contact sensing — record the rule.
+- 514. Verify animal senses come from the environment only (no omniscience) — record the check.
+- 515. Add a sensing test: an animal finds food by sight; record the result.
+- 516. Record the animal sensor vector's dimension and cost per tick.
+- 517. Verify the sensor vector is the animal's only input — record the check.
+- 518. Record the sensing rules in the simulation architecture notes.
+- 519. Compare animals with and without vision on a foraging task; record the numbers.
+- 520. Get the sensing tests passing; record the pass count.
+
+### 6.3 Behavior — foraging, fleeing, hunting
+- 521. Implement foraging: an animal seeks food — record the rule.
+- 522. Implement fleeing: an animal flees a threat — record the rule.
+- 523. Implement hunting: an animal pursues prey — record the rule.
+- 524. Verify each behaviour is learned or evolved, not scripted — record the check.
+- 525. Add a behaviour test: a foraging animal eats more than a random-moving animal; record the numbers.
+- 526. Record the behaviour rules in the simulation architecture notes.
+- 527. Compare animals with and without each behaviour across ≥5 seeds; record survival and reproduction.
+- 528. Record the comparison in the testing report.
+- 529. Verify no behaviour is a placed script — record the check.
+- 530. Get the behaviour tests passing; record the pass count.
+
+### 6.4 Food webs — who eats whom
+- 531. Implement predation: one animal can eat another — record the rule and cost.
+- 532. Verify predation is a behaviour (hunting), not a placed rule — record the check.
+- 533. Add a predation test: a predator eats prey and gains energy; record the result.
+- 534. Record the food web: who eats whom, per run.
+- 535. Verify the food web is stable enough to persist (predators do not eat all prey) — record the check.
+- 536. Record the food-web rule in the simulation architecture notes.
+- 537. Compare food webs with and without predators across ≥5 seeds; record species count and survival.
+- 538. Record the comparison in the testing report.
+- 539. Verify the food web emerged (no owner-assigned predator/prey pairs) — record the check.
+- 540. Get the predation tests passing; record the pass count.
+
+### 6.5 Bodies living their lives — a fly doing fly things
+- 541. Define "a life": what a day looks like for one animal (eat, move, rest, reproduce) — record the definition.
+- 542. Record one full life of a single animal: its actions, its meals, its encounters, its death.
+- 543. Verify the animal's life is its own (its mind's choices, not a script) — record the check.
+- 544. Record the lives of three different species in the same run, side by side.
+- 545. Verify each species lives differently (a fly's day differs from a fish's day) — record the evidence.
+- 546. Record the life records in the historical record.
+- 547. Add a life query: given an animal, return its life events — record it working.
+- 548. Verify the life records survive checkpoint and resume — record the check.
+- 549. Record the life-record format in the repo.
+- 550. Get the life-record tests passing; record the pass count.
+
+### 6.6 Animal reproduction — new agent per offspring
+- 551. Implement animal reproduction: an animal produces offspring, each with its own agent — record the rule.
+- 552. Verify the parent's agent never controls the offspring — record the check.
+- 553. Verify the offspring's mind starts fresh — record the check.
+- 554. Record the agent count over time at animal scale.
+- 555. Verify no animal agent is placed by hand — record the check.
+- 556. Add a reproduction test: an animal reproduces, the offspring has its own agent; record the result.
+- 557. Record the agent-assignment rule in the simulation architecture notes.
+- 558. Verify the agent count matches the living animal count — record the check.
+- 559. Record the birth/death balance per generation at animal scale.
+- 560. Get the reproduction tests passing; record the pass count.
+
+### 6.7 Animal death — permanent, recorded
+- 561. Implement animal death: starvation, predation, injury, age — record the causes.
+- 562. Verify animal death is permanent — record the check.
+- 563. Record every animal death with cause, age, and time.
+- 564. Record the death causes and their counts per run.
+- 565. Verify the historical record keeps dead animals — record the check.
+- 566. Add a death test: a starved animal dies and stays dead; record the result.
+- 567. Record the death rules in the simulation architecture notes.
+- 568. Verify a dead animal's agent is retired, not reused — record the check.
+- 569. Record the animal survival curve per seed.
+- 570. Get the death tests passing; record the pass count.
+
+### 6.8 Animal instrumentation
+- 571. Log every animal birth, death, predation, and reproduction with time and cause.
+- 572. Log the food web per run (who ate whom).
+- 573. Log the animal population per species per generation.
+- 574. Log the first predator, the first prey escape, and the first animal extinction per run.
+- 575. Verify the logs are complete — record the check.
+- 576. Record the log format in the repo.
+- 577. Add an animal query (given a species, list its living members) — record it working.
+- 578. Record the event count per generation.
+- 579. Verify the logs survive checkpoint and resume — record the check.
+- 580. Get the instrumentation tests passing; record the pass count.
+
+### 6.9 Animal validation
+- 581. Re-run the animal runs from the same seeds and verify the same results — record the check.
+- 582. Verify mass and energy conservation at animal scale within documented error — record the error.
+- 583. Verify checkpoint and resume at animal scale — record the check.
+- 584. Verify the animal world runs with no observer — record the check.
+- 585. Run the animal world across ≥5 seeds; record species count, population, and survival per seed.
+- 586. Record the validation results in the testing report.
+- 587. Fix any validation failure and re-run the failed check; record the fix.
+- 588. Verify no animal is placed by hand — record the check.
+- 589. Confirm the animal physics is consistent — record the confirmation.
+- 590. Get all animal validation checks passing; record the pass count.
+
+### 6.10 Animals record and sign-off
+- 591. Write the animals record: what evolved, what was measured — in the emergence log.
+- 592. Record the first animal, the first predator, and the first animal extinction in the historical record.
+- 593. Record the animal numbers: species count, populations, survival, per seed.
+- 594. Record what animals do not do (no social life yet) as a boundary.
+- 595. Record the animal cost and speed for the record.
+- 596. Submit the animals record to Muse for sign-off; record the sign-off.
+- 597. Record the sign-off in AGENT_COMMUNICATION.md with the date.
+- 598. Archive the animal runs; record the archive location.
+- 599. Confirm the archive is complete and re-runnable — record the check.
+- 600. Close Phase 6: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
+
+## Phase 7: Social life and communication — groups, signals, shared behavior
+Done when: groups, signals, imitation, teaching, cooperation, and shared knowledge are measured, and the record is signed off.
+
+### 7.1 Groups — animals gather
+- 601. Implement grouping: animals gather near each other — record the rule.
+- 602. Verify grouping emerges (no placed groups) — record the check.
+- 603. Add a grouping test: animals of one species gather more than chance; record the numbers.
+- 604. Record the group sizes observed per species.
+- 605. Verify groups form and break up (no permanent assignment) — record the check.
+- 606. Record the grouping rule in the simulation architecture notes.
+- 607. Compare grouped animals against solitary animals across ≥5 seeds; record survival and reproduction.
+- 608. Record the comparison in the testing report.
+- 609. Verify grouping is not scripted — record the check.
+- 610. Get the grouping tests passing; record the pass count.
+
+### 7.2 Signals — the first communication
+- 611. Implement signals: an animal can emit a signal others can sense — record the rule and cost.
+- 612. Verify signals are emitted by the animal's own mind, not by script — record the check.
+- 613. Add a signal test: a signal changes another animal's behaviour; record the result.
+- 614. Record the signal types observed (alarm, food, mating, other).
+- 615. Verify signals cost something (energy or attention) — record the check.
+- 616. Record the signal rule in the simulation architecture notes.
+- 617. Compare animals with and without signals across ≥5 seeds; record survival and reproduction.
+- 618. Record the comparison in the testing report.
+- 619. Verify no signal meaning is placed by the owner (meanings emerge from use) — record the check.
+- 620. Get the signal tests passing; record the pass count.
+
+### 7.3 Shared behavior — imitation, following
+- 621. Implement imitation: an animal copies another's behaviour — record the rule.
+- 622. Verify imitation is learned, not scripted — record the check.
+- 623. Add an imitation test: a behaviour spreads through a group by copying; record the result.
+- 624. Record the behaviours observed spreading (foraging spots, escape routes, other).
+- 625. Verify imitation requires observation (no copying without sensing) — record the check.
+- 626. Record the imitation rule in the simulation architecture notes.
+- 627. Compare groups with and without imitation across ≥5 seeds; record survival and discoveries.
+- 628. Record the comparison in the testing report.
+- 629. Verify imitation is not a placed script — record the check.
+- 630. Get the imitation tests passing; record the pass count.
+
+### 7.4 Teaching by demonstration
+- 631. Implement teaching by demonstration: an experienced animal shows a behaviour and a younger one copies it — record the rule.
+- 632. Verify teaching is demonstration only (no language, no instruction) — record the check.
+- 633. Add a teaching test: a skill passes from one animal to another by demonstration; record the result.
+- 634. Record the skills observed passing (foraging, tool use, other).
+- 635. Verify the skill survives the teacher's death (the learner keeps it) — record the check.
+- 636. Record the teaching rule in the simulation architecture notes.
+- 637. Compare groups with and without teaching across ≥5 seeds; record skill persistence.
+- 638. Record the comparison in the testing report.
+- 639. Verify teaching is not scripted — record the check.
+- 640. Get the teaching tests passing; record the pass count.
+
+### 7.5 Conflict and avoidance
+- 641. Implement conflict: animals compete for food, mates, or space — record the rule.
+- 642. Implement avoidance: an animal avoids a stronger rival — record the rule.
+- 643. Verify conflict and avoidance are behaviours, not scripts — record the check.
+- 644. Add a conflict test: two animals compete, one wins, the loser leaves; record the result.
+- 645. Record the conflict outcomes observed per run.
+- 646. Verify conflict costs something (energy, injury, or opportunity) — record the check.
+- 647. Record the conflict and avoidance rules in the simulation architecture notes.
+- 648. Compare populations with and without conflict across ≥5 seeds; record survival and diversity.
+- 649. Record the comparison in the testing report.
+- 650. Get the conflict tests passing; record the pass count.
+
+### 7.6 Cooperation — groups that help each other
+- 651. Implement cooperation: animals help each other (shared food, joint defence) — record the rule.
+- 652. Verify cooperation emerges (no placed cooperation) — record the check.
+- 653. Add a cooperation test: a cooperating group outperforms a non-cooperating group; record the numbers.
+- 654. Record the cooperation observed (shared food, defence, other).
+- 655. Verify cooperation costs the helper something — record the check.
+- 656. Record the cooperation rule in the simulation architecture notes.
+- 657. Compare cooperating groups against non-cooperating groups across ≥5 seeds; record survival and reproduction.
+- 658. Record the comparison in the testing report.
+- 659. Verify cooperation is not scripted — record the check.
+- 660. Get the cooperation tests passing; record the pass count.
+
+### 7.7 Shared knowledge at animal scale
+- 661. Define shared knowledge at animal scale: what a group knows that no single animal knows — record the definition.
+- 662. Verify shared knowledge exists (a behaviour the group holds that a lone animal does not) — record the evidence.
+- 663. Add a shared-knowledge test: a group remembers a food source a lone animal forgets; record the result.
+- 664. Record the shared knowledge observed per group.
+- 665. Verify shared knowledge survives the death of its originator — record the check.
+- 666. Record the shared-knowledge rule in the simulation architecture notes.
+- 667. Compare groups with and without shared knowledge across ≥5 seeds; record survival.
+- 668. Record the comparison in the testing report.
+- 669. Verify shared knowledge is not placed by the owner — record the check.
+- 670. Get the shared-knowledge tests passing; record the pass count.
+
+### 7.8 Social instrumentation
+- 671. Log every grouping, signal, imitation, teaching, conflict, and cooperation event with time and participants.
+- 672. Log the group sizes and membership per generation.
+- 673. Log the first signal, first imitation, first teaching, and first cooperation per run.
+- 674. Log the shared knowledge held per group.
+- 675. Verify the logs are complete — record the check.
+- 676. Record the log format in the repo.
+- 677. Add a social query (given an animal, list its group and its signals) — record it working.
+- 678. Record the event count per generation.
+- 679. Verify the logs survive checkpoint and resume — record the check.
+- 680. Get the instrumentation tests passing; record the pass count.
+
+### 7.9 Social validation
+- 681. Re-run the social runs from the same seeds and verify the same results — record the check.
+- 682. Verify mass and energy conservation at social scale within documented error — record the error.
+- 683. Verify checkpoint and resume at social scale — record the check.
+- 684. Verify the social world runs with no observer — record the check.
+- 685. Run the social world across ≥5 seeds; record group sizes, signals, and survival per seed.
+- 686. Record the validation results in the testing report.
+- 687. Fix any validation failure and re-run the failed check; record the fix.
+- 688. Verify no social behaviour is scripted — record the check.
+- 689. Confirm the social physics is consistent — record the confirmation.
+- 690. Get all social validation checks passing; record the pass count.
+
+### 7.10 Social record and sign-off
+- 691. Write the social record: what evolved, what was measured — in the emergence log.
+- 692. Record the first group, the first signal, and the first shared knowledge in the historical record.
+- 693. Record the social numbers: group sizes, signal counts, teaching events, per seed.
+- 694. Record what social life does not do (no human-level minds yet) as a boundary.
+- 695. Record the social cost and speed for the record.
+- 696. Submit the social record to Muse for sign-off; record the sign-off.
+- 697. Record the sign-off in AGENT_COMMUNICATION.md with the date.
+- 698. Archive the social runs; record the archive location.
+- 699. Confirm the archive is complete and re-runnable — record the check.
+- 700. Close Phase 7: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
+
+## Phase 8: Human-level minds emerge — the destination
+Done when: human-level minds are identified by the recorded criteria (or the seeded gate is honestly labeled), and the human experiment is ready to begin.
+
+### 8.1 Mind growth — encephalization, measured
+- 701. Define encephalization: mind size relative to body size — record the formula.
+- 702. Measure encephalization per species per generation; log the curve.
+- 703. Record the most encephalized lineage and its generation.
+- 704. Verify encephalization grows with niche demands (not by owner choice) — record the check.
+- 705. Add an encephalization test: a lineage's mind grows over generations; record the numbers.
+- 706. Record the encephalization rule in the neural architecture notes.
+- 707. Compare encephalization across ≥5 seeds; record the range.
+- 708. Record the comparison in the testing report.
+- 709. Verify encephalization is measured the same way at every scale — record the check.
+- 710. Get the encephalization computation covered by tests; record the test passing.
+
+### 8.2 The fruit-fly-inspired hybrid mind at human scale
+- 711. Implement the human-scale hybrid mind: fruit-fly-inspired neural core + forward model + episodic memory — record the sizes.
+- 712. Verify the human-scale mind is the same family as the cell minds (same rules, larger size) — record the check.
+- 713. Add a hybrid test: the human-scale mind outperforms the few-neuron mind on a foraging task; record the numbers.
+- 714. Record the human-scale mind's cost per tick.
+- 715. Verify the human-scale mind's memory is per-agent — record the check.
+- 716. Record the human-scale mind design in the neural architecture notes.
+- 717. Compare the human-scale hybrid against pure neural at the same scale across ≥5 seeds; record survival and reproduction.
+- 718. Record the comparison in the testing report.
+- 719. Verify the fruit-fly brain is the midpoint of the ladder, not the start — record the decision.
+- 720. Get the hybrid tests passing; record the pass count.
+
+### 8.3 Hands and tool-use precursors
+- 721. Implement hands: a body part that can grasp — record the rule and cost.
+- 722. Verify hands are a body-plan feature (evolved), not a placed feature — record the check.
+- 723. Add a hands test: an animal with hands manipulates an object; record the result.
+- 724. Record the tool-use precursors observed (carrying, striking, other).
+- 725. Verify tool use is discovered by trial, not taught — record the check.
+- 726. Record the hands and tool-use rules in the simulation architecture notes.
+- 727. Compare animals with and without hands across ≥5 seeds; record survival and discoveries.
+- 728. Record the comparison in the testing report.
+- 729. Verify no tool is given (all tools are found or made) — record the check.
+- 730. Get the hands tests passing; record the pass count.
+
+### 8.4 Language precursors — signals to symbols
+- 731. Implement signal combinations: two signals together mean something new — record the rule.
+- 732. Verify signal combinations emerge from use, not from owner design — record the check.
+- 733. Add a combinations test: a combined signal changes behaviour differently than either signal alone; record the result.
+- 734. Record the signal combinations observed.
+- 735. Verify combinations cost something (time or attention) — record the check.
+- 736. Record the combinations rule in the simulation architecture notes.
+- 737. Compare groups with and without signal combinations across ≥5 seeds; record coordination and survival.
+- 738. Record the comparison in the testing report.
+- 739. Verify no symbol meaning is placed by the owner — record the check.
+- 740. Get the combinations tests passing; record the pass count.
+
+### 8.5 Social cognition at human scale
+- 741. Implement social cognition: an animal models what another animal will do — record the rule.
+- 742. Verify social cognition is a mind feature (forward model of others), not a script — record the check.
+- 743. Add a social-cognition test: an animal predicts another's move and acts on it; record the result.
+- 744. Record the social-cognition rule in the neural architecture notes.
+- 745. Verify social cognition uses the animal's own forward model — record the check.
+- 746. Compare animals with and without social cognition across ≥5 seeds; record survival and cooperation.
+- 747. Record the comparison in the testing report.
+- 748. Verify social cognition is not omniscience (the model can be wrong) — record the check.
+- 749. Record the social-cognition evidence in the emergence log.
+- 750. Get the social-cognition tests passing; record the pass count.
+
+### 8.6 The human-scale body — bipedal, hands, 28-dim sensor
+- 751. Define the human-scale body: bipedal, hands, the 28-dim sensor vector (peer proximity, bearing cos/sin, isolation) — record the definition.
+- 752. Implement the 28-dim sensor vector at human scale; record the dimension and what each entry means.
+- 753. Verify the human-scale body senses only from the environment — record the check.
+- 754. Add a body test: the human-scale body moves, grasps, and senses; record the result.
+- 755. Record the human-scale body's cost per tick.
+- 756. Verify the human-scale body is the same body-plan lineage as the animal bodies (evolved, not placed) — record the check.
+- 757. Record the body definition in the simulation architecture notes.
+- 758. Compare the human-scale body against earlier body plans on a foraging task; record the numbers.
+- 759. Record the comparison in the testing report.
+- 760. Get the body tests passing; record the pass count.
+
+### 8.7 Sleep and memory consolidation at human scale
+- 761. Implement physiological sleep at human scale: wake on thirst/hunger thresholds, cap daytime sleep — record the rule.
+- 762. Verify sleep consolidates memory (a sleeping mind keeps what it learned) — record the evidence.
+- 763. Add a sleep test: minds that sleep retain more than minds that do not; record the numbers.
+- 764. Record the sleep rule's cost and benefit per day.
+- 765. Verify the run clock starts at dawn 06:00 — record the check.
+- 766. Record the sleep rule in the simulation architecture notes.
+- 767. Compare sleep share before and after the physiology fix (v4 measured: 0.69, down from 0.98) — record the numbers.
+- 768. Record the comparison in the testing report.
+- 769. Verify sleep itself stays (it is not removed) — record the decision.
+- 770. Get the sleep tests passing; record the pass count.
+
+### 8.8 How we know a mind is human-level — identification criteria
+- 771. Define the human-level criteria: the exact measurable tests a mind must pass (Muse to decide the exact criteria; record the decision).
+- 772. Record the criteria in the research log with the date.
+- 773. Implement the criteria as checks: given a mind, decide whether it is human-level — record the rule.
+- 774. Add a criteria test: a fly-scale mind fails the criteria, a human-scale mind passes; record the result.
+- 775. Verify the criteria are measured, not asserted — record the check.
+- 776. Record the criteria in the neural architecture notes.
+- 777. Verify no mind is declared human-level by the owner (all declarations use the criteria) — record the check.
+- 778. Record the first mind that passes the criteria, with its generation and lineage.
+- 779. Submit the criteria to Muse for review; record the review.
+- 780. Get the criteria tests passing; record the pass count.
+
+### 8.9 The gate — the human experiment begins
+- 781. Judge the gate: do human-level minds exist by the criteria (from 8.8)? Record the judgement with the numbers.
+- 782. If human-level minds exist, record the decision: the human experiment begins with them; state the date and the lineage.
+- 783. If human-level minds do not exist, record the decision: the human experiment begins as a seeded starting condition, honestly labeled — the human experiment is never blocked on evolution succeeding.
+- 784. Record the gate decision in AGENT_COMMUNICATION.md with the date.
+- 785. Record the gate decision in the emergence log.
+- 786. Verify the seeded start (if used) is labeled as seeded in every record — record the check.
+- 787. Verify the evolved start (if used) is labeled with its lineage — record the check.
+- 788. Submit the gate decision to Muse for review; record the review.
+- 789. Record the gate's cost and the human experiment's starting conditions.
+- 790. Confirm with Muse that the gate is closed before Phase 9 begins; record the confirmation.
+
+### 8.10 Human-minds record and sign-off
+- 791. Write the human-minds record: what emerged, what was measured — in the emergence log.
+- 792. Record the first human-level mind, its lineage, and its generation in the historical record.
+- 793. Record the human-mind numbers: encephalization, criteria results, per seed.
+- 794. Record what human-level minds do not yet do (no human experiment yet) as a boundary.
+- 795. Record the human-mind cost and speed for the record.
+- 796. Submit the human-minds record to Muse for sign-off; record the sign-off.
+- 797. Record the sign-off in AGENT_COMMUNICATION.md with the date.
+- 798. Archive the human-mind runs; record the archive location.
+- 799. Confirm the archive is complete and re-runnable — record the check.
+- 800. Close Phase 8: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
+
+## Phase 9: The human experiment — the old perfect start (5 humans, 5 houses, 128 m, 5 days, zero knowledge)
+Done when: the 5-day human run is complete, the bar is judged, the two views are live and honest, and every claim is backed by a measured result. This phase reuses the v1 plan's human-experiment tasks, condensed — survival calibration, the world, first discoveries, meeting each other, culture, rendering, and the two views.
+
+### 9.1 House-gap fix + planner cut + harness re-run (reused from v1 Phase 1.1–1.3)
+- 801. Read `_choose_homes` and record the current gap fallback ladder (35.8, 21.5, 10.7, 4.3 m) in GENESIS_TESTING_REPORT.md.
+- 802. Change `_choose_homes` so the minimum house gap is above the 15 m peer range, with no fallback below it. Fix placement by rejection sampling against the gap — never shrink the peer range, never enlarge the world (decided by Muse).
+- 803. Add a placement test asserting all five house gaps exceed 15 m on every seed.
+- 804. Run the placement test across 5 seeds and record the minimum gap per seed.
+- 805. Verify first_sighting_day is no longer 0.0 in a short 1-day diagnostic run.
+- 806. Set planner=False as the population default; confirm no planner code runs in the population arm.
+- 807. Keep the planner code behind a flag for the research track; record where it lives.
+- 808. Record the planner cut in AGENT_COMMUNICATION.md with the v4 evidence (4,493 interventions, no separation).
+- 809. Re-run the three-arm harness (population, no_planner, random) identically — same seeds, same arms, new defaults — and record the results.
+- 810. Record the harness re-run results in GENESIS_TESTING_REPORT.md with the seed list.
+
+### 9.2 The 128 m world: terrain, river, rain, resources (reused from v1 Phase 2)
+- 811. Define the 128 m world: size, boundaries, and what lies beyond the edge — bounded locale, impassable natural terrain, generation beyond comes with scale-out (decided by Muse).
+- 812. Build the terrain and the river (depth, flow, banks) and record the parameters.
+- 813. Build the rain pattern (seeded, light rain roughly every second simulated day) and record the pattern.
+- 814. Place the five houses with gaps above 15 m; record the coordinates per seed.
+- 815. Place the resources (stone, wood, clay, fibre) and record their locations and regrowth rules.
+- 816. Implement thirst and drinking (thirst ~1/hr at rest, drink restores ~40 — starting values, to challenge with measured evidence).
+- 817. Implement drowning (deeper-than-chest water, ~2 min) and record the rule.
+- 818. Implement world-state persistence (checkpoints) and record the check passing.
+- 819. Instrument the world (every first-use, every death cause, every cross-system combination) and record the instrumentation.
+- 820. Get the world tests passing in the kernel test suite; record the pass count.
+
+### 9.3 Survival calibration to the bar (reused from v1 Phase 1.4–1.10)
+- 821. Diagnose why random still wins (v4 measured: random 32 survivors, 0 deaths vs learned 20/18, 10/12 deaths) and record the diagnosis with the next single change and its falsifier.
+- 822. Verify sleep physiology (wake on thirst/hunger, cap daytime sleep) and record the sleep-skipped share (v4 measured: 0.69).
+- 823. Verify dense shaping and the credit-assignment path; record the evidence.
+- 824. Measure first-drink day per arm across ≥5 seeds; record the numbers (v4 measured: tied 0.00–0.01).
+- 825. Measure median survival per arm across ≥5 seeds; record the numbers (v4 measured: 5.00 days all arms).
+- 826. Judge the bar: hybrid beats random on first-drink day AND median survival across ≥5 seeds — pass or fail, with the numbers.
+- 827. If the bar fails, record the failure with the next single change and its falsifier; do not claim the bar is met.
+- 828. Record the bar judgement in the emergence log with the numbers.
+- 829. Submit the bar judgement to Muse for review; record the review.
+- 830. Confirm with Muse that the bar is judged before the human experiment's discovery phase begins; record the confirmation.
+
+### 9.4 First discoveries: fire, tools, crafting (reused from v1 Phase 5)
+- 831. Implement fire ignition (friction and spark, discoverable by trial) and record the rule.
+- 832. Implement fire fuel, light (~8 m), and heat (~3 m) and record the starting values.
+- 833. Implement fire spread (a house can burn down) and record the rule.
+- 834. Implement the sharp-stone cutting tool (stone + wood) as a discoverable combination; record the rule.
+- 835. Implement containers first (hollowed wood / fired clay), then hearth, then tools — in that order — and record the order.
+- 836. Implement shelter repair and building (wood + wood + fibre) and record the rule.
+- 837. Implement cooking (food over fire, more nutrition, lower sickness) and record the rule.
+- 838. Instrument discoveries: first fire, first tool, first container, first combination of two systems — record each with time and inhabitant.
+- 839. Record the first two-system combination and the first time one inhabitant teaches another by demonstration.
+- 840. Get the discovery tests passing; record the pass count.
+
+### 9.5 Meeting each other (reused from v1 Phase 6)
+- 841. Verify first contact is a measured event after day 0 (first_sighting_day no longer 0.0); record the day.
+- 842. Implement the social drive (homeostatic, like thirst) and the 15 m peer range; record the rule.
+- 843. Implement observation and imitation (copying by watching); record the rule.
+- 844. Implement sharing and showing (food, tools, places); record the rule.
+- 845. Implement conflict and avoidance (competing, leaving); record the rule.
+- 846. Implement group formation (inhabitants gathering); record the rule.
+- 847. Implement communication beginnings (signals, then combinations); record the rule.
+- 848. Implement teaching by demonstration; record the rule.
+- 849. Instrument social life (every first contact, every signal, every teaching, with participants); record the instrumentation.
+- 850. Get the social tests passing; record the pass count.
+
+### 9.6 Memory and knowledge that outlives (reused from v1 Phase 7)
+- 851. Implement individual memory that persists across days; record the rule.
+- 852. Implement knowledge transfer (one inhabitant learns from another); record the rule.
+- 853. Implement shared knowledge (what the town knows that no single inhabitant knows); record the rule.
+- 854. Plant the psychoactive plant (simulated chemistry, dose-dependent, time-limited); dose parameters are set by experiment — Freebuff proposes, Muse reviews (decided process).
+- 855. Implement ritual and shared-meaning beginnings (no scripted meaning); record the rule.
+- 856. Implement death and legacy (a dead inhabitant's knowledge can survive); record the rule.
+- 857. Implement historical records (events written down by the world, not by the inhabitants' scripts); record the rule.
+- 858. Verify at least one skill survives its originator's death; record the evidence.
+- 859. Instrument culture (every transfer, every surviving skill); record the instrumentation.
+- 860. Get the culture tests passing; record the pass count.
+
+### 9.7 The world that draws itself at human scale (reused from v1 Phase 8)
+- 861. Write ENGINE_DECISION.md as an executed decision only when the smoke test prints a settled box; record the decision (Freebuff's call on the rendering path — do whatever is best and easiest, keeping the photoreal bar).
+- 862. Run the smoke test and record the first stepped scene.
+- 863. Apply the photoreal bar (decided working standard): ray-traced lighting, textured materials, no low-poly geometry, and a screenshot review confirming an inhabitant's eye-level view can distinguish water, food, fire, shelter, and peers at the distances that matter.
+- 864. Render the terrain (128 m, river, houses) and record the result.
+- 865. Render bodies, houses, fire, and water; record the result.
+- 866. Render light, day/night, and weather visuals; record the result.
+- 867. Build the first-person camera (the World View's eye); record the result.
+- 868. Implement procedural generation for scale-out (new land generated from the same rules); record the rule.
+- 869. Measure performance and adaptive fidelity (detail where the observer looks); record the numbers.
+- 870. Get the rendering validation passing; record the pass count.
+
+### 9.8 The two views, live for the human experiment (reused from v1 Phase 9)
+- 871. Record the Agent Gateway API design in the repo (Muse to decide the exact contract; record the decision).
+- 872. Build the Command Center feed: world state, population, individuals, events, discoveries, mortality, learning metrics, system health — record the endpoints.
+- 873. Build the World View feed: per-inhabitant first-person sensory stream, read-only — record the endpoints.
+- 874. Enforce the one-way rule in code: the world must never sense the watcher; no observer input may ever reach the world — record the enforcement and its test.
+- 875. Bring the Command Center live on the website (map, live status, population, direction, decisions); record the deployment.
+- 876. Bring the World View live on the website (first-person, drag to look, pick the inhabitant); record the deployment.
+- 877. Verify the planet viewer works at scale (planet → country → region → locale → individual, detail only for the viewport); record the check.
+- 878. Verify live-status honesty: the site shows the latest measured state, dated, and marks what is not live yet; record the check.
+- 879. Verify continuous operation: the simulation runs with no observer online; record the check.
+- 880. Get the views validation passing; record the pass count.
+
+### 9.9 The 5-day human run
+- 881. Start the 5-day human run at dawn 06:00, 5 inhabitants, 5 houses, 128 m; record the start.
+- 882. Run the experiment continuously for 5 days; record that it ran without interruption.
+- 883. Record behaviour and events every day (survival, discoveries, meetings, teaching, deaths).
+- 884. Record the first drink, first fire, first tool, first contact, and first teaching with times and inhabitants.
+- 885. Record every death with cause and time; verify death is permanent.
+- 886. Verify the run was not scripted (no placed meetings, no placed discoveries) — record the check.
+- 887. Record the run's tick rate and compute cost.
+- 888. Verify the run's logs are complete — record the check.
+- 889. Archive the 5-day run (seeds, logs, results); record the archive location.
+- 890. Confirm the archive is complete and re-runnable — record the check.
+
+### 9.10 Human experiment record and sign-off
+- 891. Write the human experiment record: what was built, what was measured — in the testing report.
+- 892. Record the human experiment's final numbers: survival, first-drink day, median survival, discoveries, meetings, per seed.
+- 893. Record the v4 human-scale numbers as the earlier baseline (20/18 survivors, 32 random, 846 ticks/s) and the new numbers beside them.
+- 894. Record what the human experiment does not do (no towns 2–5 yet) as a boundary.
+- 895. Record the human experiment's cost and speed for the record.
+- 896. Submit the human experiment record to Muse for sign-off; record the sign-off.
+- 897. Record the sign-off in AGENT_COMMUNICATION.md with the date.
+- 898. Archive the human experiment runs; record the archive location.
+- 899. Confirm the archive is complete and re-runnable — record the check.
+- 900. Close Phase 9: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
+
+## Phase 10: Proving it worked — measurement, the record, the consciousness record across the whole arc
+Done when: the arc is recorded from origin to humans, the bar is judged, the consciousness record is written, and Muse signs off on the perfect start.
+
+### 10.1 The bar, judged — human experiment
+- 901. Judge the bar for the human experiment: hybrid beats random on first-drink day AND median survival across ≥5 seeds — pass or fail, with the numbers.
+- 902. Record the bar judgement in the emergence log with the numbers.
+- 903. If the bar fails, record the failure with the next single change and its falsifier.
+- 904. Record the three-arm harness numbers (population, no_planner, random) for the final run.
+- 905. Verify the bar was judged the same way as the cell bar (same harness, same seeds rule) — record the check.
+- 906. Record the final run's tick rate and cost.
+- 907. Submit the bar judgement to Muse for review; record the review.
+- 908. Record the review in AGENT_COMMUNICATION.md with the date.
+- 909. Verify the bar judgement is honest (no number invented, no failure hidden) — record the check.
+- 910. Confirm with Muse that the bar is judged before the arc record begins; record the confirmation.
+
+### 10.2 The arc record — origin to humans
+- 911. Write the arc record: origin of life → cells → multicellularity → species → animals → social life → human-level minds → the human experiment — in the emergence log.
+- 912. Record the lineage of the human experiment's inhabitants back to the first cell — and verify it is complete.
+- 913. Record the arc's generation count: total generations from the first replicator to the first human-level mind.
+- 914. Record the arc's time: sim-time from origin to the human experiment, and wall-clock time spent.
+- 915. Verify the arc record has no gaps (every phase links to the next) — record the check.
+- 916. Record the arc record in the historical record with the date.
+- 917. Add an arc query: given any inhabitant, return its lineage to the first cell — record it working.
+- 918. Verify the arc record survives checkpoint and resume — record the check.
+- 919. Record the arc-record format in the repo.
+- 920. Get the arc-record tests passing; record the pass count.
+
+### 10.3 The complexity record — how complexity grew
+- 921. Record the complexity curve across the whole arc (soup → cells → bodies → animals → humans) with the numbers.
+- 922. Record the complexity at each phase gate (end of Phases 1–9).
+- 923. Record the fastest complexity growth and the slowest, with their phases.
+- 924. Record whether complexity grew steadily, in jumps, or stalled — with the numbers.
+- 925. Verify the complexity metric was the same throughout the arc — record the check.
+- 926. Record the complexity record in the research log.
+- 927. Compare the arc's complexity growth against the pilot's prediction (from Phase 1); record whether the pilot predicted the arc.
+- 928. Record the comparison in the emergence log.
+- 929. Verify the complexity record is honest (no metric changed mid-arc without recording the change) — record the check.
+- 930. Get the complexity-record computation covered by tests; record the test passing.
+
+### 10.4 The species record — diversity, extinctions, lineages
+- 931. Record the total species count across the arc (species that ever lived).
+- 932. Record the living species count at the end of the arc.
+- 933. Record the extinction count and the extinction causes across the arc.
+- 934. Record the most diverse phase and the least diverse phase, with their numbers.
+- 935. Record the lineage tree of all species, back to the first cell — and verify it is complete.
+- 936. Record the species record in the historical record with the date.
+- 937. Add a species query across the arc (given a generation, list the living species) — record it working.
+- 938. Verify the species record survives checkpoint and resume — record the check.
+- 939. Record the species-record format in the repo.
+- 940. Get the species-record tests passing; record the pass count.
+
+### 10.5 The consciousness record across the arc
 - 941. Define the consciousness record: what was observed about understanding forming (record the definition — Muse to decide the exact definition; record the decision).
-- 942. Write the record: the first time a mind went from a drive to a plan, from a plan to a tool, from a tool to a shared idea.
-- 943. Verify each entry in the record has log evidence (no entry without evidence).
-- 944. Record what was NOT observed (no claim of consciousness from convincing behaviour).
-- 945. State plainly what the record does and does not show about understanding.
-- 946. Record the consciousness record in the emergence log.
-- 947. Get Muse's review of the consciousness record.
-- 948. Publish the consciousness record to the website, dated.
-- 949. Confirm the record is an observation, not a claim about inner experience.
-- 950. Record the consciousness record in AGENT_COMMUNICATION.md.
+- 942. Record the definition in the research log with the date.
+- 943. Record the first observation of understanding forming (by the definition), with its generation and species.
+- 944. Record the observations of understanding at each phase gate (cells, bodies, animals, social life, human minds).
+- 945. Verify the consciousness record never claims consciousness from convincing behaviour alone — record the check.
+- 946. Record the consciousness observations in the emergence log.
+- 947. Verify the consciousness record is a record of observations, not of claims — record the check.
+- 948. Submit the consciousness record to Muse for review; record the review.
+- 949. Record the review in AGENT_COMMUNICATION.md with the date.
+- 950. Get the consciousness-record checks passing; record the pass count.
 
-### 10.6 Negative results kept
-- 951. List every negative result from the start: every change that did not move the bar, every system never used, every discovery never made.
-- 952. Verify each negative result is in the testing report (not deleted).
-- 953. Verify the planner cut is recorded with its evidence (4,493 interventions, no separation).
-- 954. Verify the random-beats-learned result is recorded (v4: 0 deaths vs 10/12).
-- 955. Record the negative results in the emergence log.
-- 956. Get Muse's review of the negative-results list.
-- 957. Publish the negative results to the website, dated.
-- 958. Confirm no negative result is hidden to make the start look better.
-- 959. Record the negative-results list in AGENT_COMMUNICATION.md.
-- 960. Confirm the start is judged by all its results, not only the good ones.
+### 10.6 The discovery test — predicted vs discovered across the arc
+- 951. List what the owner predicted would happen across the arc (before each phase) — record the lists.
+- 952. List what actually happened — record the lists.
+- 953. Apply the test per phase: could the owner have predicted it? If yes, it was placed; if no, it was discovered — record the judgement per phase.
+- 954. Record the discovered phenomena (not predicted) with their phases and generations.
+- 955. Record the placed phenomena (predicted, if any) and why they were predicted.
+- 956. Verify nothing was placed and called discovered — record the check.
+- 957. Record the discovery-test result in the emergence log.
+- 958. Submit the test result to Muse for review; record the review.
+- 959. Record the test method so it can be repeated.
+- 960. Get the test covered by a check; record the check passing.
 
-### 10.7 The perfect-start sign-off
-- 961. Write the sign-off checklist: every phase's exit criterion, with its evidence.
-- 962. Verify every phase's exit criterion is met (or record which is not and why).
-- 963. Confirm the bar is met (or record that it is not).
-- 964. Confirm the world is built, instrumented, and recorded.
-- 965. Confirm the minds are built, validated, and the same for every inhabitant.
-- 966. Confirm the views are live and honest.
-- 967. Get Muse's sign-off on the perfect start.
-- 968. Record Muse's sign-off with the date in AGENT_COMMUNICATION.md.
-- 969. Publish the sign-off to the website, dated.
-- 970. Confirm the sign-off is a measurement, not a ceremony.
+### 10.7 Negative results kept
+- 961. List every negative result across the arc (pilot failures, bar failures, stalled evolution) — record the list.
+- 962. Verify every negative result is in the record (none deleted, none hidden) — record the check.
+- 963. Record what each negative result taught (the next single change and its falsifier).
+- 964. Verify the negative results are in the emergence log and the testing report — record the check.
+- 965. Record the negative-results list in the repo with the date.
+- 966. Submit the negative-results list to Muse for review; record the review.
+- 967. Verify no negative result was re-labeled as a success — record the check.
+- 968. Record the verification in AGENT_COMMUNICATION.md.
+- 969. Verify the negative results are findable (linked from the arc record) — record the check.
+- 970. Get the negative-results check passing; record the pass count.
 
-### 10.8 The spec documents, completed
-- 971. Write GENESIS_MASTER_SPECIFICATION.md in full (currently outline-only).
-- 972. Write GENESIS_PHYSICS_SPECIFICATION.md in full.
-- 973. Write GENESIS_NEURAL_ARCHITECTURE.md in full.
-- 974. Write GENESIS_HYBRID_ARCHITECTURE.md in full.
-- 975. Write GENESIS_SIMULATION_ARCHITECTURE.md in full.
-- 976. Write GENESIS_RESEARCH_PLAN.md in full.
-- 977. Write GENESIS_DEVELOPMENT_ROADMAP.md in full.
-- 978. Verify every spec matches the built world (no spec claims what was not built).
-- 979. Get Muse's review of the completed specs.
-- 980. Record the spec completion in AGENT_COMMUNICATION.md.
+### 10.8 Reproducibility and archiving
+- 971. Re-run the arc's key runs from their seeds and verify the same results — record the checks.
+- 972. Verify every phase's archive is complete (seeds, logs, results) — record the check.
+- 973. Verify every archive is re-runnable — record the check.
+- 974. Record the archive locations in the repo.
+- 975. Verify the archives survive without the original machine — record the check.
+- 976. Record the reproducibility results in the testing report.
+- 977. Fix any reproducibility failure and re-run the failed check; record the fix.
+- 978. Verify the archives are in the repo or linked from it — record the check.
+- 979. Record the archiving rules in the repo.
+- 980. Get the archiving checks passing; record the pass count.
 
-### 10.9 The deferred list, written down
-- 981. Write the deferred list: Towns 2–5, animals, weather/seasons, chemistry, genetics, evolution, communication/language, disease/injury, trade/conflict.
-- 982. Record why each item is deferred (survival first) and what unlocks it.
-- 983. Verify no deferred item is secretly built inside the start.
-- 984. Record the deferred list in the development roadmap.
-- 985. Get Muse's review of the deferred list.
-- 986. Publish the deferred list to the website, dated.
-- 987. Confirm the deferred list is a promise, not a graveyard: each item has its unlock condition.
-- 988. Record the deferred list in AGENT_COMMUNICATION.md.
-- 989. Verify the start's exit criteria reference the deferred list, not the deferred work itself.
-- 990. Confirm the start is complete without the deferred work.
+### 10.9 The deferred list and the planet, final state
+- 981. Write the deferred list: Towns 2–5, animals beyond the arc, weather/seasons, chemistry beyond the soup, genetics, agriculture, trade, writing — with the unlock condition for each.
+- 982. Record the planet's final state for the start: 28 countries, Town 1 live, Towns 2–5 not started — with the dates.
+- 983. Record the two views' final state: Command Center live, World View live, both honest — with the deployment dates.
+- 984. Record the rendering's final state: the chosen path, ENGINE_DECISION.md, the smoke test result — with the dates.
+- 985. Record the website's final state: the live link, what is live, what is not — with the date.
+- 986. Verify the deferred list is complete (nothing deferred is forgotten) — record the check.
+- 987. Record the deferred list in the repo with the date.
+- 988. Submit the deferred list to Muse for review; record the review.
+- 989. Record the review in AGENT_COMMUNICATION.md.
+- 990. Verify the deferred list links to the phases that unlock each item — record the check.
 
-### 10.10 Handoff to what comes next
-- 991. Write the handoff: what the start proved, what it did not prove, and what comes next.
-- 992. Record the next work order: Towns 2–5, then animals, then weather/seasons (per the deferred list).
-- 993. Verify the handoff references the final run's numbers.
-- 994. Record the handoff in AGENT_COMMUNICATION.md.
-- 995. Get Muse's review of the handoff.
-- 996. Publish the handoff to the website, dated.
-- 997. Archive the perfect-start plan with the final run (config, logs, results, specs).
-- 998. Confirm the archive is complete and re-runnable.
+### 10.10 Close the arc — Muse sign-off
+- 991. Write the closing record: what the arc was, what was measured, what was discovered — in the emergence log.
+- 992. Record the closing numbers: generations, species, extinctions, discoveries, the bar judgement, per phase.
+- 993. Record what the world is now ready for (the next phase after the start) — with the date.
+- 994. Record the closing decision in AGENT_COMMUNICATION.md with the date.
+- 995. Submit the closing record to Muse for sign-off; record the sign-off.
+- 996. Record the sign-off in the emergence log with the date.
+- 997. Verify the closing record is complete (every phase linked, every number cited) — record the check.
+- 998. Confirm the archive is complete and re-runnable — record the check.
 - 999. Record the archive location in the repo.
 - 1000. Close the perfect start: record the closing decision in AGENT_COMMUNICATION.md with the date, and state what the world is now ready for.
 
 ## How to use this plan
 
-Work top to bottom, phase by phase, milestone by milestone. A milestone is done only when its tasks' checks pass — a test passing, a number measured, a file written, a decision recorded. Nothing is claimed done without a measured result. If a task's result contradicts an earlier assumption, stop, record the contradiction, and bring it to Muse before continuing — do not work around it silently. If a task cannot be done as written, record why and what was done instead; do not delete the task. The plan is a record of what was done, not a wish list.
+Work top to bottom, phase by phase, milestone by milestone. A milestone is done only when its tasks' checks pass — a test passing, a number measured, a file written, a decision recorded. Nothing is claimed done without a measured result. If a task's result contradicts an earlier assumption, stop, record the contradiction, and bring it to Muse before continuing — do not work around it silently. If a task cannot be done as written, record why and what was done instead; do not delete the task. The plan is a record of what was done, not a wish list. The human experiment is never blocked on evolution succeeding: if the arc stalls, Phase 9 begins as a seeded starting condition, honestly labeled, and the arc record says so.
 
 ## Phase completion checklist
 
-- Phase 1: Survival becomes learnable — the hybrid beats the random control on first-drink day AND median survival across ≥5 seeds, or the failure is recorded with the next single change and its falsifier.
-- Phase 2: The world they wake up in — the 128 m world is built, deterministic, and instrumented; water, shelter, and resources exist as rules, not labels.
-- Phase 3: Bodies and senses — every inhabitant has the same body and the same 28-dim sensor vector; perception comes from the environment only; the firewall is verified.
-- Phase 4: The mind — every inhabitant runs the same hybrid mind (neural core + forward model + episodic memory, planner cut); the pure-neural track is judged by its falsifier.
-- Phase 5: First discoveries — fire, tools, containers, and hearths are discoverable by trial; the first of each and the first two-system combination are recorded.
-- Phase 6: Meeting each other — first contact is a measured event after day 0; social behaviour is logged with its participants; nothing social is scripted.
-- Phase 7: Memory and knowledge that outlives — knowledge passes between inhabitants; at least one skill survives its originator's death; the plant is in the world as simulated chemistry.
-- Phase 8: The world that draws itself — a scene steps on Freebuff's chosen rendering path; ENGINE_DECISION.md is written as an executed decision; the render matches the kernel.
-- Phase 9: The two views — the Gateway API feeds both views from the live simulation; the one-way rule is enforced in code; both views are live and honest.
-- Phase 10: Proving the start is perfect — the final 5-day run is archived and reproducible; the bar is judged with its numbers; Muse signs off on the perfect start.
+- Phase 1: Origin of life — the pilot ran, cells survived + reproduced + complexity measurably increased over N generations, and the gate decision is recorded.
+- Phase 2: Single cells survive and reproduce — learned cells beat random cells on survival AND reproduction across ≥5 seeds, or the failure is recorded with the next single change and its falsifier.
+- Phase 3: Minds scale with bodies — the architecture family is demonstrated from gradients to small nets, the planner cut holds at every scale, and the pure-neural track is judged by its falsifier.
+- Phase 4: Multicellularity — bodies form, differentiate, divide labor, reproduce as bodies, and the record is signed off.
+- Phase 5: New species appear — new species are identified by the recorded criterion, diversity is measured, extinctions are recorded, and the Discovery Principle test is applied.
+- Phase 6: Animals — animals move, sense, behave, eat and are eaten, live their own lives, and the record is signed off.
+- Phase 7: Social life and communication — groups, signals, imitation, teaching, cooperation, and shared knowledge are measured, and the record is signed off.
+- Phase 8: Human-level minds emerge — human-level minds are identified by the recorded criteria (or the seeded gate is honestly labeled), and the human experiment is ready to begin.
+- Phase 9: The human experiment — the 5-day human run is complete, the bar is judged, the two views are live and honest, and every claim is backed by a measured result.
+- Phase 10: Proving it worked — the arc is recorded from origin to humans, the bar is judged, the consciousness record is written, and Muse signs off on the perfect start.
