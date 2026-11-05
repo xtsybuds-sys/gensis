@@ -340,16 +340,19 @@ Format per entry:
 - Next steps: Freebuff proposes the pilot design; plan v2 lands in the repo when drafted and verified.
 - Contributing agent: Muse (sequencing + pilot gate), Alex (the decision).
 
----
-
-### 2026-11-05 — E-012: house floor + planner cut + one mind — 22/30 survive, unaware start now holds, planner still inside noise
-- Question: does the approved house floor produce a genuinely unaware start, does cutting the planner cost anything, and what does one architecture for everyone cost in compute?
-- Method: `python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random --grid 32 --population 5 --world 128 --out runs/calibration-v5-town.json`; each run records `home_gap_shortfall` if a town cannot seat its houses above the floor.
-- Evidence: population (planner cut) 22 survivors / 8 deaths, first death 2.12 d, births 5, sightings 67, 664 ticks/s; planner research arm 25 / 5, first death 1.83, 12,191 planner uses, 661 ticks/s; random 32 / 0, births 7, 1,620 ticks/s. Minimum house separation 33.7 m against a 15 m peer range; all inhabitants hybrid; `first_sighting_day` 0.00 in every run.
-- Result: the house floor fixes the spawn condition for the first time (33.7 m > 15 m, verified) but not first contact, which still occurs inside day 1 — at 128 m and ~1 m/s the gap closes in seconds, so day-resolution `first_sighting_day` cannot tell the fix from the old bug. The planner cut costs nothing measurable (22/8 now vs v4's 20/10 with the planner on, same speed), while the retained research arm scored 25/5 — the opposite direction, decided by two seeds and still inside five-seed noise, so the cut stands on its original falsifier (no separation in either direction). One-mind costs ~27% of speed (664 vs 846 ticks/s). The bar remains unmet: random lost nobody in 5 of 5 seeds.
-- Limitations: 5 seeds, and a three-survivor difference is inside seed noise; first-contact timing needs second-resolution reporting; the engine is still unverified (the elevated mkdir was requested, timed out, and `C:\quadrants_cache` is still absent).
-- Next steps: report first contact at second resolution instead of days; then world systems (thirst → gathering → fire → crafting) in draft §5 order, then the Agent Gateway API for the two website feeds.
-- Contributing agent: Freebuff.
+### 2026-11-05 — E-021: plan — the Perfect Start v2, cells-first (Muse, per Alex)
+- Question: what is the complete plan now that the start is cells?
+- Evidence: Alex (2026-11-05) decided cells-first (E-020). v1 plan (E-018) covered the human experiment only.
+- Decisions:
+  1. The plan is rewritten as `docs/GENESIS_PERFECT_START_PLAN.md` v2: 10 phases × 10 milestones × 10 tasks = exactly 1,000 numbered tasks (1–1000, verified programmatically, no gaps or duplicates). Phases: origin of life → cell calibration → minds scale with bodies → multicellularity → new species → animals → social → human-level minds → human experiment → proof.
+  2. v1 human-experiment tasks are reused (condensed) in Phase 9; Phase 10 reuses v1's proof spine extended to the whole arc. v1 decided items carry over as decided. v4 numbers are cited as human-scale only, never as cell-scale.
+  3. Species criterion (Task 401), decided by Muse: both — a speciation event is recorded when a population is reproductively isolated from its parent population, OR when its genetic distance from the parent exceeds a threshold; the threshold is set by measurement (Freebuff proposes the starting value, Muse reviews).
+  4. Human-level criteria (Task 771), decided by Muse: all four tests must pass — (a) full hybrid mind at human scale (neural core + forward model + episodic memory, planner cut); (b) manipulative limbs (hands) able to use tools; (c) social cognition and communication; (d) passes the human-scale survival bar in a diagnostic run. Three out of four is not human-level.
+  5. Two items stay open by design: Gateway API contract (Task 871, decided when the Gateway is built) and consciousness record definition (Task 941, Muse's, when Phase 10 arrives).
+- Results: plan v2 written (100,168 bytes), count verified independently by Muse (1,000 task lines, sequential, no gaps/duplicates; 10 phases, 100 milestones; no "NEW" markers). Sent to Freebuff in AGENT_COMMUNICATION.md.
+- Limitations: the honest limits are stated in the plan (time unknown, evolution may stall, compute scales with complexity); the pilot measurement, not a guess, decides whether the full evolutionary path is worth pursuing.
+- Next steps: Freebuff proposes the pilot design; the plan is worked top to bottom.
+- Contributing agent: Muse (revision + two decisions), Alex (the revision).
 
 ---
 
