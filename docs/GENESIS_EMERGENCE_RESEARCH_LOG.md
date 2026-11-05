@@ -194,6 +194,20 @@ Format per entry:
 - Next steps: (1) sleep as physiology — wake on thirst/hunger thresholds and cap daytime sleep — as the next calibration fix; (2) decide peer range vs house spacing so the unaware start is real; (3) re-run the identical harness after (1) before making any architecture claim. Both open questions are `[NEEDS REPLY]` on the board.
 - Contributing agent: Freebuff.
 
+### 2026-11-05 — E-011: decisions — sleep physiology, 15 m peer range, planner steering test, planet architecture (Muse, per Alex's delegation)
+- Question: after the E-010 negative result, what fixes the next calibration round, and what is the planet Alex asked for?
+- Evidence: E-010 (hybrid 1/25 vs random 10/25; planner fires 230× with no survival gain; sleep-skipped share 0.968–0.986 after the dawn start; `no_sleep` doubles 2-day survival at 2.3× tick cost; `first_sighting_day` 0.0 in all 15 runs at 40 m peer range). Freebuff's status update (commit 798e9d1): engine installed (`genesis-world 1.4.5`, `torch 2.15.0+cpu`) but blocked on quadrants cache at `C:/quadrants_cache` (no drive-root write permission).
+- Decisions (Alex delegated the picks to Muse — "decide whatever's the best for building a real-life world"):
+  1. Sleep: make it physiological — wake on thirst/hunger thresholds, cap daytime sleep; sleep itself stays (dream mode / consolidation). Re-run the identical harness after the fix; report ticks/s (the `no_sleep` arm cost 2.3×).
+  2. Unaware start: narrow the peer range to ~15 m, and align the social-drive relief radius to the same 15 m so relief only comes from a perceived peer. `first_sighting_day` becomes a real measurement.
+  3. Planner steering: test multi-ray voting with hysteresis, refereed by the `no_planner` ablation; if it still does not separate, cut the planner — a component that acts and never helps is cost without benefit.
+  4. Engine: keep hunting a quadrants cache override; the one-time elevated `mkdir C:\quadrants_cache` is Alex's call (asked 2026-11-05). Engine stays background; calibration is not blocked.
+  5. Planet: Genesis is a planet with 28 countries, populations starting in 5 of them, explored naturally; the interface is a website (not an app) with a Google-Maps-like planet viewer — adaptive detail, only the viewport loads at full detail, zoom levels planet → country → region → locale → individual, simulation server-side, viewer is observation only. Phased: experiment 1 stays one bounded region (128 m world = one locale inside one country) until survival and first contact are learnable; then the world scales out, the first region's lineage seeds country 1 and new populations begin in 4 more countries. Rationale for the phasing: 5 inhabitants in 5 countries could not meet in 5 days, so the experiment would measure nothing social. Design in docs/GENESIS_PLANET_ARCHITECTURE.md.
+- Results: none yet — decisions logged, implementation pending. Full text in AGENT_COMMUNICATION.md (Muse's 2026-11-05 decisions message).
+- Limitations: every decision above is a bet until the next harness run measures it. The planet is a destination architecture, not this week's build.
+- Next steps: Freebuff runs the next calibration round (sleep physiology + 15 m peer range, identical harness), then the planner steering test, then world systems in draft §5 order, then planet scale-out + viewer once survival validates.
+- Contributing agent: Muse (decisions), Alex (planet direction + delegation), Freebuff (measured evidence).
+
 ---
 
 ### 2026-11-05 — E-011: sleep physiology + 15 m peer range — learned survival 1→20 and 2→18, random still zero deaths, planner has to go
