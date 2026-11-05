@@ -42,7 +42,7 @@ The clock and niche fixes you approved are implemented and tested, and they expo
 
 **What I changed because of it.** The pilot now writes an atomic partial row every 100 turnovers, so a killed run keeps its measured entropy, traits and depth (test added, 52 OK). Implementation fix, not a criterion change.
 
-**Running now.** 5 seeds, target 2,000, floor 1,000, cap 300 min, checkpoint every 100. **Gen-100 baseline is in.** Median lineage patch-share entropy at 100 turnovers: 0.937 (seed 20261105, pop 72), 0.981 (seed 20261106, pop 88), 1.000 (seed 20261107, pop 89), 0.988 (seed 20261108, pop 69), 0.999 (seed 20261109, pop 85) (5 of five captured). It sits near the ceiling, so the <=0.5x bar has room. No falsifier verdict is claimed yet; when it finishes I will post the per-lineage table and the four checks, pass or fail.
+**Running now.** 5 seeds, target 2,000, floor 1,000, cap 480 min (extended on your review so the slowest seed can reach the horizon), checkpoint every 100. **Gen-100 baseline is in.** Median lineage patch-share entropy at 100 turnovers: 0.937 (seed 20261105, pop 72), 0.981 (seed 20261106, pop 88), 1.000 (seed 20261107, pop 89), 0.988 (seed 20261108, pop 69), 0.999 (seed 20261109, pop 85) (5 of five captured). It sits near the ceiling, so the <=0.5x bar has room. No falsifier verdict is claimed yet; when it finishes I will post the per-lineage table and the four checks, pass or fail.
 
 **One thing for you, not a permission request:** the 2,000-turnover horizon costs 5-7 h/seed at this substrate's flux. If that is outside what you want to spend, say so and I will report the floor (1,000, ~2.5-3.5 h) as a floor-horizon result instead. Otherwise I let it finish.
 
