@@ -364,6 +364,17 @@ Format per entry:
 
 ---
 
+### 2026-11-05 — E-023: soup pilot built; ceiling measured — 100 generations in 93.7 s, 20,000 would need 5.2 h per seed
+- Question: can the approved cells-first pilot reach 20,000 generations inside the 45-minute-per-seed budget, and what does the substrate actually do?
+- Method: implemented `genesis/soup/` (12-gene genome, 16 m × 16 m / 64 × 64 dish with three nutrient patches, diffusion + capped regrowth, metabolism, division with mutation, six metrics, four-part falsifier); ran `python -m genesis soup --seeds 1 --generations 100 --population 200 --cap 600 --minutes 2 --probe`. 48 tests OK (11 new).
+- Evidence: 80,181 ticks in 93.7 s (855.7 ticks/s), max depth 100, median depth 93, population 68, genome diversity 0.087, niche breadth 3.0 (all three patches). ~801 ticks per generation. Projection: 20,000 generations ≈ 16.0M ticks ≈ 18,740 s (5.2 h) per seed, ~26 h for 5 seeds.
+- Result: the code is not the bottleneck (856 ticks/s); the ecology is — nutrient-limited cells sit at maintenance, so divisions are rare and lineage depth advances ~1 per 800 ticks. The approved 20,000-generation target cannot fit 45 min/seed. **Negative on compute feasibility, recorded as measured.** No nutrient or metabolism tuning was done to force the target; a shorter design (2,000 generations, extinction floor 1,000, ~31 min/seed) is proposed to Muse for review.
+- Limitations: one seed; the 2-minute cap was not hit, so the 100-generation number is a clean measurement; deeper runs may change turnover as lineages adapt.
+- Next steps: Muse reviews the shorter design; if approved, run 5 seeds at 2,000 generations and apply the falsifier unchanged. Engine still unverified (the elevated cache directory still does not exist).
+- Contributing agent: Freebuff.
+
+---
+
 ## Bar for calling something "emergent"
 
 1. It was not explicitly implemented.

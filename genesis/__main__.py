@@ -103,6 +103,48 @@ def cmd_calibrate(args):
     return 0
 
 
+def cmd_soup(args):
+    """Primordial soup pilot: cells in a bounded dish, mutation, selection."""
+    from .soup.pilot import evaluate, format_table, run_pilot
+
+    seeds = [args.seed + i for i in range(args.seeds)]
+    results = []
+    for seed in seeds:
+        row = run_pilot(
+            seed,
+            generations=args.generations,
+            minutes=args.minutes,
+            initial=args.population,
+            cap=args.cap,
+        )
+        results.append(row)
+        print(
+            f"seed {seed}: gen {row['max_gen']} pop {row['final']['population']} "
+            f"ticks {row['ticks']} {row['ticks_per_s']} t/s "
+            f"target={'yes' if row['reached_target'] else 'no'}"
+        )
+        if args.probe:
+            break
+    print()
+    print(format_table(results))
+    verdict = evaluate(results, target=args.generations)
+    print()
+    print(json.dumps(verdict, indent=2, sort_keys=True))
+    if args.probe:
+        row = results[0]
+        projected = row["elapsed_s"] * (args.target / max(row["max_gen"], 1))
+        print(
+            f"probe: {row['max_gen']} generations in {row['elapsed_s']}s; "
+            f"projected {args.target} generations = {projected:.0f}s per seed"
+        )
+    if args.out:
+        payload = {"rows": results, "verdict": verdict}
+        with open(args.out, "w", encoding="utf-8") as handle:
+            json.dump(payload, handle, indent=2)
+        print(f"wrote {args.out}")
+    return 0 if args.probe or verdict["passed"] else 1
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="genesis", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -138,6 +180,20 @@ def build_parser():
     cal.add_argument("--seed", type=int, default=20261105)
     cal.add_argument("--out", default=None)
     cal.set_defaults(func=cmd_calibrate)
+
+    soup = sub.add_parser(
+        "soup", help="primordial soup pilot (cells, mutation, nutrient dish)"
+    )
+    soup.add_argument("--seeds", type=int, default=5)
+    soup.add_argument("--generations", type=int, default=20000)
+    soup.add_argument("--target", type=int, default=20000)
+    soup.add_argument("--minutes", type=float, default=45.0)
+    soup.add_argument("--population", type=int, default=200)
+    soup.add_argument("--cap", type=int, default=600)
+    soup.add_argument("--seed", type=int, default=20261105)
+    soup.add_argument("--out", default=None)
+    soup.add_argument("--probe", action="store_true")
+    soup.set_defaults(func=cmd_soup)
     return parser
 
 
