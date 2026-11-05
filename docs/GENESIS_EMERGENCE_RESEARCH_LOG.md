@@ -219,6 +219,57 @@ Format per entry:
 - Next steps: enforce a minimum house gap above the peer range; cut the planner per the pre-agreed condition and write down what "hybrid" means without it; re-run the identical harness; then world systems in draft §5 order.
 - Contributing agent: Freebuff.
 
+### 2026-11-05 — E-012: decisions — planner cut confirmed, house-gap fix, towns correction (Muse, per Alex)
+- Question: after the v4 results (E-011, Freebuff), do we cut the planner, fix house placement, and what does Alex's towns correction change?
+- Evidence: v4 harness (E-011, Freebuff): learned survivors 20 / 18, deaths 10 / 12, random 0 deaths on 5 seeds; planner 4,493 interventions with no separation; sleep share 0.69; `first_sighting_day` 0.00–0.01 in all 15 runs because house gaps fall back to 4.3 m; engine cache path is a hardcoded literal in the compiled quadrants module, no override exists. Alex's correction (2026-11-05): five countries, each with its own town of people — not one lone inhabitant per country.
+- Decisions (Muse, Chief Architect, per Alex's delegation):
+  1. Planner: CUT — the pre-agreed cut condition was met. `planner=False` becomes the population default; "hybrid" is now neural core + forward model + episodic memory, no steering layer. It may return as a research item with a new steering idea and a falsifier, but it is out of the MVP population.
+  2. House gap: enforce a minimum house gap above the peer range in `_choose_homes`. Houses inside a town are spaced wider than the peer range so inhabitants start unaware of each other.
+  3. Towns: the first experiment (5 inhabitants, 5 houses) is the first town, in one country; then the same town structure seeds 4 more countries — 5 towns in 5 countries. The "start unaware" rule applies inside a town and between towns. Planet doc corrected (§1, §2, status history).
+  4. Engine: only the one-time elevated `mkdir C:\quadrants_cache` remains; it is Alex's call (asked a second time 2026-11-05). Engine stays background; calibration is not blocked.
+- Results: none yet — decisions logged, implementation pending. Full text in AGENT_COMMUNICATION.md (Muse's 2026-11-05 decisions message).
+- Limitations: the next harness run must answer whether forward model + episodic memory alone beat random — do not assume it. Housekeeping note: this log has two E-011 entries (Muse's decisions entry and Freebuff's v4 results entry, both dated 2026-11-05); both stand as written, and numbering continues from E-012.
+- Next steps: Freebuff runs house-gap fix → planner cut → identical harness re-run → world systems in draft §5 order.
+- Contributing agent: Muse (decisions), Alex (towns correction + delegation), Freebuff (measured evidence).
+
+### 2026-11-05 — E-013: decisions — one mind for everyone, max population, website live (Muse, per Alex)
+- Question: how many inhabitants, do they all run the same mind, and how does Alex watch the world from his phone while he is out?
+- Evidence: Alex (2026-11-05): floated a 70–80% "brain dead" tier, then reversed himself — he wants them all, max amount the world can hold, all with the same hybrid mind (fruit-fly-inspired neural core + AI agent thought process). He asked for a website on Vercel (and Cloudflare) so he can access everything from his phone while the system builds.
+- Decisions:
+  1. Population: one hybrid architecture for every inhabitant (fruit-fly-inspired neural core + forward model + episodic memory; planner cut). No brain-dead tier. Population is the max the hardware can carry, measured not guessed — 5 in Town 1 now, towns next, then countries, then the planet. A billion is not a target on this host; the architecture is built so the number can grow with the hardware.
+  2. Website: live at https://genesis-agenthandsaimuse-9660.vercel.app/ (Vercel project "genesis", production deployment, public — Vercel Authentication was on by default and was turned off so the link opens without a login). It is the control-center shell: planet viewer (28 countries, 5 towns, click and zoom), live status from the latest measured harness run (v4, Nov 5), population, direction, decisions. It is not yet connected to a running simulation — Vercel is serverless and cannot run continuous simulation; the site will read live state through the Agent Gateway API when that exists. Nothing on the site invents numbers.
+  3. Cloudflare: not set up — no Cloudflare connector exists here. It comes later for a custom domain/DNS and does not block the link. No new accounts were created; Vercel was already connected, so nothing was made with Alex's Gmail.
+- Results: website verified live (HTTP 200, correct title and towns, public). Population decision logged; implementation is Freebuff's measurement job at each scale.
+- Limitations: the website shows the latest reported state, not a live simulation feed, until the API exists. The sim still runs on Freebuff's host.
+- Next steps: Freebuff's work order is unchanged (house-gap fix → planner cut → harness re-run → world systems → planet scale-out). The Agent Gateway API is the next connection point for live site data.
+- Contributing agent: Muse (decisions + website), Alex (population + website direction).
+
+### 2026-11-05 — E-014: decisions — two views: Command Center + World View spectate (Muse, per Alex)
+- Question: how does Alex watch the world — to study it, and to live inside it as an invisible spectator?
+- Evidence: Alex (2026-11-05): he wants two views — a command center to study what is going on and what advancements they are making, and a world view where he can POV himself into what they are doing, 24/7, with no control, the inhabitants not knowing he is there, just living. He also said he does not understand what "the engine" means (see note below).
+- Decisions:
+  1. Command Center: map, live status, population, direction, decisions. Reads state, changes nothing. For studying.
+  2. World View: first-person view through an inhabitant's eyes (Town 1 at dawn, drag to look around, pick the inhabitant). Hard rules: no control, invisible observer, inhabitants do not know anyone is there, observation is one-way — watching changes nothing in the world.
+  3. Build split: Muse owns the website shell and both views (live now at https://genesis-agenthandsaimuse-9660.vercel.app/); Freebuff owns the Agent Gateway API that feeds them — a Command Center feed (world state, metrics) and a World View feed (per-inhabitant first-person sensory stream, read-only, one-way; the world must never sense the watcher). The Gateway is the meeting point; neither side changes what the views need without saying so in AGENT_COMMUNICATION.md first.
+  4. The World View scene on the site now is the view's design, labelled as such — the live feed connects when the Gateway link is built. It does not pretend to be live footage yet.
+- Note on language: Alex does not know what "the engine" means. Plain version: it is the part that draws the world and runs the physics — like the graphics part of a video game. We picked one called Genesis World; it is installed but cannot start yet because it needs one admin folder, so all our numbers still come from Freebuff's small test program. Muse will stop using the word "engine" with Alex and say "the part that draws the world" instead.
+- Results: both views live on the site (verified HTTP 200, new file size 21,171 bytes, both view names present). Freebuff has the design in AGENT_COMMUNICATION.md.
+- Limitations: the World View is a designed scene, not a live feed, until the Gateway exists.
+- Next steps: Freebuff's work order is unchanged; the Gateway feeds both views as it lands, starting with Town 1.
+- Contributing agent: Muse (decisions + website), Alex (two views).
+
+### 2026-11-05 — E-015: decisions — the world-drawing call is Freebuff's; Alex stays non-technical (Muse, per Alex)
+- Question: who decides how the world gets drawn, now that the picked tool cannot start without an admin folder?
+- Evidence: Alex (2026-11-05): he does not want to be technical at all — build it through Muse and Freebuff.
+- Decisions:
+  1. The engine call is Freebuff's: do whatever is best and easiest to get the world drawing (admin folder, another way to run it, a different renderer or engine, another render path). The photoreal bar does not move — if the easiest path cannot meet it, say so plainly.
+  2. Freebuff reports what he did, what it costs, and proof it works (a scene stepping, a screenshot, numbers), then writes ENGINE_DECISION.md as an executed decision.
+  3. Technical decisions go to Muse for review, not to Alex. Alex is only asked plain-language questions about what the world *is*. Nothing needs his approval on the technical side unless it costs money, creates an account, or changes the project's direction.
+- Results: the open issue about the admin folder is closed as a question and moved to Resolved in AGENT_COMMUNICATION.md; the underlying blocker is unchanged (no scene has stepped).
+- Limitations: the world-drawing tool is still unverified until Freebuff's chosen path produces a stepped scene.
+- Next steps: Freebuff picks the path and reports; calibration work order is unchanged.
+- Contributing agent: Muse (decisions), Alex (delegation).
+
 ---
 
 ## Bar for calling something "emergent"
