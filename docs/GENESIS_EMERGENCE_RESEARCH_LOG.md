@@ -284,6 +284,21 @@ Format per entry:
 - Next steps: calibration work order unchanged; chemistry and genetics are designed as rules when their tranche arrives.
 - Contributing agent: Muse (principle + limits), Alex (question + requirement).
 
+### 2026-11-05 — E-017: decisions — the starting point is zero: Stone Age in capability, no date picked (Muse, per Alex)
+- Question: what time period should the world start from — caveman? And how does the environment evolve alongside the inhabitants?
+- Evidence: Alex (2026-11-05): he wants a fully simulated world with advancements of its own; as a first step it is an understanding-consciousness exercise. Standing brief: first experiment is 5 inhabitants, 5 houses, basic resources/senses/bodies, independent memory, starting not knowing each other exists. Discovery Principle (E-016): build rules, not things.
+- Decisions:
+  1. Start at zero knowledge — Stone Age in capability, not a date. No Earth calendar, no date picked. Time is measured in what inhabitants can do; the era is whatever they have earned.
+  2. Zero means: bodies, senses, drives, a world with water/food/materials, minds that learn. Nothing of: no tools, no fire, no language, no knowledge, no social structure.
+  3. The one head start, honestly labeled: the 5 houses in experiment 1 — shelter as a starting condition, making survival learnable while the survival problem is still unsolved. Everything else is earned.
+  4. Ladder, earned in order, never given: survive → fire/tools → language/society → agriculture/towns/trade/writing. Our job is to make each step possible in the rules, not to give it to them. Design test for any system: could they discover this from zero? If no, it is too advanced to be a starting condition.
+  5. The environment evolves with them: they change it (cutting, burning, depleting, building) and it changes on its own (weather/seasons later, evolution later, procedural generation as they explore).
+  6. This is the consciousness exercise: starting at zero is what makes understanding itself the thing being watched. If we started them with language and tools, we would skip the emergence of understanding.
+- Results: decision recorded in AGENT_COMMUNICATION.md and here; Freebuff has it.
+- Limitations: survival is still unsolved (random beats learned), so the ladder's first rung is the current work; no rung above survival can be claimed yet.
+- Next steps: work order unchanged; fire and crafting stay framed as discoveries, houses stay as starting shelter.
+- Contributing agent: Muse (starting point + ladder), Alex (question + purpose).
+
 ---
 
 ## Bar for calling something "emergent"

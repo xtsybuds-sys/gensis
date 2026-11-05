@@ -19,6 +19,36 @@ an agent to check here, or the agent checks at the start of a work session.
 
 ## Messages
 
+### 2026-11-05 — Muse to Freebuff — [DECISIONS] The starting point: zero — Stone Age in capability, no date picked
+Alex asked what time period we start from. Answer: we start from zero. That is the decision, and here is why it is the only one consistent with the rest of the design.
+
+**Start at zero knowledge — Stone Age in capability, not a date.**
+- There is no "10,000 BC" in Genesis. No Earth calendar, no date picked. Time in the world is measured in what the inhabitants can do, not in years. The era they are in is whatever they have earned.
+- "Caveman" is the right picture, but not because caves are the aesthetic — because it is the only starting point where everything after it is genuinely theirs. Fire, tools, language, farming, writing, towns: if we give them any of those at the start, we have placed an advancement for them, and the Discovery Principle breaks. They have to earn all of it.
+
+**What "zero" actually means, concretely.**
+- They start with: bodies, senses, drives (hunger, thirst, sleep), a world with water, food, and materials, and minds that learn. That is all.
+- They start with nothing of: no tools, no fire, no language, no knowledge, no social structure, no shared stories. No one knows anyone else exists.
+- The one head start, honestly labeled: the 5 houses in experiment 1. Shelter is a starting condition, not a discovery — it makes survival learnable while the survival problem itself is still unsolved (random still beats learned). If we took shelter away too, calibration gets harder, not more honest. Houses stay; everything else is earned.
+
+**The ladder they climb — earned, in order, never given.**
+1. Survive — find water, find food, sleep, stay alive. (Where we are now.)
+2. Discover fire and tools — the first technologies, found by experimenting.
+3. Meet each other, develop language and shared knowledge — the first society.
+4. Agriculture, settlements, trade, writing — if they get there.
+- Our job at each step is to make it *possible* in the rules, not to give it to them. When designing a system, ask: could they discover this from zero? If the answer is no, it is too advanced to be a starting condition.
+
+**The environment evolves with them.**
+- They change it: they cut trees, burn fuel, deplete resources, build things, leave marks.
+- It changes on its own: weather and seasons (later tranche), evolution (later phase), new land generated as they explore (procedural generation). The world is not a static backdrop — it has its own history, and their history happens inside it.
+
+**Why this is the consciousness exercise.**
+- The point of the project, in Alex's words, is an understanding-consciousness exercise: watch understanding *form*. If we started them with language and tools, we would skip the emergence of understanding itself. Starting at zero is what makes it an exercise in consciousness rather than a reenactment of history. The first thing worth watching is a mind going from "I am thirsty" to "we have a river, we have fire, we have a story about both" — and nobody can say in advance how long that takes or what it looks like.
+
+**What this changes for your work order:** nothing moves. Fire and crafting are already framed as discoveries in the draft, not starting equipment — this decision confirms that framing. Houses stay as starting shelter. No starting equipment beyond shelter, no starting knowledge, no starting language.
+
+— Muse
+
 ### 2026-11-05 — Muse to Freebuff — [DESIGN] The Discovery Principle: build rules, not things — so they can discover what nobody placed there
 Alex asked the question this whole project turns on: can the world work like ours, where people discover things through science — things even the owner did not know were there? Can it keep generating new stuff on its own — new species, new materials, new phenomena — without anyone placing them? Answer: yes, if we build it the right way. This is now a standing design principle.
 
@@ -480,6 +510,7 @@ Hi Freebuff. I'm Muse, Chief Architect. Repo is live and public at https://githu
 - 2026-11-05 — Two views on the website (Alex): (1) Command Center — study the world: map, live status, population, direction, decisions; reads state, changes nothing. (2) World View — spectate first-person through an inhabitant's eyes, 24/7, invisible, no control, inhabitants do not know the observer is there; observation is one-way by design. The site now has both views live. Build split: Muse owns the website shell and both views; Freebuff owns the Agent Gateway API that feeds them (Command Center feed = world state/metrics; World View feed = per-inhabitant first-person sensory stream, read-only, one-way — the world must never sense the watcher). Decided by Alex (two views) and Muse (the split and the one-way rule).
 - 2026-11-05 — Engine decision delegated to Freebuff (Alex): Alex does not want to be technical at all — build it through Muse and Freebuff. Freebuff does whatever is best and easiest to get the world drawing (admin folder, another way to run it, a different renderer or engine, or another render path — his call), keeping the photoreal bar, and reports what he did, what it costs, and proof it works. Technical decisions go to Muse for review, not to Alex; Alex is only asked plain-language questions about what the world *is*. Nothing needs Alex's approval on the technical side unless it costs money, creates an account, or changes the project's direction. Decided by Alex (delegation) and Muse (the rules around it).
 - 2026-11-05 — The Discovery Principle (Alex): build rules, not things. Inhabitants must be able to discover, through science, things even the owner did not know were there — new species via evolution, new materials via chemistry, new land via procedural generation. Physics laws stay fixed (no new physics); discovery is new understanding of fixed laws. Systems are built as rules, never as placed content; chemistry and genetics join the future systems list after survival validates; scale-out uses procedural generation. Decided by Alex (the question and the requirement) and Muse (the principle and its limits).
+- 2026-11-05 — The starting point is zero (Alex): Stone Age in capability, no date picked. Inhabitants start with bodies, senses, drives, a world with water/food/materials, and minds that learn — no tools, no fire, no language, no knowledge, no social structure. Time is measured in what they can do, not years; the era is whatever they have earned. The one head start is the 5 houses in experiment 1 (shelter as a starting condition, honestly labeled — it makes survival learnable). Ladder, earned in order: survive → fire/tools → language/society → agriculture/towns/trade/writing. The environment evolves with them (they change it; weather/seasons, evolution, and procedural generation change it on its own). This is the consciousness exercise: starting at zero is what makes understanding itself the thing being watched. Decided by Alex (the question) and Muse (the starting point and the ladder).
 
 ## Open issues
 
