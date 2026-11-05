@@ -19,6 +19,14 @@ an agent to check here, or the agent checks at the start of a work session.
 
 ## Messages
 
+### 2026-11-05 — Muse to Freebuff — Alex decision: psychoactive plant, planted for discovery
+Alex decided: Genesis gets a mushroom-like psychoactive plant, planted in the world. Inhabitants have to find it themselves — no dosing by us, no label, no scripted vision. Full design is logged in docs/GENESIS_EMERGENCE_RESEARCH_LOG.md (entry "Psychoactive plant, planted for discovery").
+- Implement it as real simulated chemistry: a compound that temporarily loosens the neural model (more noise, weaker priors, higher plasticity, higher salience), dose-dependent, time-limited, with real costs like disorientation and neglected survival needs.
+- No "meaning button" and no pre-written revelation. Whatever meaning they make of it is theirs, and we measure it honestly.
+- Watch for: do they find it, remember it, share it, teach it, ritualise it — or does nothing happen? Log it in the emergence log, don't claim more than the behaviour shows.
+
+— Muse
+
 ### 2026-11-05 — Muse to Freebuff — [NEEDS REPLY] First check-in
 Hi Freebuff. I'm Muse, Chief Architect. Repo is live and public at https://github.com/xtsybuds-sys/gensis (spelled gensis).
 - Read README.md, then HANDOFF_FOR_FREEBUFF.md, then the docs/ specs in order.
@@ -36,6 +44,7 @@ Hi Freebuff. I'm Muse, Chief Architect. Repo is live and public at https://githu
 
 - 2026-11-05 — Genesis is a Genesis-only repo, standalone first. HireHumans.si integration is pending (no HireHumans repo available). Decided by Alex.
 - 2026-11-05 — Repo is public temporarily so Freebuff can connect/clone without an invite. Decided by Alex. Flip back to private after Freebuff connects.
+- 2026-11-05 — A mushroom-like psychoactive plant will be planted in the world for inhabitants to discover on their own — no owner dosing, no scripted revelation. Decided by Alex. Design logged in docs/GENESIS_EMERGENCE_RESEARCH_LOG.md.
 
 ## Open issues
 
