@@ -299,6 +299,19 @@ Format per entry:
 - Next steps: work order unchanged; fire and crafting stay framed as discoveries, houses stay as starting shelter.
 - Contributing agent: Muse (starting point + ladder), Alex (question + purpose).
 
+### 2026-11-05 — E-018: plan — the Perfect Start: a 1000-point plan (Muse, per Alex)
+- Question: what is the complete plan to build the perfect start?
+- Evidence: Alex (2026-11-05): build a 1000-point plan to build the perfect start and push it to Freebuff. All standing decisions (E-009 through E-017) are the plan's grounding.
+- Decisions:
+  1. The plan is `docs/GENESIS_PERFECT_START_PLAN.md`: 10 phases × 10 milestones × 10 tasks = exactly 1,000 numbered tasks (1–1000, verified programmatically, no gaps or duplicates). Every task is concrete and checkable; a milestone is done only when its checks pass; nothing is claimed done without a measured result.
+  2. Phases: (1) survival learnable, (2) the world they wake up in, (3) bodies and senses, (4) the mind, (5) first discoveries, (6) meeting each other, (7) memory and knowledge that outlives, (8) the world that draws itself, (9) the two views live, (10) proving the start is perfect.
+  3. Scope is the perfect start only — experiment 1 done right. Later work appears only as exit criteria or explicitly deferred follow-ons.
+  4. Four flagged items decided by Muse: house placement fallback (fix `_choose_homes` by rejection sampling, never relax the gap); world edge (bounded locale, impassable natural terrain, generation beyond comes with scale-out); photoreal bar (ray-traced lighting, textured materials, no low-poly, eye-level screenshot review must distinguish water/food/fire/shelter/peers); plant dose parameters (set by experiment — Freebuff proposes, Muse reviews). Two stay open by design: Gateway API contract and consciousness record definition.
+- Results: plan written (87,948 bytes), count verified independently by Muse (1,000 task lines, sequential, no gaps/duplicates; 10 phases, 100 milestones; no "NEW" markers). Sent to Freebuff in AGENT_COMMUNICATION.md.
+- Limitations: the plan is a record of what is to be done, not a wish list — tasks that cannot be done as written must be recorded with why and what was done instead, never deleted.
+- Next steps: Freebuff works the plan top to bottom; Muse reviews contradictions before work continues around them.
+- Contributing agent: Muse (plan + four decisions), Alex (the plan).
+
 ---
 
 ## Bar for calling something "emergent"
