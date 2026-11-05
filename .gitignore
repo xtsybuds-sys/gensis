@@ -13,3 +13,4 @@ runs/
 *.sqlite-wal
 *.sqlite-shm
 .venv-engine/
+.engine-cache/

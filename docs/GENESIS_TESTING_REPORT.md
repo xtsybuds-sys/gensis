@@ -194,11 +194,13 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 - No CI, no multi-version or multi-OS matrix.
 - No soak test past 5 world days; no memory-growth measurement over 120 h.
 - No run above 12 inhabitants; scaling statements are estimates.
-- No engine backend: `genesis-world 1.4.5` installed (`PIP_EXIT=0`) but
-  `tools/engine_smoke.py` stops at `ImportError: 'torch' module not available`,
-  because Genesis World imports torch at init. No scene has been built or stepped on
-  this host and the Agent Gateway is unbuilt. No physics number above comes from the
-  engine - all of them come from the stdlib kernel.
+- No engine backend: `genesis-world 1.4.5` and `torch 2.15.0+cpu` are installed, but
+  `tools/engine_smoke.py` cannot initialise: quadrants (the engine's compiler backend)
+  creates its kernel cache at `C:/quadrants_cache/qdcache/kernel_compilation_manager`
+  and this account has no write permission at the drive root (`RuntimeError:
+  create_directories: Access is denied`). No scene has been built or stepped on this
+  host, the Agent Gateway is unbuilt, and no physics number above comes from the engine
+  - all of them come from the stdlib kernel.
 - No HTTP API, no dashboard - those layers do not exist yet.
 - No generalisation test for the world model (in-distribution only).
 - No security testing of an API that has not been built.
@@ -293,4 +295,5 @@ contributor, not the whole cause.
 - Shaping weights were chosen a priori and were not swept; no claim that they are good,
   only that they are the ones measured.
 - Reproduction is demonstrated, not sustained.
-- The engine is installed but cannot initialise without torch, so it remains unverified.
+- The engine is installed but cannot initialise: its quadrants backend needs write
+  access at `C:/quadrants_cache`, which this account lacks. Remains unverified.
