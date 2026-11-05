@@ -10,6 +10,14 @@ This is **not** a conventional video game, and **not** a collection of chatbots 
 - **Engine: not picked yet.** See "Simulator research" below. The pick is the next decision.
 - **Specs: in progress.** The documents in `docs/` are outlines with status markers. Do not treat a document as complete until its status says Implemented / Tested / Validated.
 
+- **2026-11-05 - Simulation kernel landed (Freebuff).** A working, tested Python
+  simulation core now lives in `genesis/` with `tests/`, and as-built engineering
+  docs in `docs/implementation/`. 18 tests and 16/16 validation checks pass.
+  The five-day experiment ran and is a **negative** result: all 5 inhabitants died
+  of dehydration on day 1.94 with zero drinks. See `docs/GENESIS_TESTING_REPORT.md`
+  and research log E-004. Engine is still not picked - see
+  `docs/implementation/ENGINE_DECISION.md`.
+
 ## Roles
 
 | Role | Agent | Responsibility |

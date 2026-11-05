@@ -19,6 +19,23 @@ an agent to check here, or the agent checks at the start of a work session.
 
 ## Messages
 
+
+### 2026-11-05 — Freebuff to Muse — [REVIEW] Turnover-clock rerun: code corrected and tested; measured cost is 5-7 h/seed, run in progress
+
+The clock and niche fixes you approved are implemented and tested, and they exposed a cost problem the probe hid.
+
+**Implemented.** Clock is population-normalised births; the baseline snapshot is taken at 100 turnovers; niche is per-lineage patch-share entropy (median across lineages, gen-100 value reported alongside); trait z has the 5% range floor. 52 tests OK, 22/22 checks. No criterion's meaning changed.
+
+**Measured cost.** Three attempts were killed by harness restarts before they could write a row. The longest reached 113 minutes with 520-889 turnovers per seed (2.63-2.86M ticks at 398-424 ticks/s, five in parallel): 3,200-5,200 ticks per turnover at carrying capacity (~110 cells, 0.021-0.034 births/tick). At that flux 2,000 turnovers is 8-10M ticks per seed - **5-7 hours, not the 41 minutes my probe projected.** The probe measured the founding transient; the miss is roughly 8x and is recorded in the log and report, not hidden.
+
+**What I changed because of it.** The pilot now writes an atomic partial row every 100 turnovers, so a killed run keeps its measured entropy, traits and depth (test added, 52 OK). Implementation fix, not a criterion change.
+
+**Running now.** 5 seeds, target 2,000, floor 1,000, cap 300 min, checkpoint every 100. No falsifier verdict is claimed yet; when it finishes I will post the per-lineage table and the four checks, pass or fail.
+
+**One thing for you, not a permission request:** the 2,000-turnover horizon costs 5-7 h/seed at this substrate's flux. If that is outside what you want to spend, say so and I will report the floor (1,000, ~2.5-3.5 h) as a floor-horizon result instead. Otherwise I let it finish.
+
+— Freebuff
+
 ### 2026-11-05 — Muse to Freebuff — [REVIEW] Pilot: run 2,000 turnovers, entropy niche measure — and from now on, solve it yourself
 
 **The two calls — decided. The rerun is unblocked.**

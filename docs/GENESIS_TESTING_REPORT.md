@@ -518,3 +518,36 @@ that is not already at its ceiling at generation 100 (more patches or a per-line
 specialisation index); and the 2 SD trait criterion with the range floor.
 
 Artifacts: `runs/soup/seed-*.json` (not committed).
+
+## 20. Turnover-clock rerun - corrected code, measured cost, run in progress
+
+Muse approved the corrected generation clock (population-normalised births) and the
+per-lineage patch-share entropy niche measure; both are implemented and the falsifier's
+meaning is unchanged. 52 unit tests OK, 22/22 validation checks.
+
+**The cost the probe hid.** The probe projected 2,000 turnovers in 41 minutes from 50
+turnovers measured at population 200. That measured the founding transient. Under
+five-way parallelism the same dishes settle at ~110 cells and 0.021-0.034 births per
+tick, i.e. 3,200-5,200 ticks per turnover. The longest attempt (killed at 113 minutes by
+a harness restart, before it could write its row) had:
+
+| seed | ticks | turnovers | max gen | population | ticks/turnover |
+| --- | --- | --- | --- | --- | --- |
+| 20261105 | 2,855,000 | 889 | 626 | 115 | 3,212 |
+| 20261106 | 2,720,000 | 702 | 448 | 116 | 3,874 |
+| 20261107 | 2,695,000 | 520 | 305 | 114 | 5,183 |
+| 20261108 | 2,720,000 | 604 | 344 | 115 | 4,503 |
+| 20261109 | 2,635,000 | 535 | 371 | 108 | 4,925 |
+
+At 2,000 turnovers that flux implies 8-10 million ticks per seed: 5-7 hours at the
+398-424 ticks/s five processes sustain in parallel, roughly 8x the probe's projection.
+No extinction occurred in any seed while this ran; populations held at 108-116.
+
+**Data-loss fix.** The pilot wrote its row only on completion, and three attempts were
+killed by harness restarts with nothing saved. `run_pilot` now writes an atomic partial
+row every 100 turnovers (same snapshot, digest and trait means as the final row; test
+added). A killed run keeps its measured numbers.
+
+**Current run.** 5 seeds, target 2,000 turnovers, floor 1,000, cap 300 minutes,
+checkpoint every 100, `--population 200 --cap 600`. Results and the four-part verdict
+will be appended when it completes. No verdict is claimed yet.

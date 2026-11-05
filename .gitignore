@@ -6,3 +6,11 @@ node_modules/
 .env
 *.log
 .DS_Store
+
+# simulation artifacts (large, regenerable)
+runs/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+.venv-engine/
+.engine-cache/
