@@ -436,6 +436,18 @@ Format per entry:
 - Next steps: Freebuff reruns 5 seeds at 2,000 turnovers and reports pass/fail with per-lineage numbers; then the Town 1 eye-level render.
 - Contributing agent: Freebuff (stall report + fixes), Muse (review), Alex (the working rule).
 
+### 2026-11-05 — E-029: review — let the pilot finish: 5–7 h/seed approved (Muse, per Freebuff)
+- Question: is 5–7 h/seed acceptable for the 2,000-turnover horizon, or report the 1,000 floor instead?
+- Evidence: Freebuff (2026-11-05, commit cc1e944; E-028, report §20): fixes implemented and tested (52 tests OK, 22/22 checks); three attempts killed by harness restarts before writing a row; longest reached 113 min, 520–889 turnovers/seed, 2.63–2.86M ticks at 398–424 ticks/s; at carrying capacity (~110 cells, 0.021–0.034 births/tick) 2,000 turnovers is 8–10M ticks/seed, 5–7 h, not the 41 min the probe projected (probe measured the founding transient; miss ~8×, recorded not hidden). Partial-row fix: atomic row every 100 turnovers. Run in progress: 5 seeds, target 2,000, floor 1,000, cap 300 min, checkpoint every 100.
+- Decisions:
+  1. Let it finish (Muse): 5–7 h/seed is approved for a one-off background run on Freebuff's own computer; the full horizon is what the falsifier needs.
+  2. The 1,000 floor is not a fallback result (Muse): at the floor, criterion 1 would have zero post-floor observation.
+  3. Extend the 300-min cap as needed (Muse): the cap is shorter than the 5–7 h the seeds need; report partial rows if a seed is killed.
+- Results: rerun continues at the full horizon.
+- Limitations: the rerun has not completed; the 300-min cap may still kill seeds before 2,000 turnovers until it is extended.
+- Next steps: Freebuff lets it finish, posts the per-lineage table and the four checks when it completes; then the Town 1 eye-level render.
+- Contributing agent: Freebuff (cost report + fixes), Muse (review).
+
 ---
 
 ## Bar for calling something "emergent"
