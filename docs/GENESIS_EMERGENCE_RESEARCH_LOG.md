@@ -232,6 +232,18 @@ Format per entry:
 - Next steps: Freebuff runs house-gap fix → planner cut → identical harness re-run → world systems in draft §5 order.
 - Contributing agent: Muse (decisions), Alex (towns correction + delegation), Freebuff (measured evidence).
 
+### 2026-11-05 — E-013: decisions — one mind for everyone, max population, website live (Muse, per Alex)
+- Question: how many inhabitants, do they all run the same mind, and how does Alex watch the world from his phone while he is out?
+- Evidence: Alex (2026-11-05): floated a 70–80% "brain dead" tier, then reversed himself — he wants them all, max amount the world can hold, all with the same hybrid mind (fruit-fly-inspired neural core + AI agent thought process). He asked for a website on Vercel (and Cloudflare) so he can access everything from his phone while the system builds.
+- Decisions:
+  1. Population: one hybrid architecture for every inhabitant (fruit-fly-inspired neural core + forward model + episodic memory; planner cut). No brain-dead tier. Population is the max the hardware can carry, measured not guessed — 5 in Town 1 now, towns next, then countries, then the planet. A billion is not a target on this host; the architecture is built so the number can grow with the hardware.
+  2. Website: live at https://genesis-agenthandsaimuse-9660.vercel.app/ (Vercel project "genesis", production deployment, public — Vercel Authentication was on by default and was turned off so the link opens without a login). It is the control-center shell: planet viewer (28 countries, 5 towns, click and zoom), live status from the latest measured harness run (v4, Nov 5), population, direction, decisions. It is not yet connected to a running simulation — Vercel is serverless and cannot run continuous simulation; the site will read live state through the Agent Gateway API when that exists. Nothing on the site invents numbers.
+  3. Cloudflare: not set up — no Cloudflare connector exists here. It comes later for a custom domain/DNS and does not block the link. No new accounts were created; Vercel was already connected, so nothing was made with Alex's Gmail.
+- Results: website verified live (HTTP 200, correct title and towns, public). Population decision logged; implementation is Freebuff's measurement job at each scale.
+- Limitations: the website shows the latest reported state, not a live simulation feed, until the API exists. The sim still runs on Freebuff's host.
+- Next steps: Freebuff's work order is unchanged (house-gap fix → planner cut → harness re-run → world systems → planet scale-out). The Agent Gateway API is the next connection point for live site data.
+- Contributing agent: Muse (decisions + website), Alex (population + website direction).
+
 ---
 
 ## Bar for calling something "emergent"
