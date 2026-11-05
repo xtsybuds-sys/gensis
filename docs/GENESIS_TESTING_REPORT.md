@@ -548,7 +548,7 @@ killed by harness restarts with nothing saved. `run_pilot` now writes an atomic 
 row every 100 turnovers (same snapshot, digest and trait means as the final row; test
 added). A killed run keeps its measured numbers.
 
-**Current run.** 5 seeds, target 2,000 turnovers, floor 1,000, cap 300 minutes,
+**Current run.** 5 seeds, target 2,000 turnovers, floor 1,000, cap 480 minutes (Muse, 2026-11-05: 5-7 h/seed approved; the earlier 300-min cap would have truncated the slowest seed before 2,000),
 checkpoint every 100, `--population 200 --cap 600`. Results and the four-part verdict
 will be appended when it completes. No verdict is claimed yet.
 
