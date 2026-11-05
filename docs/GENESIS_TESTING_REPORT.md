@@ -1,8 +1,11 @@
 # GENESIS_TESTING_REPORT
 
-**Status: Implemented and tested for the simulation kernel (v0.2). Everything
-downstream of the kernel - HTTP API, dashboard, engine backend - is Planned or
-Blocked, and is not claimed here.**
+**Status: Implemented and tested for the simulation kernel (v0.3, calibration
+sprint). Everything downstream of the kernel - HTTP API, dashboard, engine
+backend - is Planned or Blocked, and is not claimed here. The calibration sprint
+produced a NEGATIVE result: after the conspecific channel, social drive, dense
+shaping, 128 m world and dawn start, the hybrid still loses to the random control
+on survival (section 10).**
 
 Maintained by Freebuff. Every number below came from a command run on 2026-11-05.
 Nothing is marked complete because code was written; each row names the check that
@@ -21,12 +24,16 @@ exercises it.
 ## 2. Commands (run from the repo root)
 
 ```
-python -m unittest discover -s tests -t . -v     -> 31 tests, OK
-python -m genesis verify                         -> 16/16 checks passed
+python -m unittest discover -s tests -t . -v     -> 36 tests, OK
+python -m genesis verify                         -> 21/21 checks passed
 python -m genesis run --days 5 --db runs/five-days.sqlite
 python -m genesis status --db runs/five-days.sqlite
 python -m genesis calibrate --seeds 3 --days 5 --arms population,no_planner,random \
     --out runs/calibration-5day.json
+python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,random \
+    --grid 32 --population 5 --world 128 --out runs/calibration-128m-5seed.json
+python -m genesis calibrate --seeds 2 --days 2 --arms population,no_sleep \
+    --grid 32 --population 5 --world 128 --out runs/diagnostic-sleep.json
 PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 .venv-engine/Scripts/python.exe tools/engine_smoke.py   -> engine probe (see 8)
 ```
@@ -45,12 +52,17 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 | physics/restitution-apex | PASS | apex 1.80 m vs 1.80 m, 0.07% error |
 | integration/determinism | PASS | two worlds, same seed, identical digest at 60 ticks |
 | integration/checkpoint-resume-identity | PASS | identical digest after resume at tick 40 |
-| integration/five-separate-houses | PASS | 5 distinct sites on land, min separation 352 m |
-| intelligence/forward-model-learning | PASS | MSE 0.400 -> 0.0135 (96.6%) |
-| intelligence/architectures-comparable | PASS | same 24-dim input, both 6 bounded outputs |
-| intelligence/sensory-firewall | PASS | 724 m cell change invisible; 40 m ray cap |
+| integration/five-separate-houses | PASS | 5 distinct sites on land, min separation 33.7 m at a 128 m world (>= 10% of world) |
+| intelligence/forward-model-learning | PASS | MSE 0.401 -> 0.0631 (84.3%) with the 28-dim input |
+| intelligence/architectures-comparable | PASS | same 28-dim input, both 6 bounded outputs |
+| intelligence/sensory-firewall | PASS | 136 m cell change invisible; 40 m ray cap |
 | biology/permanent-death-recorded | PASS | dies once, stays dead, event logged |
 | social/knowledge-transfer | PASS | token + place copied between hybrid brains |
+| intelligence/conspecific-channel | PASS | peer at 10 m: proximity 0.917, bearing sin 1.0 / cos 0.0; alone 0.0 |
+| biology/social-drive-homeostatic | PASS | isolation 0.312 after 10 h alone, 0.0 after 4 h with a peer |
+| intelligence/dense-shaping-attribution | PASS | drink reward 1.03, no-change reward -0.17 |
+| environment/lives-start-at-dawn | PASS | clock `day 1 06:00`, light 0.091 |
+| environment/reachability-measured-per-world | PASS | 128 m world, 7 wadeable cells, 15.1-76.9 m per house |
 
 ## 4. Unit / integration tests
 
@@ -182,13 +194,103 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 - No CI, no multi-version or multi-OS matrix.
 - No soak test past 5 world days; no memory-growth measurement over 120 h.
 - No run above 12 inhabitants; scaling statements are estimates.
-- No engine backend: `genesis-world` did not finish installing during this report,
-  `tools/engine_smoke.py` has not yet built or stepped a real scene on this host, and
-  the Agent Gateway is unbuilt. No physics number above comes from the engine - all
-  of them come from the stdlib kernel.
+- No engine backend: `genesis-world 1.4.5` installed (`PIP_EXIT=0`) but
+  `tools/engine_smoke.py` stops at `ImportError: 'torch' module not available`,
+  because Genesis World imports torch at init. No scene has been built or stepped on
+  this host and the Agent Gateway is unbuilt. No physics number above comes from the
+  engine - all of them come from the stdlib kernel.
 - No HTTP API, no dashboard - those layers do not exist yet.
 - No generalisation test for the world model (in-distribution only).
 - No security testing of an API that has not been built.
 - No evidence that learning improves survival: a random policy outlives both
   architectures on two of three seeds.
 - No evidence of selection: one birth in one seed at a non-default world size.
+
+## 10. Calibration sprint v0.3 - 5 world days, 5 seeds x 3 arms, 128 m world
+
+Changes from Muse's 2026-11-05 decisions (commit `9f67dd0`), all exercised by the
+checks above:
+
+- sensor vector 24 -> 28 dims: nearest-peer proximity, peer bearing as cos/sin in the
+  inhabitant's own frame, and its own isolation level
+- social drive in physiology and wellbeing (rises alone, relieved by a peer, never lethal)
+- dense shaping: 12 x d(hydration) + 6 x d(energy) + 4 x d(nutrition)
+  + 2.5 x d(sensed water/food proximity) + 1.5 x d(isolation relief)
+  - 0.35 x thirst - 0.20 x hunger, clamped to +/-3
+- default world 128 m; lives start at 06:00 (dawn); reachability re-derived per world
+- `no_sleep` diagnostic arm; harness label fix (ablation rows used to report `population`)
+
+`python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,random
+--grid 32 --population 5 --world 128 --out runs/calibration-128m-5seed.json`
+
+| arm | seed | survivors | observed days | first death | first drink | births | sightings | planner uses | sleep-skipped |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| population | 20261105 | 0 | 2.51 | 1.78 | 0.01 | 0 | 4 | 88 | 0.981 |
+| population | 20261106 | 1 | 5.00 | 1.66 | 0.31 | 1 | 13 | 11 | 0.967 |
+| population | 20261107 | 0 | 3.08 | 1.66 | 0.01 | 0 | 6 | 80 | 0.985 |
+| population | 20261108 | 0 | 2.09 | 1.70 | 0.01 | 0 | 7 | 15 | 0.978 |
+| population | 20261109 | 0 | 4.11 | 1.47 | 0.00 | 1 | 6 | 36 | 0.986 |
+| no_planner | 20261105 | 1 | 5.00 | 1.78 | 0.01 | 0 | 4 | 0 | 0.985 |
+| no_planner | 20261106 | 0 | 3.72 | 1.66 | 0.31 | 1 | 11 | 0 | 0.974 |
+| no_planner | 20261107 | 0 | 3.57 | 1.66 | 0.01 | 0 | 6 | 0 | 0.985 |
+| no_planner | 20261108 | 1 | 5.00 | 1.70 | 0.01 | 0 | 8 | 0 | 0.719 |
+| no_planner | 20261109 | 0 | 4.11 | 1.47 | 0.00 | 1 | 6 | 0 | 0.981 |
+| random | 20261105 | 4 | 5.00 | 1.43 | 0.00 | 2 | 14 | 0 | 0.981 |
+| random | 20261106 | 2 | 5.00 | 2.41 | 0.00 | 0 | 9 | 0 | 0.976 |
+| random | 20261107 | 1 | 5.00 | 1.30 | 0.00 | 1 | 13 | 0 | 0.981 |
+| random | 20261108 | 1 | 5.00 | 1.30 | 0.22 | 1 | 14 | 0 | 0.982 |
+| random | 20261109 | 2 | 5.00 | 2.98 | 0.00 | 0 | 9 | 0 | 0.976 |
+
+| arm | survivors / 25 | median observed days | median first death | births | sightings | planner uses |
+| --- | --- | --- | --- | --- | --- | --- |
+| population | 1 | 3.08 | 1.66 | 2 | 36 | 230 |
+| no_planner | 2 | 4.11 | 1.66 | 2 | 35 | 0 |
+| random | 10 | 5.00 | 1.43 | 4 | 59 | 0 |
+
+What this actually says:
+
+- **The success bar is not met.** Hybrid was to beat random on first-drink day AND
+  median survival across >= 5 seeds. First drink is a tie (median 0.01 vs 0.00 day);
+  median survival is 3.08 vs 5.00 days; survivors 1/25 vs 10/25. Dense shaping plus a
+  perceptible peer did not move the comparison. This stands as measured.
+- **The planner acts and still does not separate.** `planner_uses` 230 vs 0 proves the
+  ablation is wired and firing, yet survival is 1 vs 2 of 25 - inside 5-seed noise and,
+  if anything, backwards. Muse's challenge is unresolved; the planner's steering is not
+  earning its place.
+- **First sightings happen at spawn.** `first_sighting_day` is 0.0 in every run: at
+  128 m the five houses start inside the 40 m peer range, so "inhabitants start unaware
+  of each other" is violated at this density. Reproducible social measurement now
+  exists, but the start condition needs a decision (section 12).
+- **Reproduction works and is not yet self-sustaining:** 8 births across 15 runs, with
+  deaths still dominating every arm.
+- Reachability at 128 m is real: 7 wadeable cells in the verification world, nearest
+  15.1 m from a house, worst 76.9 m; median over the five calibration seeds 16.5 m.
+
+## 11. Sleep diagnostic - 2 world days, 2 seeds (NEGATIVE for the learned arms)
+
+Dawn start did not reduce sleep. The skipped share is still 0.968-0.986, because the
+attractor is the rest channel (`rest > 0.45` while `energy < 0.98`), not the clock.
+`no_sleep` zeroes action[4] - diagnostic only, no architecture change:
+
+| arm | seed | survivors | first death | sleep-skipped | ticks/s |
+| --- | --- | --- | --- | --- | --- |
+| population | 20261105 | 3 | 1.78 | 0.981 | 1404 |
+| population | 20261106 | 3 | 1.66 | 0.968 | 1450 |
+| no_sleep | 20261105 | 6 (1 birth) | none | 0.0 | 652 |
+| no_sleep | 20261106 | 5 (1 birth) | 1.78 | 0.0 | 600 |
+
+Zeroing the rest channel doubled 2-day survival and produced the only death-free run,
+but at 2.3x the wall-clock cost per tick. Caveat before quoting it: 2 seeds, 2 days,
+and the random arm also slept ~98% and still reached 10/25 at 5 days. Sleep is a large
+contributor, not the whole cause.
+
+## 12. Limitations added by the calibration sprint
+
+- Peer perception is proximity-only within 40 m, nearest peer only, with no terrain
+  occlusion test. It is not vision.
+- The "starts unaware" property does not hold at 128 m with 40 m peer range.
+- The sleep attractor is unresolved; `no_sleep` is a diagnostic arm, not a biology fix.
+- Shaping weights were chosen a priori and were not swept; no claim that they are good,
+  only that they are the ones measured.
+- Reproduction is demonstrated, not sustained.
+- The engine is installed but cannot initialise without torch, so it remains unverified.
