@@ -20,23 +20,25 @@ class NeuralBrain:
     kind = "neural"
 
     def __init__(self, rng, hidden=24, plasticity=0.02, novelty_weight=0.35,
-                 label="neural"):
+                 label="neural", w_scale=0.45):
         self.label = label
         self.input_dim = INPUT_DIM
         self.output_dim = OUTPUT_DIM
         self.hidden = int(hidden)
         self.plasticity = float(plasticity)
         self.novelty_weight = float(novelty_weight)
+        self.w_scale = float(w_scale)
         self.trace_decay = 0.9
         self.lr_pred = 0.03
         self.decay_out = 2.0e-6
         self.decay_in = 6.0e-6
 
         h = self.hidden
-        self.w_in = [[rng.gauss(0.0, 0.45) for _ in range(INPUT_DIM)] for _ in range(h)]
-        rec_scale = 0.55 / math.sqrt(h)
+        scale = self.w_scale
+        self.w_in = [[rng.gauss(0.0, scale) for _ in range(INPUT_DIM)] for _ in range(h)]
+        rec_scale = 1.2 * scale / math.sqrt(h)
         self.w_rec = [[rng.gauss(0.0, rec_scale) for _ in range(h)] for _ in range(h)]
-        self.w_out = [[rng.gauss(0.0, 0.45) for _ in range(h)] for _ in range(OUTPUT_DIM)]
+        self.w_out = [[rng.gauss(0.0, scale) for _ in range(h)] for _ in range(OUTPUT_DIM)]
         self.bias = [rng.gauss(0.0, 0.05) for _ in range(h)]
 
         self.state = [0.0] * h

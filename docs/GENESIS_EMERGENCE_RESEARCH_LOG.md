@@ -87,6 +87,76 @@ Format per entry:
   hybrid-planner) on identical seeds and worlds.
 - Contributing agent: Freebuff.
 
+### 2026-11-05 — E-006: sleep costs nothing in the decision path and little overall (Freebuff)
+- Question: does dream mode actually reduce compute, as the 5-day bounded-runtime
+  design requires?
+- Hypothesis: an asleep inhabitant needs no sensory sample and no motor decision, so
+  the decision path can be skipped entirely except for replay.
+- Implementation: while `sleeping`, `_decide` returns immediately; every
+  `dream_every` ticks a memory replay re-fits the forward model
+  (`HybridBrain.consolidate`), which is the only work done.
+- Evidence (3 seeds x 3 arms x 5 days): share of decision slots skipped for sleep
+  0.512 / 0.936 / 0.977 (population arm), 0.983-0.986 (random arm). Physically the
+  world clock starts at night, and night covers most of a 5-day run, so sleep is the
+  common case rather than an edge case.
+- Results: the decision path is genuinely skipped and counted (`decisions` vs
+  `skipped_decisions` in every checkpoint), and tests assert a sleeping agent takes
+  exactly zero decisions.
+- Limitations: the physics step still runs at full rate, so wall-clock saving is a
+  fraction of total step cost, not a proportional discount. No per-phase timing
+  breakdown was measured, so the actual wall-clock saving is **unmeasured**.
+- Next steps: instrument time spent in `world.step` vs the decision loop, then report
+  the real saving rather than the decision-share proxy.
+- Contributing agent: Freebuff.
+
+### 2026-11-05 — E-007: reproduction is inert at the default world scale (Freebuff)
+- Question: with inheritance and mutation added, does selection do anything?
+- Implementation: `Genome` (hidden size, plasticity, novelty weight, weight scale),
+  bounded mutation, fresh brain per child, knowledge tokens as the only non-genetic
+  inheritance; a birth requires two awake, off-cooldown, well-fed parents within
+  `reproduction_range_m`.
+- Evidence: 0 births in 9 calibration runs (3 seeds x 3 arms, 5 days) and 0 in the
+  5-day single-seed run. Diagnosis (`tools/repro_diagnostic.py`, seed 20261105):
+  energy gate met on 61.5% of sampled agent-instances, nutrition 53.1%, both 38.5% -
+  the gates are reachable. But the **closest approach between any two inhabitants
+  over 5 days was 342.8 m**, against a 12 m reproduction range (25 m encounter range).
+- Cause: the 24-dim sensor vector contains no channel for other inhabitants. Agents
+  cannot perceive each other, so under a novelty-seeking policy they diverge. Density
+  sweep (seed 20261105, 2 days, 5 inhabitants): 1024 m -> 0 births, closest 342.8 m;
+  512 m -> 0 births, 135.4 m; 256 m -> 0 births, 47.8 m; 128 m -> 1 birth, 1802
+  encounters, closest 0.5 m.
+- Results: reproduction and inheritance are implemented, tested, deterministic and
+  reachable only at high density. Reproduction is not the survival bottleneck -
+  hydration is - and no selection claim is supported.
+- Limitations: one birth in one seed. The density sweep changes world size and cell
+  size together, so it is not a clean single-factor test.
+- Next steps: decide between (a) a conspecific sensor channel plus a social drive,
+  (b) a smaller default world with re-derived reachability controls, or (c) leaving
+  reproduction as an untested-at-scale feature. This is a design decision, not a bug
+  fix, and needs Alex/Muse to choose.
+- Contributing agent: Freebuff.
+
+### 2026-11-05 — E-008: the engine is still unverified, and a false positive nearly hid it (Freebuff)
+- Question: does the recommended engine (Genesis World) install and step a scene on
+  this CPU-only host?
+- Evidence: `genesis-world` was pip-installed into `.venv-engine` in the background
+  and did not complete during this work; the log showed large wheel downloads (VTK
+  80 MB, pymeshlab 55 MB, opencv 44 MB) still in progress. An earlier check printed
+  `genesis-world OK 0.1.0`, which was a **false positive**: it imported the repo's own
+  `genesis/` package, whose `__version__` is also 0.1.0, because the check ran from a
+  directory containing that package.
+- Fix: the probe lives in `tools/`, where the repo root is not on `sys.path`, so it
+  can only import the installed engine (or fail loudly). A failed probe prints
+  `ENGINE_SMOKE_FAILED` instead of raising.
+- Results: no engine step has been performed on this host. No claim about engine
+  performance, physics fidelity or CPU feasibility is supported yet.
+- Limitations: single host, no NVIDIA GPU; a successful install here says nothing
+  about GPU throughput.
+- Next steps: let the install finish, run `tools/engine_smoke.py`, and record
+  steps/second and whether a 0.5 m box comes to rest at z = 0.25 m. Only then does
+  `ENGINE_DECISION.md` become an executed decision rather than a recommendation.
+- Contributing agent: Freebuff.
+
 ---
 
 ## Bar for calling something "emergent"

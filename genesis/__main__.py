@@ -82,6 +82,27 @@ def cmd_status(args):
     return 0
 
 
+def cmd_calibrate(args):
+    from .experiments import calibrate, format_table
+
+    seeds = [args.seed + i for i in range(args.seeds)]
+    arms = tuple(part.strip() for part in args.arms.split(",") if part.strip())
+    results = calibrate(
+        seeds,
+        days=args.days,
+        arms=arms,
+        grid=args.grid,
+        population=args.population,
+        world=args.world,
+    )
+    print(format_table(results))
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as handle:
+            json.dump(results, handle, indent=2)
+        print(f"wrote {args.out}")
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="genesis", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -106,6 +127,17 @@ def build_parser():
     status = sub.add_parser("status", help="print the latest checkpoint report")
     status.add_argument("--db", default="runs/genesis.sqlite")
     status.set_defaults(func=cmd_status)
+
+    cal = sub.add_parser("calibrate", help="multi-seed calibration and ablations")
+    cal.add_argument("--seeds", type=int, default=3)
+    cal.add_argument("--days", type=float, default=5.0)
+    cal.add_argument("--arms", default="population,random,no_planner")
+    cal.add_argument("--grid", type=int, default=32)
+    cal.add_argument("--population", type=int, default=5)
+    cal.add_argument("--world", type=int, default=1024)
+    cal.add_argument("--seed", type=int, default=20261105)
+    cal.add_argument("--out", default=None)
+    cal.set_defaults(func=cmd_calibrate)
     return parser
 
 

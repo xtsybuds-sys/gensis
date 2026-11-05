@@ -31,8 +31,10 @@ class HybridBrain(NeuralBrain):
     kind = "hybrid"
 
     def __init__(self, rng, hidden=24, plasticity=0.02, novelty_weight=0.35,
-                 label="hybrid"):
-        super().__init__(rng, hidden, plasticity, novelty_weight, label)
+                 label="hybrid", w_scale=0.45, planner=True):
+        super().__init__(rng, hidden, plasticity, novelty_weight, label,
+                         w_scale=w_scale)
+        self.planner_enabled = bool(planner)
         self.water_votes = [0.0] * RAY_COUNT
         self.food_votes = [0.0] * RAY_COUNT
         self.episodes = []
@@ -52,7 +54,7 @@ class HybridBrain(NeuralBrain):
         self.tick = ctx.get("tick", 0)
         out = super().act(x, ctx)
         self._update_votes(x)
-        plan = self._plan(x, ctx.get("heading", 0.0))
+        plan = self._plan(x, ctx.get("heading", 0.0)) if self.planner_enabled else None
         if plan is not None:
             forward, turn = plan
             out[0] = clamp(0.65 * forward + 0.35 * out[0], -1.0, 1.0)
@@ -185,6 +187,7 @@ class HybridBrain(NeuralBrain):
                 "last_x": self._last_x,
                 "last_out": self._last_out,
                 "tick": self.tick,
+                "planner_enabled": self.planner_enabled,
             }
         )
         return data
@@ -202,3 +205,4 @@ class HybridBrain(NeuralBrain):
         self._last_x = data.get("last_x")
         self._last_out = data.get("last_out", [0.0] * 6)
         self.tick = data.get("tick", 0)
+        self.planner_enabled = data.get("planner_enabled", True)

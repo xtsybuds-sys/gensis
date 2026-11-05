@@ -9,9 +9,10 @@ import random
 from .agents import Inhabitant
 from .brains import make_brain
 from .brains.hybrid import HybridBrain
+from .genetics import Genome
 from .physics import PhysicsWorld
 from .sensors import sense
-from .util import TAU, mean, normalize, stable_hash
+from .util import TAU, clamp, mean, normalize, stable_hash
 
 NAMES = ("Aster", "Brann", "Coral", "Dune", "Echo", "Fenn", "Gale", "Hollow")
 ENCOUNTER_RANGE_M = 25.0
@@ -19,9 +20,10 @@ REWARD_SCALE = 40.0
 
 
 class Simulation:
-    def __init__(self, cfg, store=None):
+    def __init__(self, cfg, store=None, brain_override=None):
         self.cfg = cfg
         self.store = store
+        self.brain_override = brain_override
         self.rng = random.Random(cfg.seed)
         self.world = PhysicsWorld(cfg, self.rng)
         self.tick = 0
@@ -36,6 +38,12 @@ class Simulation:
         self.recent_events = []
         self.deaths = 0
         self.checkpoint_count = 0
+        self.next_id = 1
+        self.births = 0
+        self.decisions = 0
+        self.skipped_decisions = 0
+        self.dream_replays = 0
+        self.first_drink = None
         if cfg.population:
             self._populate()
         if self.store is not None:
@@ -89,15 +97,18 @@ class Simulation:
         for index, (cell, position) in enumerate(sites):
             kind = "neural" if index % 2 == 0 else "hybrid"
             name = NAMES[index % len(NAMES)]
-            brain = make_brain(kind, self.rng, self.cfg, label=f"{name}/{kind}")
+            genome = Genome.random(self.rng, kind)
+            brain = self._make_brain(kind, genome, f"{name}/{kind}")
             agent = Inhabitant(
-                index + 1,
+                self.next_id,
                 name,
                 brain,
                 position,
                 heading=self.rng.uniform(0.0, TAU),
                 home_cell=cell,
+                genome=genome,
             )
+            self.next_id += 1
             self.agents.append(agent)
             if self.store is not None:
                 self.store.agent(agent, self.tick)
@@ -106,6 +117,7 @@ class Simulation:
                 agent.name,
                 {
                     "brain": kind,
+                    "genome": genome.to_dict(),
                     "pos": [round(v, 1) for v in position],
                     "home_cell": list(cell),
                 },
@@ -188,6 +200,7 @@ class Simulation:
                     self._decide(agent, tick)
         if tick % (cfg.decision_every * 2) == 0:
             self._social(tick)
+            self._reproduce(tick)
 
         if cfg.log_every and tick % cfg.log_every == 0:
             self._log_metrics(tick)
@@ -196,6 +209,16 @@ class Simulation:
         return tick
 
     def _decide(self, agent, tick):
+        if agent.sleeping:
+            # Dream mode: no sensing and no motor decisions while asleep. Only a
+            # slow memory replay runs. This is the compute saving, and it is
+            # measured (skipped_decisions vs decisions) rather than assumed.
+            self.skipped_decisions += 1
+            agent.pending = None
+            if tick % self.cfg.dream_every == 0:
+                self.dream_replays += agent.brain.consolidate()
+            return
+        self.decisions += 1
         if tick % self.cfg.sense_every == 0 or not agent.sensors:
             vector, frame = sense(agent, self.world)
             agent.sensors = vector
@@ -258,7 +281,94 @@ class Simulation:
                     {"to": receiver.name, "tokens": shared},
                 )
 
+    def _make_brain(self, kind, genome, label):
+        if self.brain_override is not None:
+            return self.brain_override(kind, self.rng, self.cfg, label)
+        return make_brain(kind, self.rng, self.cfg, label=label, genome=genome)
+
+    # -- reproduction -----------------------------------------------------
+    def _reproduce(self, tick):
+        """Survival of the fittest, expressed only as who gets to reproduce."""
+        cfg = self.cfg
+        alive = [a for a in self.agents if a.alive]
+        if len(alive) < 2 or len(alive) >= cfg.max_population:
+            return None
+        ready = [
+            a
+            for a in alive
+            if not a.sleeping
+            and a.cooldown_s <= 0.0
+            and a.energy >= cfg.reproduction_min_energy
+            and a.nutrition >= cfg.reproduction_min_nutrition
+        ]
+        for i in range(len(ready)):
+            for j in range(i + 1, len(ready)):
+                a = ready[i]
+                b = ready[j]
+                distance = math.hypot(a.pos[0] - b.pos[0], a.pos[1] - b.pos[1])
+                if distance > cfg.reproduction_range_m:
+                    continue
+                return self._birth(a, b, tick)
+        return None
+
+    def _birth(self, a, b, tick):
+        cfg = self.cfg
+        genome = a.genome.mutate(self.rng, cfg.mutation_rate)
+        generation = max(a.generation, b.generation) + 1
+        name = f"{NAMES[self.next_id % len(NAMES)]}{generation}"
+        brain = self._make_brain(
+            genome.brain_kind, genome, f"{name}/{genome.brain_kind}/g{generation}"
+        )
+        offset = cfg.world_size_m * 0.004
+        position = (
+            clamp(a.pos[0] + offset, 1.0, cfg.world_size_m - 1.0),
+            clamp(a.pos[1], 1.0, cfg.world_size_m - 1.0),
+        )
+        child = Inhabitant(
+            self.next_id,
+            name,
+            brain,
+            position,
+            heading=self.rng.uniform(0.0, TAU),
+            home_cell=a.home_cell,
+            genome=genome,
+        )
+        child.generation = generation
+        child.parents = [a.aid, b.aid]
+        child.energy = 0.5
+        child.hydration = 0.8
+        child.nutrition = 0.6
+        child.health = 0.9
+        self.next_id += 1
+        self.agents.append(child)
+        a.children += 1
+        b.children += 1
+        a.energy = clamp(a.energy - 0.15, 0.0, 1.0)
+        b.energy = clamp(b.energy - 0.15, 0.0, 1.0)
+        a.cooldown_s = cfg.reproduction_cooldown_s
+        b.cooldown_s = cfg.reproduction_cooldown_s
+        self.births += 1
+        if self.store is not None:
+            self.store.agent(child, tick)
+        self._record(
+            "birth",
+            child.name,
+            {
+                "parents": [a.name, b.name],
+                "generation": generation,
+                "genome": genome.to_dict(),
+            },
+        )
+        return child
+
     def _note_source(self, agent, cell, kind):
+        if kind == "water" and self.first_drink is None:
+            self.first_drink = {
+                "agent": agent.name,
+                "tick": self.tick,
+                "distance_m": round(agent.distance_m, 1),
+                "clock": self.world.clock(),
+            }
         key = f"{cell[0]},{cell[1]}"
         registry = self.water_sources if kind == "water" else self.food_sources
         token = f"{kind}:{key}"
@@ -283,6 +393,11 @@ class Simulation:
             "alive": len(alive),
             "population": len(self.agents),
             "deaths": self.deaths,
+            "births": self.births,
+            "generations": max((a.generation for a in self.agents), default=0),
+            "decisions": self.decisions,
+            "skipped_sleep_decisions": self.skipped_decisions,
+            "dream_replays": self.dream_replays,
             "sleeping": sum(1 for a in alive if a.sleeping),
             "mean_energy": round(mean(a.energy for a in alive), 3),
             "mean_hydration": round(mean(a.hydration for a in alive), 3),
@@ -349,6 +464,8 @@ class Simulation:
                     "sleep_h": round(agent.sleep_seconds / 3600.0, 2),
                     "prediction_error": agent.brain.stats()["prediction_error"],
                     "skills": agent.brain.stats().get("tokens", 0),
+                    "generation": agent.generation,
+                    "children": agent.children,
                 }
             )
         return {
@@ -357,6 +474,11 @@ class Simulation:
             "ticks": self.tick,
             "alive": len(alive),
             "deaths": self.deaths,
+            "births": self.births,
+            "max_generation": max((a.generation for a in self.agents), default=0),
+            "skipped_sleep_decisions": self.skipped_decisions,
+            "dream_replays": self.dream_replays,
+            "first_drink": self.first_drink,
             "snapshot": snap,
             "conservation": conservation,
             "agents": per_agent,
@@ -376,6 +498,12 @@ class Simulation:
             "cfg": self.cfg.to_dict(),
             "tick": self.tick,
             "rng": self.rng.getstate(),
+            "next_id": self.next_id,
+            "births": self.births,
+            "decisions": self.decisions,
+            "skipped_decisions": self.skipped_decisions,
+            "dream_replays": self.dream_replays,
+            "first_drink": self.first_drink,
             "world": self.world.state(),
             "agents": [a.state() for a in self.agents],
             "relationships": [[list(k), v] for k, v in self.relationships.items()],
@@ -392,11 +520,24 @@ class Simulation:
     def load_state(self, data):
         self.tick = data["tick"]
         self.rng.setstate(data["rng"])
+        self.next_id = data.get("next_id", len(data["agents"]) + 1)
+        self.births = data.get("births", 0)
+        self.decisions = data.get("decisions", 0)
+        self.skipped_decisions = data.get("skipped_decisions", 0)
+        self.dream_replays = data.get("dream_replays", 0)
+        self.first_drink = data.get("first_drink")
         self.world.load_state(data["world"])
         self.agents = []
         for entry in data["agents"]:
             kind = entry["brain"]["kind"]
-            brain = make_brain(kind, self.rng, self.cfg, label=entry["brain"].get("label"))
+            genome = (
+                Genome.from_dict(entry["genome"])
+                if entry.get("genome")
+                else Genome(
+                    brain_kind=kind if kind in ("neural", "hybrid") else "neural"
+                )
+            )
+            brain = self._make_brain(kind, genome, entry["brain"].get("label"))
             agent = Inhabitant(
                 entry["aid"],
                 entry["name"],
@@ -404,6 +545,7 @@ class Simulation:
                 entry["pos"],
                 entry["heading"],
                 entry["home_cell"],
+                genome=genome,
             )
             agent.load(entry)
             self.agents.append(agent)

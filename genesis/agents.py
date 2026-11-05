@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import math
 
+from .genetics import Genome
 from .sensors import INPUT_DIM
 from .util import TAU, clamp
 
@@ -31,10 +32,18 @@ HARVEST_PER_MIN = 0.22     # biomass removed per minute of eating
 
 
 class Inhabitant:
-    def __init__(self, aid, name, brain, pos, heading=0.0, home_cell=(0, 0)):
+    def __init__(self, aid, name, brain, pos, heading=0.0, home_cell=(0, 0),
+                 genome=None):
         self.aid = aid
         self.name = name
         self.brain = brain
+        self.genome = genome if genome is not None else Genome(
+            brain_kind=brain.kind, hidden=getattr(brain, "hidden", 24)
+        )
+        self.generation = 0
+        self.parents = []
+        self.children = 0
+        self.cooldown_s = 0.0
         self.pos = [float(pos[0]), float(pos[1])]
         self.home_cell = tuple(home_cell)
         self.heading = float(heading) % TAU
@@ -80,6 +89,8 @@ class Inhabitant:
 
         days = dt / 86400.0
         self.age_s += dt
+        if self.cooldown_s > 0.0:
+            self.cooldown_s = max(0.0, self.cooldown_s - dt)
         self.energy = clamp(self.energy - ENERGY_DRAIN_PER_DAY * days, 0.0, 1.0)
         self.hydration = clamp(
             self.hydration - HYDRATION_DRAIN_PER_DAY * days, 0.0, 1.0
@@ -194,6 +205,9 @@ class Inhabitant:
             "blocked_ticks": self.blocked_ticks,
             "home_cell": list(self.home_cell),
             "died_tick": self.died_tick,
+            "generation": self.generation,
+            "children": self.children,
+            "genome": self.genome.to_dict(),
         }
 
     # -- persistence ------------------------------------------------------
@@ -203,6 +217,11 @@ class Inhabitant:
             "name": self.name,
             "pos": self.pos,
             "home_cell": list(self.home_cell),
+            "genome": self.genome.to_dict(),
+            "generation": self.generation,
+            "parents": self.parents,
+            "children": self.children,
+            "cooldown_s": self.cooldown_s,
             "heading": self.heading,
             "alive": self.alive,
             "born_tick": self.born_tick,
@@ -230,6 +249,12 @@ class Inhabitant:
         self.name = data["name"]
         self.pos = data["pos"]
         self.home_cell = tuple(data["home_cell"])
+        if data.get("genome"):
+            self.genome = Genome.from_dict(data["genome"])
+        self.generation = data.get("generation", 0)
+        self.parents = data.get("parents", [])
+        self.children = data.get("children", 0)
+        self.cooldown_s = data.get("cooldown_s", 0.0)
         self.heading = data["heading"]
         self.alive = data["alive"]
         self.born_tick = data["born_tick"]

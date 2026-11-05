@@ -31,6 +31,14 @@ class Config:
     novelty_weight: float = 0.35
     plasticity: float = 0.02
     hidden_units: int = 24
+    planner: bool = True
+    max_population: int = 12
+    reproduction_min_energy: float = 0.55
+    reproduction_min_nutrition: float = 0.45
+    reproduction_cooldown_s: float = 43200.0
+    reproduction_range_m: float = 12.0
+    mutation_rate: float = 1.0
+    dream_every: int = 12
 
     @property
     def cell_m(self) -> float:
