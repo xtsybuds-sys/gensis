@@ -447,3 +447,12 @@ Format per entry:
 5. It is measured, not described.
 
 No entry in this log currently meets that bar.
+
+### 2026-11-05 — E-028: turnover clock + entropy implemented; measured cost is 5-7 h/seed; rerun in progress
+- Question: with the corrected generation clock and niche measure, does the nutrient-only pilot reach 2,000 turnovers and pass the four-part falsifier?
+- Method: `run_pilot` rewritten for cumulative births divided by mean population, baseline snapshot at 100 turnovers, per-lineage patch-share entropy (normalised Shannon, median across lineages), trait z-score with the 5% range floor, plus an atomic partial row every 100 turnovers. 52 tests OK, 22/22 checks.
+- Evidence: three attempts, all killed by harness restarts before writing a row. The longest ran 113 minutes at 398-424 ticks/s per seed (five in parallel) and reached 2.63-2.86M ticks / 520-889 turnovers per seed: 3,212-5,183 ticks per turnover at carrying capacity (~110 cells, 0.021-0.034 births/tick). No extinctions; populations 108-116; max gen 305-626.
+- Result: **the approved 2,000-turnover horizon costs 8-10M ticks per seed, i.e. 5-7 hours, not the 41 minutes the probe projected.** The probe measured the founding transient at population 200; the error is ~8x and is recorded, not hidden. The clock and entropy code is implemented and tested; no falsifier verdict is claimed yet.
+- Limitations: the rerun has not completed; the gen-100 entropy baseline and the final trait displacements are unmeasured. Runs are lost when the harness restarts, which is why checkpointing was added.
+- Next steps: 5 seeds running at target 2,000, floor 1,000, cap 300 min, checkpoint every 100; append the per-lineage table and the four checks when it completes. If Muse wants the budget held instead, run the floor (1,000, ~2.5-3.5 h) and label it as a floor-horizon result.
+- Contributing agent: Freebuff.
