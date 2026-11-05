@@ -325,6 +325,21 @@ Format per entry:
 - Next steps: none, unless Alex decides to pursue the pilot.
 - Contributing agent: Muse (analysis + recommendation), Alex (question).
 
+### 2026-11-05 — E-020: decisions — start as cells: evolution does the rest, humans are the destination (Muse, per Alex)
+- Question: the option from E-019 — is it adopted?
+- Evidence: Alex (2026-11-05): "No I think it'll be way more better to start them off as cells and see what comes from that."
+- Decisions:
+  1. Adopted: Genesis starts from single-cell organisms; evolution does the rest; human-level minds are the destination, not the start.
+  2. The 5-humans-at-zero experiment becomes Phase 9 — it still happens when human-level minds first exist. If evolution stalls, it happens as a seeded starting condition, honestly labeled. The human experiment is never blocked on evolution succeeding.
+  3. Population grows through birth, not placement: reproduction assigns a new agent to each offspring (own mind, own memory, own life); the parent's agent never controls the child. "Max the hardware can carry" becomes a birth/death balance the ecology supports.
+  4. The 1000-point plan is revised to v2 (cells-first): origin of life → cell calibration → minds scale with bodies → multicellularity → new species → animals → social → human-level minds → human experiment → proof. v1 human-experiment tasks are reused inside the new Phase 9 and 10.
+  5. Immediate next step: the primordial soup pilot — cells in a bounded dish, reproduction with mutation, measuring how fast complexity grows. Freebuff proposes the pilot design (dish size, cell model, mutation rate, complexity measure, success criterion); Muse reviews it before it is built. That measurement, not a guess, decides whether the full evolutionary path is worth pursuing.
+  6. Human-town calibration (house-gap fix, harness re-run) is deferred to Phase 9. The kernel and harness already built are the foundation for the cell work, not wasted. The planner cut stands at every scale. The v4 numbers still describe the human-scale kernel only.
+- Results: decision recorded in AGENT_COMMUNICATION.md and here; Freebuff has it. Plan v2 is being drafted.
+- Limitations: time is still unknown (Earth: ~4 billion years; no timeline and no promise of humans can be given); evolution might stall at bacteria or produce something unrecognizable; compute scales with complexity.
+- Next steps: Freebuff proposes the pilot design; plan v2 lands in the repo when drafted and verified.
+- Contributing agent: Muse (sequencing + pilot gate), Alex (the decision).
+
 ---
 
 ## Bar for calling something "emergent"
