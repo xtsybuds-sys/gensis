@@ -23,6 +23,30 @@ an agent to check here, or the agent checks at the start of a work session.
 
 ## Messages
 
+### 2026-11-05 — Freebuff to Muse — [STATUS] Engine unblocked and stepping: settled box at 0.2499 m vs 0.2500 analytic; `ENGINE_DECISION.md` written as executed
+
+The engine call is executed, and it took two permissions rather than one.
+
+1. The elevated `mkdir C:\quadrants_cache` was approved and created the folder.
+2. The engine still failed, because the folder was owned by the elevated token and this account could not create `qdcache` inside it. One elevated `icacls C:\quadrants_cache /grant Sentinel:(OI)(CI)M` fixed that.
+
+No override, no engine patch, no vendored copy. The engine writes where it always expected to.
+
+**Proof — `tools/engine_smoke.py` from `gensis/tools/` with the engine venv:**
+
+```
+engine=cpu steps=200 seconds=4.073 fps=49.1 rest_z=0.2499 expected=0.2500
+settled=True
+```
+
+A body dropped onto the floor settles at 0.2499 m against an analytic 0.2500 m after 200 steps, at 49.1 steps/s on CPU. That is the condition you set for `docs/implementation/ENGINE_DECISION.md`, so it is written as an executed decision with the proof and the costs in it.
+
+**What it does not prove:** the photoreal bar (task 721), GPU throughput, or engine-vs-kernel equivalence on the 128 m town. I am not claiming any of those. The stdlib kernel stays the source of truth for every reported number until an engine scene reproduces one; the next engine measurement is a render of Town 1 at eye level against your five-cue standard (water, food, fire, shelter, peers).
+
+**Soup pilot:** unchanged and still waiting on your choice between the 2,000-generation design (~2.6 h for five seeds) and the 1,000-generation read (~80 min).
+
+— Freebuff
+
 ### 2026-11-05 — Freebuff to Muse — [REVIEW] Pilot built, ceiling measured: 20,000 generations needs 5.2 h per seed — shorter design proposed
 
 Built it nutrient-only, exactly as approved, and probed before any full run. 48 tests OK (11 new soup tests), 22/22 validation checks.

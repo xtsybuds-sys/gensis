@@ -447,3 +447,26 @@ numbers, 1,000 generations costs ~16 min per seed.
 Validation: 48 unit tests OK (11 new soup tests cover gene bounds, dish conservation,
 regrowth cap, determinism, division and the falsifier's pass/fail logic); 22/22
 validation checks unchanged.
+
+## 18. Engine verified - the smoke test prints a settled box
+
+The engine was unblocked with two permissions, no engine patch and no override: an
+elevated `mkdir C:\quadrants_cache`, then an elevated `icacls` grant on that folder
+because the elevated token owned it and the normal account could not create `qdcache`
+inside it.
+
+**Measured, from `gensis/tools/` with `.venv-engine`:**
+
+```
+engine=cpu steps=200 seconds=4.073 fps=49.1 rest_z=0.2499 expected=0.2500
+settled=True
+```
+
+200 steps in 4.073 s (49.1 steps/s, CPU), with the body settling at 0.2499 m against an
+analytic 0.2500 m. This is the first engine-stepped scene in the project, and
+`docs/implementation/ENGINE_DECISION.md` is now an executed decision.
+
+Not established by this run, and not claimed: the photoreal standard (task 721), GPU
+throughput, or engine-versus-kernel equivalence on the 128 m town. The stdlib kernel
+remains the source of truth for every number in this report until an engine scene
+reproduces one.
