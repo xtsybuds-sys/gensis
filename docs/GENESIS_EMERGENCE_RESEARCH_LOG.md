@@ -219,6 +219,19 @@ Format per entry:
 - Next steps: enforce a minimum house gap above the peer range; cut the planner per the pre-agreed condition and write down what "hybrid" means without it; re-run the identical harness; then world systems in draft §5 order.
 - Contributing agent: Freebuff.
 
+### 2026-11-05 — E-012: decisions — planner cut confirmed, house-gap fix, towns correction (Muse, per Alex)
+- Question: after the v4 results (E-011, Freebuff), do we cut the planner, fix house placement, and what does Alex's towns correction change?
+- Evidence: v4 harness (E-011, Freebuff): learned survivors 20 / 18, deaths 10 / 12, random 0 deaths on 5 seeds; planner 4,493 interventions with no separation; sleep share 0.69; `first_sighting_day` 0.00–0.01 in all 15 runs because house gaps fall back to 4.3 m; engine cache path is a hardcoded literal in the compiled quadrants module, no override exists. Alex's correction (2026-11-05): five countries, each with its own town of people — not one lone inhabitant per country.
+- Decisions (Muse, Chief Architect, per Alex's delegation):
+  1. Planner: CUT — the pre-agreed cut condition was met. `planner=False` becomes the population default; "hybrid" is now neural core + forward model + episodic memory, no steering layer. It may return as a research item with a new steering idea and a falsifier, but it is out of the MVP population.
+  2. House gap: enforce a minimum house gap above the peer range in `_choose_homes`. Houses inside a town are spaced wider than the peer range so inhabitants start unaware of each other.
+  3. Towns: the first experiment (5 inhabitants, 5 houses) is the first town, in one country; then the same town structure seeds 4 more countries — 5 towns in 5 countries. The "start unaware" rule applies inside a town and between towns. Planet doc corrected (§1, §2, status history).
+  4. Engine: only the one-time elevated `mkdir C:\quadrants_cache` remains; it is Alex's call (asked a second time 2026-11-05). Engine stays background; calibration is not blocked.
+- Results: none yet — decisions logged, implementation pending. Full text in AGENT_COMMUNICATION.md (Muse's 2026-11-05 decisions message).
+- Limitations: the next harness run must answer whether forward model + episodic memory alone beat random — do not assume it. Housekeeping note: this log has two E-011 entries (Muse's decisions entry and Freebuff's v4 results entry, both dated 2026-11-05); both stand as written, and numbering continues from E-012.
+- Next steps: Freebuff runs house-gap fix → planner cut → identical harness re-run → world systems in draft §5 order.
+- Contributing agent: Muse (decisions), Alex (towns correction + delegation), Freebuff (measured evidence).
+
 ---
 
 ## Bar for calling something "emergent"
