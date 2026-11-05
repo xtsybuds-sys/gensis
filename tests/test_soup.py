@@ -76,6 +76,8 @@ class SoupPilot(unittest.TestCase):
         self.assertEqual(row["floor_generations"], 1000)
         self.assertIn("lineages", row["final"])
         self.assertIn("top_lineages", row["final"])
+        self.assertIn("turnovers", row["final"])
+        self.assertIn("births", row["final"])
 
     def test_niche_breadth_is_median_across_lineages(self):
         # Three cells of one lineage that found one patch, one cell of another that
@@ -121,6 +123,8 @@ class SoupFalsifier(unittest.TestCase):
         ]
         verdict = evaluate(rows)
         self.assertTrue(verdict["passed"], verdict)
+        # A zero-variance baseline must not inflate the effect into a fake discovery.
+        self.assertLess(verdict["checks"]["trait_selection_ge_2sd"]["z"], 100.0)
 
     def test_extinction_after_floor_fails(self):
         traits = {"speed": 0.1, "size": 1.0}

@@ -15,7 +15,7 @@ from collections import defaultdict
 
 from ..util import TAU, clamp, mean, stable_hash
 from .dish import NutrientDish
-from .genome import GENE_NAMES, Genome
+from .genome import GENE_NAMES, GENES, Genome
 
 TARGET_GENERATIONS = 20000
 SUCCESS_MEDIAN_DEPTH = 100
@@ -74,7 +74,7 @@ def _neighbours(cell, buckets):
     return total - 1
 
 
-def _snapshot(cells, lineages, ticks):
+def _snapshot(cells, lineages, ticks, births=0):
     if not cells:
         return {
             "population": 0,
@@ -82,6 +82,10 @@ def _snapshot(cells, lineages, ticks):
             "max_depth": 0,
             "diversity": 0.0,
             "niche_breadth": 0.0,
+            "lineages": 0,
+            "top_lineages": [],
+            "births": births,
+            "turnovers": 0.0,
             "traits": {},
             "ticks": ticks,
         }
@@ -126,6 +130,10 @@ def _snapshot(cells, lineages, ticks):
         "niche_breadth": float(niches[len(niches) // 2]) if niches else 0.0,
         "lineages": len(present),
         "top_lineages": lineage_rows[:10],
+        # Turnover is population-normalised births: the generation clock that cannot
+        # stall just because the deepest chain happened to die.
+        "births": births,
+        "turnovers": round(births / max(len(cells), 1), 3),
         "traits": traits,
         "ticks": ticks,
     }
@@ -152,6 +160,7 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
     buckets = {}
     ticks = 0
     max_gen = 0
+    births = 0
     baseline = None
     extinct_after_floor = False
     stalled = False
@@ -235,6 +244,7 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
                     cell.lineage,
                 )
                 children.append(child)
+                births += 1
                 room -= 1
 
         cells = [cell for cell in cells if cell.alive]
@@ -246,7 +256,7 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
                 max_gen = deepest
                 last_depth_tick = ticks
         if baseline is None and max_gen >= 100:
-            baseline = _snapshot(cells, lineages, ticks)
+            baseline = _snapshot(cells, lineages, ticks, births)
         if verbose and ticks % 5000 == 0:
             print(
                 f"  seed {seed}: tick {ticks} gen {max_gen} "
@@ -266,7 +276,7 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
                 break
 
     elapsed = max(time.time() - started, 1e-9)
-    final = _snapshot(cells, lineages, ticks)
+    final = _snapshot(cells, lineages, ticks, births)
     return {
         "seed": seed,
         "design": "nutrient-only, no predation",
@@ -277,6 +287,7 @@ def run_pilot(seed, generations=TARGET_GENERATIONS, minutes=45.0, initial=200,
         "extinct_after_floor": extinct_after_floor,
         "stalled": stalled,
         "ticks": ticks,
+        "births": births,
         "elapsed_s": round(elapsed, 1),
         "ticks_per_s": round(ticks / elapsed, 1),
         "population_cap": cap,
@@ -308,12 +319,17 @@ def evaluate(results, target=TARGET_GENERATIONS):
 
     z_scores = {}
     if results[0]["baseline"]:
+        widths = {name: high - low for name, low, high, _ in GENES}
         for name in GENE_NAMES:
             base_values = [row["baseline"]["traits"].get(name, 0.0) for row in results]
             final_values = [row["final"]["traits"].get(name, 0.0) for row in results]
             base_mean = mean(base_values)
             spread = math.sqrt(mean((value - base_mean) ** 2 for value in base_values))
-            z_scores[name] = round(abs(mean(final_values) - base_mean) / max(spread, 1e-9), 3)
+            # A near-zero cross-seed spread must not turn a small shift into a
+            # billion-sigma "discovery": the denominator has a floor of 5% of the
+            # gene's declared range.
+            spread = max(spread, 0.05 * widths.get(name, 1.0))
+            z_scores[name] = round(abs(mean(final_values) - base_mean) / spread, 3)
     best_trait = max(z_scores, key=z_scores.get) if z_scores else None
     trait_ok = bool(z_scores) and z_scores[best_trait] >= SUCCESS_TRAIT_Z
 
