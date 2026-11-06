@@ -43870,3 +43870,18 @@ only the existing three.js deprecation warning. `node --check world/ui.js` and
 **Honest limits.** Tab selection is not persisted across reloads. Closing the panel hides
 it rather than stopping the simulation, and the chemistry continues. The panel is chrome
 only; it adds no spatial model or interaction with vesicles.
+
+## 32. Centered tabbed views
+
+The tabbed panel and its WORLD reopen tab are now centered horizontally with fixed auto
+margins, replacing the left anchoring. The world-view intro remains centered by its flex
+overlay.
+
+**Verified 2026-11-06.** At 1100×800 the panel center delta is 0 px; at 697×847 it is
+−0.2 px. The overlay panel center deltas are 0,0 and the 3D pond target projects to
+`NDC 0,0`. The live view still renders 120 vesicles; console has only the existing
+three.js deprecation warning. No chemistry or JavaScript changed.
+
+**Capture note.** The preview screenshot viewport was temporarily out of sync with the
+page viewport (697×847 capture against a 1100×800 layout), producing a visually shifted
+capture. It was not committed as evidence; the DOM measurements above are the check.

@@ -5,7 +5,8 @@ canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: 
 canvas.dragging { cursor: grabbing; }
 
 #ui {
-  position: fixed; top: 54px; left: 14px; width: 286px; max-width: calc(100vw - 28px);
+  position: fixed; top: 54px; left: 14px; right: 14px; margin: 0 auto;
+  width: 286px; max-width: calc(100vw - 28px);
   z-index: 10; font-size: 12px; line-height: 1.55; user-select: none;
 }
 #ui[hidden], .ui-reopen[hidden] { display: none; }
@@ -54,7 +55,8 @@ canvas.dragging { cursor: grabbing; }
 .help-row span { text-align: right; }
 
 .ui-reopen {
-  position: fixed; top: 54px; left: 14px; z-index: 10;
+  position: fixed; top: 54px; left: 0; right: 0; margin: 0 auto;
+  width: max-content; z-index: 10;
   appearance: none; border: 1px solid rgba(127, 227, 208, 0.45);
   border-radius: 0 8px 8px 8px; padding: 8px 13px;
   background: rgba(6, 14, 20, 0.9); color: #8ff0dc;

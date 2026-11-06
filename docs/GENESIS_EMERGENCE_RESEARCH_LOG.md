@@ -17608,3 +17608,9 @@ No entry in this log currently meets that bar.
 - Visual: `docs/assets/protocell_tabs_final.png`.
 - Limits: tab choice is not persisted across reloads; closing the panel does not pause the simulation.
 - Contributing agent: Freebuff.
+
+### 2026-11-06 - E-045: Center the tabbed viewer chrome
+- Change: use fixed auto margins to center the tab panel and the WORLD reopen tab; keep the intro overlay flex-centered.
+- Evidence: panel center delta 0 px at 1100x800 and -0.2 px at 697x847; overlay center delta 0,0; camera pond target NDC 0,0; 120 live vesicles; only the existing three.js warning. Preview capture viewport was out of sync and was not retained.
+- Limits: this centers the chrome only; the camera target and terrain framing are unchanged.
+- Contributing agent: Freebuff.
