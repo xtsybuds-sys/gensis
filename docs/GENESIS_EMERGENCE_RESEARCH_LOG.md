@@ -481,6 +481,19 @@ Format per entry:
 - Next steps: pilot final numbers; then a working ray tracer or UV-mapped meshes; Gateway contract when the Gateway is built.
 - Contributing agent: Alex (direction), Muse (record + doc).
 
+### 2026-11-05 — E-035: review — Gateway v1 accepted; the viewer verification closes the gap (Muse, per Freebuff)
+- Question: is Gateway v1 accepted, and is the live viewer verified?
+- Evidence: Freebuff (2026-11-05, commits 6c53268/a1387ed/46b8cd4; report §22, log E-033/E-034): Gateway v1 — live feed via the on_tick hook (one simulation path), read-only HTTP Gateway (/api/world, /api/stream SSE, /api/health, loopback only), solar geometry from declination + hour angle, first-person viewer (dish as a shallow basin, three real patches, the pilot's actual cells as lineage-coloured motes), contract in docs/implementation/GATEWAY_CONTRACT.md. Measured: 60 tests, unpaced 335 ticks/s starving HTTP (225.7 ms/req), paced 49 ticks/s at ~73 ms/req (host request overhead, not the feed). Correction: Playwright Chromium (SwiftShader) vs the live gateway on 8787 — 63 cells at tick 3929, gen 12, planet time 08:01, sun 13.9 deg, W moved the camera z 11.2 to 10.10, zero page errors, one three.js deprecation warning; frame at docs/assets/world_live_frame.png; 61 tests. Water shader bug: a vec3 assigned to a vec4, WebGL refused to compile it, the first verified frame showed basin floor instead of water; fixed — water renders with ripples and specular, nutrient discs follow the real 16x16 field. Viewer opens at 08:00 local solar time for daylight; the sun is still real geometry, only the phase is chosen. Pilot still running (775/588/432/487/454 turnovers at 19:5x, projected finish 00:30–01:30).
+- Decisions:
+  1. Gateway v1 accepted; Task 871 closed (Muse, per Freebuff): the contract gets decided when the Gateway is built, and Freebuff built it.
+  2. Viewer verification rule (Muse): every viewer change gets a Playwright run plus a frame before it is called done. API tests verify the feed; only a run verifies the picture.
+  3. 08:00 planet-clock start accepted (Muse): same as the run clock starting at dawn; the sun is still real geometry, only the phase is chosen — keep that distinction explicit in the contract/docs.
+  4. Photoreal bar still unmet (Muse, on Freebuff's own statement): stylized rasterizer at dish scale, 6 fps under SwiftShader software rendering, no rays, no photoreal claim.
+- Results: Gateway v1 accepted; viewer verified headlessly; water bug fixed; Town 1 frame stays a labelled renderer test.
+- Limitations: verification ran on Freebuff's machine (Playwright/SwiftShader, 6 fps software rendering, not a GPU measurement); Muse did not re-run the Playwright test or inspect the frame pixels — the review accepts Freebuff's measured numbers at face value. Photoreal bar unmet; pilot unfinished.
+- Next steps: pilot final numbers; confirm the +1 test covers the shader fix; note/fix the deprecation warning; then a working ray tracer or UV-mapped meshes.
+- Contributing agent: Freebuff (Gateway + viewer + verification), Muse (review).
+
 ---
 
 ## Bar for calling something "emergent"
@@ -516,7 +529,7 @@ No entry in this log currently meets that bar.
 - Contributing agent: Freebuff.
 
 
-### 2026-11-06 — E-035: reduced cosmogony built, tested and rendered live; first habitable world becomes the focus
+### 2026-11-06 — E-036: reduced cosmogony built, tested and rendered live; first habitable world becomes the focus
 - Question: can the origin scene be produced by rules rather than authored, ending on the first planet that can hold life, and can it be watched live?
 - Method: `genesis/cosmos/cosmogony.py` (84 shells, gravity + angular momentum, centrifugal settling radius `j^2/(G M_star)`, accretion, `L ~ M^3.5` habitable zone, merger clustering by settled radius); `GET /api/cosmos` with a 90 s cycle; `world/cosmos.html` + `cosmos.js` (three.js); `/` serves the cosmogony, `/dish` the dish viewer.
 - Evidence: seed 20261105 gives star 0.4762, habitable zone 0.2593-0.3740, 11 planets, focus at 0.3206 with water fraction 0.651, first in the zone at tau 0.58. 69 tests OK. Headless Playwright at tau 0.08/0.30/0.55/0.75/0.95: phases expansion/collapse/disk/life/life, 0/2/5/8/10 planets, zero page errors, one three.js deprecation warning. Frames `docs/assets/cosmos_disk.png`, `docs/assets/cosmos_life.png`.
