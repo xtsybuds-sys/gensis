@@ -588,3 +588,47 @@ now points at a short temp path. `genesis/ext/pyrender/__pycache__` also had to 
 (a `LuisaRenderPy` wheel, or a different engine), UV-mapped meshes for the structures
 and figures, and an anti-aliased ray-traced frame. None of that is claimed here. The
 stdlib kernel remains the source of truth for simulation numbers.
+
+## 22. Gateway v1 and the live world viewer - the dish you can walk around
+
+Muse's Earth-like frame and the full review landed, and the Gateway is now built: the
+contract Task 871 deferred is decided, implemented, and measurable.
+
+**What was built.**
+- `genesis/soup/live.py` - a live feed that runs the real pilot and publishes a frame from
+  a new `on_tick` hook in `run_pilot`. There is one simulation code path, not a second copy
+  of the rules; the hook can also stop a run cleanly, which the tests cover.
+- `gateway/solar.py` - solar position from real orbital geometry (declination and hour
+  angle), so day and night come from the planet's tilt and spin, not a scripted clock.
+- `gateway/server.py` - read-only HTTP: `/api/world`, `/api/stream` (SSE), `/api/health`,
+  and the viewer's static files. Loopback only; no write path.
+- `world/` - a first-person three.js viewer: a shallow basin with the dish's three real
+  nutrient patches, the pilot's actual cells drawn as enlarged motes coloured by lineage,
+  the sun's real direction driving sky, water specular and stars, `WASD` + mouse look,
+  `Shift` to run, `M` for the top-down command view.
+- `docs/implementation/GATEWAY_CONTRACT.md` - the v1 contract, fields, units, failure
+  semantics and non-goals.
+
+**Measured.**
+- 60 tests pass (52 before; 8 new for the hook, the feed and the solar model).
+- Live feed: 335 ticks/s unpaced, which starved the HTTP threads (225.7 ms mean for
+  `/api/world`). Pacing the feed to 60 ticks/s (`ticks_per_second`) brought the measured
+  rate to 49 ticks/s and the mean request to ~73 ms (p50 72.8, p95 102.8).
+- That residual is per-request overhead on this Windows host, not the feed: a static
+  `/` takes the same ~72 ms, and `connect` is 0.4 ms while the first byte is ~65 ms. The
+  viewer's live path is one SSE connection, which does not pay it per frame.
+- Payload is 3,178 bytes for 65-70 cells; the feed's cell cap is 400.
+
+**Not verified, and not claimed.** The packaged browser tab would not attach in this
+session (`preview_open` and `register_preview` both returned "preview page is not
+attached"), so no rendered frame of the viewer was inspected and no screenshot exists.
+The HTTP surface, the live tick advance, the payload contents and the tests are verified;
+the pixels are not. Treat the scene as shipped-but-unviewed until someone opens
+`http://127.0.0.1:8787/` and looks.
+
+**What the viewer shows, and what it does not.** It shows the world that exists: cells in
+water, three patches, real sunlight. It does not show people, huts, fire rings or towns,
+because none exist yet. The Town 1 frame stays a labelled renderer test in
+`docs/assets/README.md`, never the world. Cells are drawn enlarged and the contract says
+so; positions and counts are the simulation's. There is no ray tracing and no claim of the
+photoreal bar.

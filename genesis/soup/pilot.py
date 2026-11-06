@@ -202,7 +202,7 @@ def _write_checkpoint(path, row):
 def run_pilot(seed, target_turnovers=TARGET_TURNOVERS, minutes=45.0, initial=200,
               cap=600, size_m=16.0, grid=64, slow_every=5, stall_ticks=20000,
               verbose=False, floor_turnovers=SURVIVAL_FLOOR_TURNOVERS,
-              checkpoint_path=None, checkpoint_every=100):
+              checkpoint_path=None, checkpoint_every=100, on_tick=None):
     """Run one dish until population-normalised births reach the target or time runs out.
 
     Turnovers are cumulative births divided by mean population, so the clock cannot
@@ -326,6 +326,8 @@ def run_pilot(seed, target_turnovers=TARGET_TURNOVERS, minutes=45.0, initial=200
             last_birth_tick = ticks
         if baseline is None and turnovers >= 100.0:
             baseline = _snapshot(cells, lineages, ticks, births, mean_pop)
+        if on_tick is not None and on_tick(dish, cells, ticks, births, max_gen) is False:
+            break
         if checkpoint_path and turnovers >= last_checkpoint + checkpoint_every:
             last_checkpoint = int(turnovers // checkpoint_every) * checkpoint_every
             _write_checkpoint(
