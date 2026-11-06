@@ -21,6 +21,11 @@
   #banner small { display: block; letter-spacing: 0.08em; color: #9fb4c0;
                   font-size: 11px; margin-top: 8px; text-transform: none; }
   a { color: #6ee7cf; }
+  #landHint {
+    position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%);
+    font-size: 12px; letter-spacing: 0.14em; color: #bdf5e8; opacity: 0;
+    transition: opacity 0.4s ease; text-transform: uppercase; pointer-events: none;
+  }
 </style>
 </head>
 <body>
@@ -39,6 +44,8 @@
   <div class="row"><span>fps</span><b id="fps">—</b></div>
   <div id="status">connecting to the cosmogony feed…</div>
 </div>
+
+<div id="landHint">click the water world to land</div>
 
 <div id="legend">
   <div class="dot" style="background:#8ff5e0"></div> habitable zone

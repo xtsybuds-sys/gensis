@@ -163,6 +163,60 @@
   const params = new URLSearchParams(location.search);
   const frozen = params.has('tau') ? parseFloat(params.get('tau')) : null;
 
+  // -------------------------------------------------------------------- landing
+  const raycaster = new THREE.Raycaster();
+  const pointer = new THREE.Vector2();
+  let dive = null;
+
+  function pick(event) {
+    if (!state) return null;
+    const rect = canvas.getBoundingClientRect();
+    pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(pointer, camera);
+    const hits = raycaster.intersectObjects([focusMesh, planets], false);
+    for (const hit of hits) {
+      if (hit.object === focusMesh && focusMesh.visible) {
+        return { kind: 'focus' };
+      }
+      if (hit.object === planets && hit.instanceId !== undefined) {
+        const planet = state.planets[hit.instanceId];
+        if (planet) return { kind: 'planet', planet: planet };
+      }
+    }
+    return null;
+  }
+
+  function surfaceUrl() {
+    const query = new URLSearchParams({ from: 'cosmos' });
+    if (state && state.focus) {
+      query.set('radius', String(state.focus.radius));
+      query.set('water', String(state.focus.water));
+    }
+    return '/surface?' + query.toString();
+  }
+
+  canvas.addEventListener('click', (event) => {
+    if (!state || dive) return;
+    const hit = pick(event);
+    if (!hit) return;
+    if (hit.kind === 'focus' && state.phase === 'life' && focusPos) {
+      dive = { started: performance.now(), target: focusPos.clone(), done: false };
+      document.getElementById('flash').style.transition = 'none';
+      return;
+    }
+    document.getElementById('status').textContent = state.phase === 'life'
+      ? 'planet at ' + hit.planet.radius.toFixed(2) + ' - no surface simulation there yet'
+      : 'surfaces appear once the first world is habitable';
+  });
+
+  canvas.addEventListener('mousemove', (event) => {
+    if (!state || dive) return;
+    const hit = pick(event);
+    canvas.style.cursor = hit && hit.kind === 'focus' && state.phase === 'life'
+      ? 'pointer' : 'default';
+  });
+
   // --------------------------------------------------------------------- feed
   async function poll() {
     const url = frozen !== null
@@ -188,6 +242,8 @@
       ? data.focus.water.toFixed(2) + ' at ' + data.focus.radius.toFixed(2)
       : 'searching…';
     el('status').textContent = 'live · ' + data.source;
+    document.getElementById('landHint').style.opacity =
+      data.phase === 'life' ? '1' : '0';
 
     const banner = document.getElementById('banner');
     if (data.phase === 'life') {
@@ -290,6 +346,7 @@
   let cameraTarget = new THREE.Vector3(0, 0, 0);
 
   function updateCamera(data) {
+    if (dive) return;
     let wanted = new THREE.Vector3(0, 0.9, 2.6);
     let look = new THREE.Vector3(0, 0, 0);
     if (data.phase === 'expansion') {
@@ -323,6 +380,21 @@
       scene.rotation.y = Math.sin(t * 0.05) * 0.04;
     } else {
       scene.rotation.y = 0;
+    }
+    if (dive) {
+      const progress = Math.min(1, (performance.now() - dive.started) / 1500);
+      const direction = camera.position.clone().sub(dive.target).normalize();
+      camera.position.copy(dive.target).addScaledVector(
+        direction, 0.075 + 0.34 * Math.pow(1 - progress, 1.8)
+      );
+      camera.lookAt(dive.target);
+      const flash = document.getElementById('flash');
+      flash.style.transition = 'opacity 0.3s linear';
+      flash.style.opacity = progress < 0.55 ? '0' : String((progress - 0.55) / 0.45);
+      if (progress >= 1 && !dive.done) {
+        dive.done = true;
+        location.href = surfaceUrl();
+      }
     }
     renderer.render(scene, camera);
     frames++;

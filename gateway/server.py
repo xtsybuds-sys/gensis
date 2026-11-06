@@ -137,7 +137,7 @@ class Handler(BaseHTTPRequestHandler):
     def _static(self, path):
         if path in ("", "/"):
             path = "/cosmos.html"
-        elif path == "/dish":
+        elif path in ("/dish", "/surface"):
             path = "/index.html"
         clean = posixpath.normpath(path).lstrip("/")
         if clean.startswith("..") or os.path.isabs(clean):
