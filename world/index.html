@@ -1,51 +1,100 @@
 <!doctype html>
+
 <html lang="en">
+
 <head>
+
 <meta charset="utf-8" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Genesis — Live World</title>
+
+<title>Genesis — Baseline</title>
+
 <link rel="stylesheet" href="style.css" />
+
 </head>
+
 <body>
+
 <canvas id="scene"></canvas>
 
-<a id="orbit" href="/">&larr; orbit</a>
+
+
+
 
 <div id="hud">
+
   <div id="title">GENESIS <span id="viewName">WORLD VIEW</span></div>
+
   <div class="row"><span>population</span><b id="pop">—</b></div>
+
   <div class="row"><span>turnovers</span><b id="turn">—</b></div>
+
   <div class="row"><span>generation</span><b id="gen">—</b></div>
+
   <div class="row"><span>lineages</span><b id="lin">—</b></div>
+
   <div class="row"><span>mean size</span><b id="size">—</b></div>
+
   <div class="row"><span>mean speed</span><b id="speed">—</b></div>
+
   <div class="row"><span>sun elevation</span><b id="elev">—</b></div>
+
   <div class="row"><span>planet time</span><b id="ptime">—</b></div>
+
   <div class="row"><span>fps</span><b id="fps">—</b></div>
+
   <div id="status">connecting to the gateway…</div>
+
 </div>
 
+
+
 <div id="legend">
+
   <div class="dot" style="background:#39d0c8"></div> nutrient patches
+
   <div class="dot" style="background:#ffd166"></div> cells (enlarged ×60)
+
 </div>
+
+
 
 <div id="hint">WASD move · mouse look · Shift run · M map</div>
 
+
+
 <div id="overlay">
+
   <div class="panel">
+
     <h1>Genesis</h1>
-    <p>This is the live primordial dish — the world as it currently exists. Every cell you
+
+    <p>This is the baseline — the world as it currently exists. Every cell you
+
        see is a real cell from the running simulation; its position, size and lineage come
-       from the pilot, not from a script.</p>
+
+       from the pilot, not from a script. Nothing here is staged: the simulation advances on its own.</p>
+
     <p class="small">The sun's height is computed from the planet's rotation and tilt at
+
        this instant. Night falls here too.</p>
+
     <button id="enter">Click to enter</button>
+
     <p class="small" id="overlayStatus">waiting for the first frame…</p>
+
   </div>
+
 </div>
 
+
+
 <script src="vendor/three.min.js"></script>
+
 <script src="world.js"></script>
+
 </body>
+
 </html>
+
