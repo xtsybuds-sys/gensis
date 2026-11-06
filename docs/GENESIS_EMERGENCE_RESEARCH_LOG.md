@@ -17595,3 +17595,9 @@ No entry in this log currently meets that bar.
 - Evidence: browser title `Genesis - Protocell Baseline`, 120 cells, `__genesisEnvironment.ready`, setting label visible, no application console errors except the three.js warning; frame `docs/assets/protocell_shelf_final.png`; `node --check` passes; 85 tests pass.
 - Limits: scenery is illustrative, not a spatial model; no collision or local selection; well-mixed reactor and presentation-only positions remain.
 - Contributing agent: Freebuff.
+
+### 2026-11-06 - E-043: 360 orbit and dolly zoom for the live viewer
+- Change: replaced pointer-lock first-person look and WASD movement with a pond-centred orbit camera. Pointer drag gives unlimited yaw and clamped elevation; wheel or +/- changes radius from 5.5 to 28; R resets; M keeps the map. The camera uses the environment height function for a floor clamp.
+- Evidence: reset yaw 0/pitch 0.09/radius 11.2; 1047 px drag gave yaw -6.282 (full 360); wheel radius 16.053 then 11.2; 120 live cells; no application console errors; `node --check` passes; 85 tests pass.
+- Limits: orbit target is fixed at the pond; no terrain collision or free movement; dolly zoom, not FOV; no pinch gesture.
+- Contributing agent: Freebuff.

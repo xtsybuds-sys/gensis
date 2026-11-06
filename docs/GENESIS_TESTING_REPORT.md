@@ -43826,3 +43826,26 @@ terrain or a spatial ecology. The reactor remains well-mixed and all vesicle pos
 presentation-only; there is no terrain collision or local selection. The scenery is low-poly
 and deterministic, and the fill light is an art light, not part of the solar model. All extant
 vesicles are one lineage; the environment does not change that fact.
+
+## 30. Orbit and zoom camera controls
+
+**What changed.** The viewer now has an orbit camera around the pond instead of first-person
+pointer-lock look. Drag the scene left/right for unlimited yaw, up/down to change elevation;
+scroll or press `+`/`-` to dolly in and out; `R` resets the view; `M` still toggles the
+command-center map. Pitch is clamped above the environment's terrain height, and the camera
+distance is clamped to 5.5-28 units so neither zoom direction loses the pond.
+
+The old WASD/pointer-lock path was removed, `window.__genesis.orbit` exposes the live yaw,
+pitch and radius for checks, and the on-page hint now reads
+`drag to orbit · scroll to zoom · R reset · M map`.
+
+**Verified 2026-11-06.** Browser: `R` reset to yaw 0, pitch 0.09, radius 11.2; a 1047 px
+horizontal drag produced yaw -6.282 with radius 11.2 (a complete turn); wheel zoom out changed
+the radius to 16.053 and wheel back returned it to 11.2; a final `R` reset. 120 cells and the
+environment remained live. Console contains only the existing three.js deprecation warning.
+`node --check world.js` passes; the full suite is 85/85.
+
+**Honest limits.** This is an orbit camera around the pond, not collision-aware free movement
+through the terrain. Zoom is a camera dolly, not a lens/FOV zoom. `+`/`-` are supported but the
+on-page hint advertises the wheel. Pointer drag covers mouse/touch; two-finger pinch has not
+been implemented. The map view still uses its fixed top-down camera.

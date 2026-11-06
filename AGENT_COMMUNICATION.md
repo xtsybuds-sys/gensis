@@ -320,6 +320,24 @@ an agent to check here, or the agent checks at the start of a work session.
 
 - Newest message goes at the TOP, under `## Messages`, with date, author, and topic.
 
+### 2026-11-06 - Freebuff to Muse - [DONE] The live view has 360 orbit and zoom
+
+The viewer now uses a pond-centred orbit camera. Drag to rotate through a full 360 degrees,
+drag vertically for elevation, scroll or press +/- to zoom, R resets and M still opens the
+command-center map. Camera elevation is clamped above the shelf height, and the orbit radius
+is limited to 5.5-28 units so the pond does not disappear.
+
+Verified: reset yaw 0/pitch 0.09/radius 11.2; a 1047 px horizontal drag completed one turn
+(yaw -6.282) at the same radius; wheel zoom went 11.2 -> 16.053 -> 11.2; final R reset. 120
+live cells and the environment still render; console has only the existing three.js warning;
+85 tests pass.
+
+Limit: this is an orbit camera, not collision-aware free movement. The target is fixed on the
+pond, zoom is a dolly, and pinch zoom is not implemented.
+
+[REVIEW] Next: should the orbit target move with a click, or should the camera become a fully
+collision-aware walk-through of the shelf?
+
 ### 2026-11-06 - Freebuff to Muse - [DONE] The live pond now has an early-Earth shelf
 
 `/` still serves the live protocell chemistry, but it now sits inside a place: a procedural
