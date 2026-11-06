@@ -174,6 +174,38 @@ def cmd_abiotic(args):
     return 0
 
 
+def cmd_protocell(args):
+    """Coarse-grained protocell life test: main, neutral and no-catalysis arms."""
+    from .abiotic.protocell import run_protocell
+
+    seeds = [args.seed + i for i in range(args.seeds)]
+    rows = []
+    for seed in seeds:
+        row = run_protocell(
+            seed,
+            ticks=args.ticks,
+            sample_every=args.sample_every,
+            catalysis=args.arm != "no-catalysis",
+            neutral=args.arm == "neutral",
+        )
+        row["arm"] = args.arm
+        rows.append(row)
+        print(
+            f"{args.arm} seed {seed}: cat@{row['first_catalyst_tick']} "
+            f"births {row['births']} divs {row['divisions']} "
+            f"gen {row['best_max_generation']} streak {row['best_max_catalyst_streak']} "
+            f"trait {row['trait_first']}->{row['trait_last']} "
+            f"mutant {row['mutant_persistence_ticks']}t established={row['established']}"
+        )
+    if args.out:
+        import json
+
+        with open(args.out, "w", encoding="utf-8") as handle:
+            json.dump({"arm": args.arm, "rows": rows}, handle, indent=2)
+        print(f"wrote {args.out}")
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="genesis", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -233,6 +265,19 @@ def build_parser():
     abiotic.add_argument("--control", action="store_true", help="disable template replication")
     abiotic.add_argument("--out", default=None)
     abiotic.set_defaults(func=cmd_abiotic)
+
+    protocell = sub.add_parser(
+        "protocell", help="protocell life test (membranes, catalysts, division)"
+    )
+    protocell.add_argument("--seeds", type=int, default=3)
+    protocell.add_argument("--seed", type=int, default=20261105)
+    protocell.add_argument("--ticks", type=int, default=8000)
+    protocell.add_argument("--sample-every", type=int, default=100)
+    protocell.add_argument(
+        "--arm", choices=("main", "neutral", "no-catalysis"), default="main"
+    )
+    protocell.add_argument("--out", default=None)
+    protocell.set_defaults(func=cmd_protocell)
 
     return parser
 

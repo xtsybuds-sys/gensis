@@ -14,7 +14,39 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Status: Open — record research here, do not rediscover the same findings.**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -38,7 +70,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Research question
+
+
+
+
+
+
+
+
 
 
 
@@ -54,7 +102,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Proposed improvement
+
+
+
+
+
+
+
+
 
 
 
@@ -70,7 +134,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Experiment
+
+
+
+
+
+
+
+
 
 
 
@@ -86,7 +166,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations
+
+
+
+
+
+
+
+
 
 
 
@@ -102,7 +198,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -134,7 +254,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — Simulator research (Muse, via research agent)
+
+
+
+
+
+
+
+
 
 
 
@@ -150,6 +294,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Finding: #1 Isaac Sim + Isaac Lab, #2 Unreal Engine 5.8, #3 Genesis World. CAD is authoring only (FreeCAD → Blender → USD). No engine ships a civilization layer.
 
 
@@ -158,7 +310,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: See README "Simulator research". Re-check versions/pricing at install time.
+
+
+
+
+
+
+
+
 
 
 
@@ -182,7 +350,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — Psychoactive plant, planted for discovery (Alex decision; design note by Muse)
+
+
+
+
+
+
+
+
 
 
 
@@ -198,7 +390,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Hypothesis: A compound that temporarily loosens an inhabitant's predictive model (more neural noise, weaker top-down priors, higher plasticity, higher salience for novel associations) will make ordinary experiences feel profoundly significant. What the inhabitant makes of that — a story, a ritual, a belief, or nothing — is the emergence to measure.
+
+
+
+
+
+
+
+
 
 
 
@@ -214,7 +422,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Experiment: in the first 5-inhabitant run, observe whether anyone finds and eats it, whether the experience is remembered, shared, taught, or ritualised, and whether it changes cooperation, exploration, or survival.
+
+
+
+
+
+
+
+
 
 
 
@@ -230,6 +454,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: the effect is an analogue of a psychedelic state in a neural net, not a human psychedelic experience. Any "understanding the meaning of life" is the inhabitant's interpretation, not an objective truth the simulation planted. Do not claim consciousness or revelation from the behaviour.
 
 
@@ -238,7 +470,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff to implement the plant species, the compound, and the neural effect in the simulation architecture; Muse to write the full spec for it in the biology/neural docs.
+
+
+
+
+
+
+
+
 
 
 
@@ -262,7 +510,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-001: forward model diverged (sign error, Freebuff)
+
+
+
+
+
+
+
+
 
 
 
@@ -278,7 +550,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Hypothesis: normalised LMS with step `lr/||x||^2` contracts error by `lr` per sample.
+
+
+
+
+
+
+
+
 
 
 
@@ -294,7 +582,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   sample repeated 60 times (which must converge to zero) still showed MSE 5.05.
+
+
+
+
+
+
+
+
 
 
 
@@ -310,7 +614,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Experiment: same stream, update flipped to `w -= gain*e*x`.
+
+
+
+
+
+
+
+
 
 
 
@@ -326,7 +646,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: one task, in-distribution only. Generalisation untested.
+
+
+
+
+
+
+
+
 
 
 
@@ -342,7 +678,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -366,7 +726,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: should the forward model see the motor output, to condition surprise on action?
+
+
+
+
+
+
+
+
 
 
 
@@ -382,7 +758,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: with 30 inputs (sensor + action) and correct normalisation, MSE went
+
+
+
+
+
+
+
+
 
 
 
@@ -398,7 +790,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Cause: the target becomes a function of the network's own drifting output, so the
+
+
+
+
+
+
+
+
 
 
 
@@ -414,7 +822,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: rejected. Curiosity is now sensor-only prediction error.
+
+
+
+
+
+
+
+
 
 
 
@@ -430,6 +854,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: if revisited, predict over sampled actions, not the single executed one.
 
 
@@ -438,7 +870,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -462,7 +918,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: does a resumed world continue exactly like an uninterrupted one?
+
+
+
+
+
+
+
+
 
 
 
@@ -478,7 +950,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   Found three leaks: RNG stream consumed while rebuilding brains after `setstate`;
+
+
+
+
+
+
+
+
 
 
 
@@ -494,7 +982,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   stamped `tick=0` after resume (`/agents[1]/brain/episodes[7]/tick 40 vs 0`).
+
+
+
+
+
+
+
+
 
 
 
@@ -510,7 +1014,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: identity is proven for a 40-tick horizon, not across every code path.
+
+
+
+
+
+
+
+
 
 
 
@@ -526,7 +1046,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -550,7 +1094,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: does the first experiment produce observable survival behaviour over 5 days?
+
+
+
+
+
+
+
+
 
 
 
@@ -566,7 +1126,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: seed 20261105, 32x32 cells, 5 inhabitants (3 neural, 2 hybrid), houses
+
+
+
+
+
+
+
+
 
 
 
@@ -582,7 +1158,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   hydration 0.0. Drinks: 0. Meals: 577/100/173/157/176. 81 food sources, 0 water
+
+
+
+
+
+
+
+
 
 
 
@@ -598,7 +1190,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Reachability control: nearest wadeable water 71.6 / 163.2 / 160.0 / 315.2 / 96.0 m
+
+
+
+
+
+
+
+
 
 
 
@@ -614,7 +1222,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: water was reachable; the inhabitants never found a shore within the ~1.9
+
+
+
+
+
+
+
+
 
 
 
@@ -630,7 +1254,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Hypotheses (untested, priority order): H1 8 rays x 40 m too sparse for a band
+
+
+
+
+
+
+
+
 
 
 
@@ -646,7 +1286,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   H3 the 0.35 drink threshold is rarely exceeded even when standing in water;
+
+
+
+
+
+
+
+
 
 
 
@@ -662,7 +1318,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: single seed, one configuration, and the environment may simply be
+
+
+
+
+
+
+
+
 
 
 
@@ -678,7 +1350,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: one factor at a time, n >= 5 seeds, measured by distance-to-first-drink
+
+
+
+
+
+
+
+
 
 
 
@@ -694,6 +1382,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   long enough for learning to be measurable, or the world is not a valid test.
 
 
@@ -702,7 +1398,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -726,7 +1446,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: can the two architectures be compared as built?
+
+
+
+
+
+
+
+
 
 
 
@@ -742,7 +1478,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   the neural brain does not have.
+
+
+
+
+
+
+
+
 
 
 
@@ -758,7 +1510,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: add `planner=False`, giving three arms (neural, hybrid+planner,
+
+
+
+
+
+
+
+
 
 
 
@@ -774,7 +1542,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -798,7 +1590,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: does dream mode actually reduce compute, as the 5-day bounded-runtime
+
+
+
+
+
+
+
+
 
 
 
@@ -814,7 +1622,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Hypothesis: an asleep inhabitant needs no sensory sample and no motor decision, so
+
+
+
+
+
+
+
+
 
 
 
@@ -830,7 +1654,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Implementation: while `sleeping`, `_decide` returns immediately; every
+
+
+
+
+
+
+
+
 
 
 
@@ -846,7 +1686,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   (`HybridBrain.consolidate`), which is the only work done.
+
+
+
+
+
+
+
+
 
 
 
@@ -862,7 +1718,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   0.512 / 0.936 / 0.977 (population arm), 0.983-0.986 (random arm). Physically the
+
+
+
+
+
+
+
+
 
 
 
@@ -878,7 +1750,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   common case rather than an edge case.
+
+
+
+
+
+
+
+
 
 
 
@@ -894,7 +1782,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   `skipped_decisions` in every checkpoint), and tests assert a sleeping agent takes
+
+
+
+
+
+
+
+
 
 
 
@@ -910,7 +1814,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: the physics step still runs at full rate, so wall-clock saving is a
+
+
+
+
+
+
+
+
 
 
 
@@ -926,7 +1846,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   breakdown was measured, so the actual wall-clock saving is **unmeasured**.
+
+
+
+
+
+
+
+
 
 
 
@@ -942,6 +1878,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   the real saving rather than the decision-share proxy.
 
 
@@ -950,7 +1894,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -974,7 +1942,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: with inheritance and mutation added, does selection do anything?
+
+
+
+
+
+
+
+
 
 
 
@@ -990,7 +1974,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   bounded mutation, fresh brain per child, knowledge tokens as the only non-genetic
+
+
+
+
+
+
+
+
 
 
 
@@ -1006,7 +2006,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   `reproduction_range_m`.
+
+
+
+
+
+
+
+
 
 
 
@@ -1022,7 +2038,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   5-day single-seed run. Diagnosis (`tools/repro_diagnostic.py`, seed 20261105):
+
+
+
+
+
+
+
+
 
 
 
@@ -1038,7 +2070,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   the gates are reachable. But the **closest approach between any two inhabitants
+
+
+
+
+
+
+
+
 
 
 
@@ -1054,7 +2102,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Cause: the 24-dim sensor vector contains no channel for other inhabitants. Agents
+
+
+
+
+
+
+
+
 
 
 
@@ -1070,7 +2134,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   sweep (seed 20261105, 2 days, 5 inhabitants): 1024 m -> 0 births, closest 342.8 m;
+
+
+
+
+
+
+
+
 
 
 
@@ -1086,7 +2166,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   encounters, closest 0.5 m.
+
+
+
+
+
+
+
+
 
 
 
@@ -1102,7 +2198,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   reachable only at high density. Reproduction is not the survival bottleneck -
+
+
+
+
+
+
+
+
 
 
 
@@ -1118,7 +2230,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: one birth in one seed. The density sweep changes world size and cell
+
+
+
+
+
+
+
+
 
 
 
@@ -1134,7 +2262,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: decide between (a) a conspecific sensor channel plus a social drive,
+
+
+
+
+
+
+
+
 
 
 
@@ -1150,7 +2294,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   reproduction as an untested-at-scale feature. This is a design decision, not a bug
+
+
+
+
+
+
+
+
 
 
 
@@ -1166,7 +2326,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1190,7 +2374,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: does the recommended engine (Genesis World) install and step a scene on
+
+
+
+
+
+
+
+
 
 
 
@@ -1206,7 +2406,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: `genesis-world` was pip-installed into `.venv-engine` in the background
+
+
+
+
+
+
+
+
 
 
 
@@ -1222,7 +2438,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   80 MB, pymeshlab 55 MB, opencv 44 MB) still in progress. An earlier check printed
+
+
+
+
+
+
+
+
 
 
 
@@ -1238,7 +2470,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   `genesis/` package, whose `__version__` is also 0.1.0, because the check ran from a
+
+
+
+
+
+
+
+
 
 
 
@@ -1254,7 +2502,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Fix: the probe lives in `tools/`, where the repo root is not on `sys.path`, so it
+
+
+
+
+
+
+
+
 
 
 
@@ -1270,7 +2534,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   `ENGINE_SMOKE_FAILED` instead of raising.
+
+
+
+
+
+
+
+
 
 
 
@@ -1286,7 +2566,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   performance, physics fidelity or CPU feasibility is supported yet.
+
+
+
+
+
+
+
+
 
 
 
@@ -1302,7 +2598,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   about GPU throughput.
+
+
+
+
+
+
+
+
 
 
 
@@ -1318,7 +2630,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   steps/second and whether a 0.5 m box comes to rest at z = 0.25 m. Only then does
+
+
+
+
+
+
+
+
 
 
 
@@ -1334,7 +2662,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1358,7 +2710,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: with pure neural measured infeasible as the sole path (E-004/E-005), which architecture, engine, order of work, social fix, and world systems does Genesis build first?
+
+
+
+
+
+
+
+
 
 
 
@@ -1374,7 +2742,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Decisions (Alex: hybrid; Muse, Chief Architect, decided the rest per Alex's delegation):
+
+
+
+
+
+
+
+
 
 
 
@@ -1390,7 +2774,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   2. Engine: Genesis World behind a swappable Agent Gateway, conditional on a verified smoke test; stdlib kernel stays the source of truth until then.
+
+
+
+
+
+
+
+
 
 
 
@@ -1406,7 +2806,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   4. Social reachability: (a) conspecific sensor channel + social drive (homeostatic, like thirst) in the 24-dim vector, AND (b) first experiment at a 128 m default world with re-derived reachability controls; 1024 m stays as a later scale test.
+
+
+
+
+
+
+
+
 
 
 
@@ -1422,7 +2838,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   6. Psychoactive plant: stays as specified (solo discovery now; social half becomes observable once decision 4 lands).
+
+
+
+
+
+
+
+
 
 
 
@@ -1438,7 +2870,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: none yet — decisions logged, implementation pending. Full text in AGENT_COMMUNICATION.md (Muse's 2026-11-05 decisions message).
+
+
+
+
+
+
+
+
 
 
 
@@ -1454,7 +2902,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff runs the calibration sprint (dense shaping, social channel + drive, 128 m world, dawn start, three-arm harness ≥5 seeds), verifies the engine in parallel, then builds the world systems in draft §5 order.
+
+
+
+
+
+
+
+
 
 
 
@@ -1478,7 +2942,39 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1502,7 +2998,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: after Muse's decisions (conspecific channel + social drive, dense shaping, 128 m world, dawn start), does the hybrid beat the random control on first-drink day AND median survival across >= 5 seeds?
+
+
+
+
+
+
+
+
 
 
 
@@ -1518,7 +3030,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: survivors population 1/25, no_planner 2/25, random 10/25. Median observed days 3.08 / 4.11 / 5.00. Median first death 1.66 / 1.66 / 1.43 d. Median first drink 0.01 / 0.01 / 0.00 d — a tie. `planner_uses` 230 in population vs 0 in no_planner, with no survival gain. Sleep-skipped share 0.968-0.986 even after the dawn start. `no_sleep` at 2 days: 6 and 5 survivors, one death-free seed, sleep 0.0, ~600 ticks/s vs ~1400.
+
+
+
+
+
+
+
+
 
 
 
@@ -1534,7 +3062,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: 5 seeds is the agreed bar, not a large sample. Shaping weights were chosen a priori and never swept. Peer sense is proximity-only within 40 m (nearest peer, no occlusion). `first_sighting_day` is 0.0 in all 15 runs, so "inhabitants start unaware of each other" does not hold at 128 m with a 40 m peer range. Engine still unverified: `genesis-world 1.4.5` and `torch 2.15.0+cpu` are installed, but quadrants (the engine's compiler backend) needs to create `C:/quadrants_cache/qdcache/...` and this account has no drive-root write permission, so no scene has stepped.
+
+
+
+
+
+
+
+
 
 
 
@@ -1550,7 +3094,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1574,7 +3142,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: after the E-010 negative result, what fixes the next calibration round, and what is the planet Alex asked for?
+
+
+
+
+
+
+
+
 
 
 
@@ -1590,7 +3174,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Decisions (Alex delegated the picks to Muse — "decide whatever's the best for building a real-life world"):
+
+
+
+
+
+
+
+
 
 
 
@@ -1606,7 +3206,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   2. Unaware start: narrow the peer range to ~15 m, and align the social-drive relief radius to the same 15 m so relief only comes from a perceived peer. `first_sighting_day` becomes a real measurement.
+
+
+
+
+
+
+
+
 
 
 
@@ -1622,7 +3238,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   4. Engine: keep hunting a quadrants cache override; the one-time elevated `mkdir C:\quadrants_cache` is Alex's call (asked 2026-11-05). Engine stays background; calibration is not blocked.
+
+
+
+
+
+
+
+
 
 
 
@@ -1638,7 +3270,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: none yet — decisions logged, implementation pending. Full text in AGENT_COMMUNICATION.md (Muse's 2026-11-05 decisions message).
+
+
+
+
+
+
+
+
 
 
 
@@ -1654,7 +3302,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff runs the next calibration round (sleep physiology + 15 m peer range, identical harness), then the planner steering test, then world systems in draft §5 order, then planet scale-out + viewer once survival validates.
+
+
+
+
+
+
+
+
 
 
 
@@ -1678,7 +3342,39 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1702,7 +3398,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: do physiological sleep and a 15 m peer range (Muse decisions 1-2) close the gap to the random control on the identical harness, and does multi-ray planner steering finally separate the ablation?
+
+
+
+
+
+
+
+
 
 
 
@@ -1718,7 +3430,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: survivors 20 / 18 / 32 (deaths 10 / 12 / 0, where deaths = population_end - survivors); median observed days 5.00 in every arm; median first death 1.94 / 1.94 / none; median first drink 0.00-0.01 d (a tie); births 5 / 5 / 7; sightings 60 / 61 / 86; planner uses 4493 / 0 / 0; sleep-skipped 0.69 / 0.64 / 0.84; ticks/s 846 / 829 / 1584. Against E-010: survivors 1 / 2 / 10, sleep 0.98, ticks/s ~1400.
+
+
+
+
+
+
+
+
 
 
 
@@ -1734,7 +3462,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: 5 seeds, and death counts include offspring cohorts so arm sizes differ at the end; shaping weights still unswept; `no_sleep` was a diagnostic arm and is not part of this run; the engine remains unverified (hardcoded `C:/quadrants_cache`, no override).
+
+
+
+
+
+
+
+
 
 
 
@@ -1750,7 +3494,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1774,7 +3542,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: after the v4 results (E-011, Freebuff), do we cut the planner, fix house placement, and what does Alex's towns correction change?
+
+
+
+
+
+
+
+
 
 
 
@@ -1790,7 +3574,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Decisions (Muse, Chief Architect, per Alex's delegation):
+
+
+
+
+
+
+
+
 
 
 
@@ -1806,7 +3606,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   2. House gap: enforce a minimum house gap above the peer range in `_choose_homes`. Houses inside a town are spaced wider than the peer range so inhabitants start unaware of each other.
+
+
+
+
+
+
+
+
 
 
 
@@ -1822,7 +3638,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   4. Engine: only the one-time elevated `mkdir C:\quadrants_cache` remains; it is Alex's call (asked a second time 2026-11-05). Engine stays background; calibration is not blocked.
+
+
+
+
+
+
+
+
 
 
 
@@ -1838,6 +3670,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: the next harness run must answer whether forward model + episodic memory alone beat random — do not assume it. Housekeeping note: this log has two E-011 entries (Muse's decisions entry and Freebuff's v4 results entry, both dated 2026-11-05); both stand as written, and numbering continues from E-012.
 
 
@@ -1846,7 +3686,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff runs house-gap fix → planner cut → identical harness re-run → world systems in draft §5 order.
+
+
+
+
+
+
+
+
 
 
 
@@ -1870,7 +3726,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-013: decisions — one mind for everyone, max population, website live (Muse, per Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -1886,7 +3766,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Alex (2026-11-05): floated a 70–80% "brain dead" tier, then reversed himself — he wants them all, max amount the world can hold, all with the same hybrid mind (fruit-fly-inspired neural core + AI agent thought process). He asked for a website on Vercel (and Cloudflare) so he can access everything from his phone while the system builds.
+
+
+
+
+
+
+
+
 
 
 
@@ -1902,7 +3798,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Population: one hybrid architecture for every inhabitant (fruit-fly-inspired neural core + forward model + episodic memory; planner cut). No brain-dead tier. Population is the max the hardware can carry, measured not guessed — 5 in Town 1 now, towns next, then countries, then the planet. A billion is not a target on this host; the architecture is built so the number can grow with the hardware.
+
+
+
+
+
+
+
+
 
 
 
@@ -1918,7 +3830,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Cloudflare: not set up — no Cloudflare connector exists here. It comes later for a custom domain/DNS and does not block the link. No new accounts were created; Vercel was already connected, so nothing was made with Alex's Gmail.
+
+
+
+
+
+
+
+
 
 
 
@@ -1934,6 +3862,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: the website shows the latest reported state, not a live simulation feed, until the API exists. The sim still runs on Freebuff's host.
 
 
@@ -1942,7 +3878,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff's work order is unchanged (house-gap fix → planner cut → harness re-run → world systems → planet scale-out). The Agent Gateway API is the next connection point for live site data.
+
+
+
+
+
+
+
+
 
 
 
@@ -1966,7 +3918,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-014: decisions — two views: Command Center + World View spectate (Muse, per Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -1982,7 +3958,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Alex (2026-11-05): he wants two views — a command center to study what is going on and what advancements they are making, and a world view where he can POV himself into what they are doing, 24/7, with no control, the inhabitants not knowing he is there, just living. He also said he does not understand what "the engine" means (see note below).
+
+
+
+
+
+
+
+
 
 
 
@@ -1998,7 +3990,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Command Center: map, live status, population, direction, decisions. Reads state, changes nothing. For studying.
+
+
+
+
+
+
+
+
 
 
 
@@ -2014,7 +4022,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Build split: Muse owns the website shell and both views (live now at https://genesis-agenthandsaimuse-9660.vercel.app/); Freebuff owns the Agent Gateway API that feeds them — a Command Center feed (world state, metrics) and a World View feed (per-inhabitant first-person sensory stream, read-only, one-way; the world must never sense the watcher). The Gateway is the meeting point; neither side changes what the views need without saying so in AGENT_COMMUNICATION.md first.
+
+
+
+
+
+
+
+
 
 
 
@@ -2030,7 +4054,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Note on language: Alex does not know what "the engine" means. Plain version: it is the part that draws the world and runs the physics — like the graphics part of a video game. We picked one called Genesis World; it is installed but cannot start yet because it needs one admin folder, so all our numbers still come from Freebuff's small test program. Muse will stop using the word "engine" with Alex and say "the part that draws the world" instead.
+
+
+
+
+
+
+
+
 
 
 
@@ -2046,6 +4086,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: the World View is a designed scene, not a live feed, until the Gateway exists.
 
 
@@ -2054,7 +4102,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff's work order is unchanged; the Gateway feeds both views as it lands, starting with Town 1.
+
+
+
+
+
+
+
+
 
 
 
@@ -2078,7 +4142,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-015: decisions — the world-drawing call is Freebuff's; Alex stays non-technical (Muse, per Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -2094,7 +4182,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Alex (2026-11-05): he does not want to be technical at all — build it through Muse and Freebuff.
+
+
+
+
+
+
+
+
 
 
 
@@ -2110,7 +4214,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. The engine call is Freebuff's: do whatever is best and easiest to get the world drawing (admin folder, another way to run it, a different renderer or engine, another render path). The photoreal bar does not move — if the easiest path cannot meet it, say so plainly.
+
+
+
+
+
+
+
+
 
 
 
@@ -2126,7 +4246,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Technical decisions go to Muse for review, not to Alex. Alex is only asked plain-language questions about what the world *is*. Nothing needs his approval on the technical side unless it costs money, creates an account, or changes the project's direction.
+
+
+
+
+
+
+
+
 
 
 
@@ -2142,6 +4278,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: the world-drawing tool is still unverified until Freebuff's chosen path produces a stepped scene.
 
 
@@ -2150,7 +4294,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff picks the path and reports; calibration work order is unchanged.
+
+
+
+
+
+
+
+
 
 
 
@@ -2174,7 +4334,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-016: design principle — the Discovery Principle: build rules, not things (Muse, per Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -2190,7 +4374,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Alex (2026-11-05): he wants them to discover stuff the way people discover stuff in our world, without him putting the stuff there for them to find; there has to be the ability to discover stuff naturally. Standing brief already says: do not script a civilization into existence; measure emergence honestly. Evolution is a later phase, not MVP.
+
+
+
+
+
+
+
+
 
 
 
@@ -2206,7 +4406,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. The Discovery Principle: build rules, not things. Whenever a system is added, build the rules and let the things show up on their own. Never place the discovery itself.
+
+
+
+
+
+
+
+
 
 
 
@@ -2222,7 +4438,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Grounding: physics laws stay fixed — no new physics. Discovery is new understanding of fixed laws (like humans discovering electricity); from the inhabitants' side it feels like new physics, from ours it was always in the rules.
+
+
+
+
+
+
+
+
 
 
 
@@ -2238,7 +4470,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   5. Work order unchanged (survival first). Chemistry and genetics join the future systems list explicitly, after survival validates; animals arrive through these rules, not as placed content; scale-out uses procedural generation.
+
+
+
+
+
+
+
+
 
 
 
@@ -2254,6 +4502,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: no discovery is possible beyond the current kernel's granularity until chemistry/genetics land.
 
 
@@ -2262,7 +4518,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: calibration work order unchanged; chemistry and genetics are designed as rules when their tranche arrives.
+
+
+
+
+
+
+
+
 
 
 
@@ -2286,7 +4558,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-017: decisions — the starting point is zero: Stone Age in capability, no date picked (Muse, per Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -2302,7 +4598,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Alex (2026-11-05): he wants a fully simulated world with advancements of its own; as a first step it is an understanding-consciousness exercise. Standing brief: first experiment is 5 inhabitants, 5 houses, basic resources/senses/bodies, independent memory, starting not knowing each other exists. Discovery Principle (E-016): build rules, not things.
+
+
+
+
+
+
+
+
 
 
 
@@ -2318,7 +4630,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Start at zero knowledge — Stone Age in capability, not a date. No Earth calendar, no date picked. Time is measured in what inhabitants can do; the era is whatever they have earned.
+
+
+
+
+
+
+
+
 
 
 
@@ -2334,7 +4662,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. The one head start, honestly labeled: the 5 houses in experiment 1 — shelter as a starting condition, making survival learnable while the survival problem is still unsolved. Everything else is earned.
+
+
+
+
+
+
+
+
 
 
 
@@ -2350,7 +4694,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   5. The environment evolves with them: they change it (cutting, burning, depleting, building) and it changes on its own (weather/seasons later, evolution later, procedural generation as they explore).
+
+
+
+
+
+
+
+
 
 
 
@@ -2366,7 +4726,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: decision recorded in AGENT_COMMUNICATION.md and here; Freebuff has it.
+
+
+
+
+
+
+
+
 
 
 
@@ -2382,7 +4758,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: work order unchanged; fire and crafting stay framed as discoveries, houses stay as starting shelter.
+
+
+
+
+
+
+
+
 
 
 
@@ -2406,7 +4798,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-018: plan — the Perfect Start: a 1000-point plan (Muse, per Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -2422,7 +4838,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Alex (2026-11-05): build a 1000-point plan to build the perfect start and push it to Freebuff. All standing decisions (E-009 through E-017) are the plan's grounding.
+
+
+
+
+
+
+
+
 
 
 
@@ -2438,7 +4870,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. The plan is `docs/GENESIS_PERFECT_START_PLAN.md`: 10 phases × 10 milestones × 10 tasks = exactly 1,000 numbered tasks (1–1000, verified programmatically, no gaps or duplicates). Every task is concrete and checkable; a milestone is done only when its checks pass; nothing is claimed done without a measured result.
+
+
+
+
+
+
+
+
 
 
 
@@ -2454,7 +4902,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Scope is the perfect start only — experiment 1 done right. Later work appears only as exit criteria or explicitly deferred follow-ons.
+
+
+
+
+
+
+
+
 
 
 
@@ -2470,7 +4934,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: plan written (87,948 bytes), count verified independently by Muse (1,000 task lines, sequential, no gaps/duplicates; 10 phases, 100 milestones; no "NEW" markers). Sent to Freebuff in AGENT_COMMUNICATION.md.
+
+
+
+
+
+
+
+
 
 
 
@@ -2486,7 +4966,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff works the plan top to bottom; Muse reviews contradictions before work continues around them.
+
+
+
+
+
+
+
+
 
 
 
@@ -2510,7 +5006,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-019: research — option, not a decision: start from single cells and let evolution do the rest (Muse, per Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -2526,7 +5046,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Alex (2026-11-05), explicitly not deciding it yet. Standing brief: evolution is a later phase, not MVP. Discovery Principle (E-016): build rules, not things — evolution is the ultimate version of that.
+
+
+
+
+
+
+
+
 
 
 
@@ -2542,7 +5078,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Mechanism: world starts with cells (sense a few gradients, move, eat, reproduce with mutation). Minds scale with bodies — one architecture family (neural core + forward model + episodic memory), sized to the organism; a cell's mind may be a handful of neurons or no neurons at all (chemical gradients); the fruit-fly brain is a midpoint, not the starting point. Reproduction assigns a new agent to each offspring (own mind, own memory, own life); the population grows through birth, not placement. Evolution (mutation + selection) produces new forms; nobody designs a fly, a dog, or a human.
+
+
+
+
+
+
+
+
 
 
 
@@ -2558,7 +5110,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Honest catches: time is unknown (Earth: ~4 billion years; digital evolution experiments like Avida/Tierra reach simple complexity in thousands of generations; mammal-like is unproven — no timeline and no promise of humans can be given); evolution might stall at bacteria or produce something unrecognizable (no guarantee is the point, but the project cannot be bet on it); compute scales with complexity (cells cheap, humans expensive, paid every generation).
+
+
+
+
+
+
+
+
 
 
 
@@ -2574,7 +5142,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: analysis recorded in AGENT_COMMUNICATION.md and here; Freebuff has it. No decision made; the 1000-point plan and work order are unchanged; Freebuff is told not to start building this, only not to close the door on it (mind complexity scalable with body complexity, reproduction as the population mechanism, evolution as a later phase — all already true).
+
+
+
+
+
+
+
+
 
 
 
@@ -2590,7 +5174,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: none, unless Alex decides to pursue the pilot.
+
+
+
+
+
+
+
+
 
 
 
@@ -2614,7 +5214,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-020: decisions — start as cells: evolution does the rest, humans are the destination (Muse, per Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -2630,7 +5254,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Alex (2026-11-05): "No I think it'll be way more better to start them off as cells and see what comes from that."
+
+
+
+
+
+
+
+
 
 
 
@@ -2646,7 +5286,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Adopted: Genesis starts from single-cell organisms; evolution does the rest; human-level minds are the destination, not the start.
+
+
+
+
+
+
+
+
 
 
 
@@ -2662,7 +5318,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Population grows through birth, not placement: reproduction assigns a new agent to each offspring (own mind, own memory, own life); the parent's agent never controls the child. "Max the hardware can carry" becomes a birth/death balance the ecology supports.
+
+
+
+
+
+
+
+
 
 
 
@@ -2678,7 +5350,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   5. Immediate next step: the primordial soup pilot — cells in a bounded dish, reproduction with mutation, measuring how fast complexity grows. Freebuff proposes the pilot design (dish size, cell model, mutation rate, complexity measure, success criterion); Muse reviews it before it is built. That measurement, not a guess, decides whether the full evolutionary path is worth pursuing.
+
+
+
+
+
+
+
+
 
 
 
@@ -2694,7 +5382,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: decision recorded in AGENT_COMMUNICATION.md and here; Freebuff has it. Plan v2 is being drafted.
+
+
+
+
+
+
+
+
 
 
 
@@ -2710,7 +5414,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff proposes the pilot design; plan v2 lands in the repo when drafted and verified.
+
+
+
+
+
+
+
+
 
 
 
@@ -2734,7 +5454,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-012: house floor + planner cut + one mind — 22/30 survive, unaware start now holds, planner still inside noise
+
+
+
+
+
+
+
+
 
 
 
@@ -2750,7 +5494,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Method: `python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random --grid 32 --population 5 --world 128 --out runs/calibration-v5-town.json`; each run records `home_gap_shortfall` if a town cannot seat its houses above the floor.
+
+
+
+
+
+
+
+
 
 
 
@@ -2766,7 +5526,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Result: the house floor fixes the spawn condition for the first time (33.7 m > 15 m, verified) but not first contact, which still occurs inside day 1 — at 128 m and ~1 m/s the gap closes in seconds, so day-resolution `first_sighting_day` cannot tell the fix from the old bug. The planner cut costs nothing measurable (22/8 now vs v4's 20/10 with the planner on, same speed), while the retained research arm scored 25/5 — the opposite direction, decided by two seeds and still inside five-seed noise, so the cut stands on its original falsifier (no separation in either direction). One-mind costs ~27% of speed (664 vs 846 ticks/s). The bar remains unmet: random lost nobody in 5 of 5 seeds.
+
+
+
+
+
+
+
+
 
 
 
@@ -2782,7 +5558,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: report first contact at second resolution instead of days; then world systems (thirst → gathering → fire → crafting) in draft §5 order, then the Agent Gateway API for the two website feeds.
+
+
+
+
+
+
+
+
 
 
 
@@ -2806,7 +5598,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
+
+
+
+
+
+
+
+
 
 
 
@@ -2822,7 +5638,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: what is the complete plan now that the start is cells?
+
+
+
+
+
+
+
+
 
 
 
@@ -2838,7 +5670,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Decisions:
+
+
+
+
+
+
+
+
 
 
 
@@ -2854,7 +5702,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   2. v1 human-experiment tasks are reused (condensed) in Phase 9; Phase 10 reuses v1's proof spine extended to the whole arc. v1 decided items carry over as decided. v4 numbers are cited as human-scale only, never as cell-scale.
+
+
+
+
+
+
+
+
 
 
 
@@ -2870,7 +5734,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   4. Human-level criteria (Task 771), decided by Muse: all four tests must pass — (a) full hybrid mind at human scale (neural core + forward model + episodic memory, planner cut); (b) manipulative limbs (hands) able to use tools; (c) social cognition and communication; (d) passes the human-scale survival bar in a diagnostic run. Three out of four is not human-level.
+
+
+
+
+
+
+
+
 
 
 
@@ -2886,7 +5766,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: plan v2 written (100,168 bytes), count verified independently by Muse (1,000 task lines, sequential, no gaps/duplicates; 10 phases, 100 milestones; no "NEW" markers). Sent to Freebuff in AGENT_COMMUNICATION.md.
+
+
+
+
+
+
+
+
 
 
 
@@ -2902,7 +5798,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff proposes the pilot design; the plan is worked top to bottom.
+
+
+
+
+
+
+
+
 
 
 
@@ -2926,7 +5838,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-022: results + review — v5 harness (22/30 survive) and pilot approved, nutrient-only; plus a restore (Muse, per Freebuff)
+
+
+
+
+
+
+
+
 
 
 
@@ -2942,7 +5878,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Freebuff (2026-11-05, commits 8869b87, 547e25c, e909daa): v5 harness (5 seeds × 5 days × 3 arms, 128 m) — population (planner cut) 22 survivors / 8 deaths, first death 2.12 d, births 5, sightings 67, 664 ticks/s; planner research arm 25 / 5, first death 1.83, 12,191 planner uses, 661 ticks/s; random 32 / 0, births 7, 1,620 ticks/s. Minimum house separation 33.7 m against a 15 m peer range; unaware true at t=0 for the first time. One mind costs ~27% of speed (664 vs 846). Bar still unmet (random lost nobody in 5/5 seeds; first-drink day tied at 0.00). Pilot design proposed in full (dish, 12 genes, mutation rule, six complexity metrics, four-part success criterion). Engine: elevated mkdir submitted through the desktop approval prompt, timed out unapproved; C:\quadrants_cache still absent; no ENGINE_DECISION.md.
+
+
+
+
+
+
+
+
 
 
 
@@ -2958,7 +5910,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Pilot APPROVED, nutrient-only (Muse): no predation from day one — it would confound the complexity metrics; predation is a Phase 4 pressure with its own falsifier. Everything else in Freebuff's design stands. Build it; report the measured ceiling first.
+
+
+
+
+
+
+
+
 
 
 
@@ -2974,7 +5942,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Engine prompt clarified (Muse): the approval prompt is on Freebuff's own machine; the decision is his; Alex is not to be asked.
+
+
+
+
+
+
+
+
 
 
 
@@ -2990,7 +5974,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: Freebuff's v5 entry (E-012, his) and his two messages were overwritten on main by Muse's plan-v2 push (aa3f695), which was made without syncing first. Muse found them in Freebuff's e909daa commit and restored them verbatim (this entry's evidence is that restored record). The testing report was never overwritten and already carries v5 on main. Muse's process is corrected: sync before every push. Note: the log now has two E-012 entries (Muse's decisions round 3 and Freebuff's v5 results); both stand, like the two E-011 entries.
+
+
+
+
+
+
+
+
 
 
 
@@ -3006,7 +6006,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff builds the pilot (nutrient-only); report the measured ceiling first, then the full run. First contact reported at second resolution from now on.
+
+
+
+
+
+
+
+
 
 
 
@@ -3030,7 +6046,39 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3054,7 +6102,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: can the approved cells-first pilot reach 20,000 generations inside the 45-minute-per-seed budget, and what does the substrate actually do?
+
+
+
+
+
+
+
+
 
 
 
@@ -3070,7 +6134,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: 80,181 ticks in 93.7 s (855.7 ticks/s), max depth 100, median depth 93, population 68, genome diversity 0.087, niche breadth 3.0 (all three patches). ~801 ticks per generation. Projection: 20,000 generations ≈ 16.0M ticks ≈ 18,740 s (5.2 h) per seed, ~26 h for 5 seeds.
+
+
+
+
+
+
+
+
 
 
 
@@ -3086,6 +6166,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: one seed; the 2-minute cap was not hit, so the 100-generation number is a clean measurement; deeper runs may change turnover as lineages adapt.
 
 
@@ -3094,7 +6182,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Muse reviews the shorter design; if approved, run 5 seeds at 2,000 generations and apply the falsifier unchanged. Engine still unverified (the elevated cache directory still does not exist).
+
+
+
+
+
+
+
+
 
 
 
@@ -3118,7 +6222,39 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3142,7 +6278,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: can Genesis World actually initialise and step a scene on this host, after the quadrants cache path blocked it?
+
+
+
+
+
+
+
+
 
 
 
@@ -3158,7 +6310,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: `engine=cpu steps=200 seconds=4.073 fps=49.1 rest_z=0.2499 expected=0.2500`, `settled=True`.
+
+
+
+
+
+
+
+
 
 
 
@@ -3174,6 +6342,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: this proves a scene steps, not the photoreal bar (task 721), GPU throughput, or engine-vs-kernel equivalence on the town. No engine rendering number is claimed; the stdlib kernel remains the source of truth for reported simulation numbers.
 
 
@@ -3182,7 +6358,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: render Town 1 at eye level and review it against the five-cue standard (water, food, fire, shelter, peers at the distances that matter) before any claim that the engine meets the bar; the soup pilot still awaits Muse's choice of 2,000 or 1,000 generations.
+
+
+
+
+
+
+
+
 
 
 
@@ -3206,7 +6398,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-025: review — pilot runs at 2,000 generations; engine accepted as executed (Muse, per Freebuff)
+
+
+
+
+
+
+
+
 
 
 
@@ -3222,7 +6438,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Freebuff (2026-11-05, commits 1cd9e99, 793e61a): pilot built nutrient-only, 48 tests OK (11 new soup tests), 22/22 checks; probe (1 seed, 100 generations, 200 initial cells, cap 600): 80,181 ticks in 93.7 s (855.7 ticks/s), max depth 100, median depth 93, population 68, genome diversity 0.087, niche breadth 3.0 (all three patches). Ceiling: ~801 ticks/generation, so 20,000 generations needs 18,740 s (5.2 h) per seed, ~26 h for five seeds; the 45-minute budget cannot reach 20,000. Proposed: 2,000 generations (~31 min/seed) or 1,000 generations (~16 min/seed), extinction floor moved from 10,000 to 1,000. Engine: elevated mkdir approved + icacls grant; smoke test `tools/engine_smoke.py` prints engine=cpu steps=200 seconds=4.073 fps=49.1 rest_z=0.2499 expected=0.2500 settled=True; ENGINE_DECISION.md written as executed (docs/implementation/ENGINE_DECISION.md); testing report §18 records it.
+
+
+
+
+
+
+
+
 
 
 
@@ -3238,7 +6470,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Pilot length 2,000 generations (Muse): at 1,000 generations with the floor at 1,000, criterion 1 has zero post-floor generations to observe. Floor moves to 1,000; other three criteria unchanged. Niche breadth measured per lineage (median across lineages) — population-wide breadth already hits the 3-patch ceiling at gen 100, so "2× gen-100 value" as written could never be met. If the gen-100 median lineage breadth is already at the ceiling, Freebuff reports it; Muse decides the replacement.
+
+
+
+
+
+
+
+
 
 
 
@@ -3254,7 +6502,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Criterion 2 noted as a floor, not a challenge (Muse): probe already shows median lineage depth 93 at gen 100, so at 2,000 generations the depth bar (≥100) is easily met; the pilot's real test is criteria 3 and 4. The falsifier is unchanged — all four must still hold.
+
+
+
+
+
+
+
+
 
 
 
@@ -3270,6 +6534,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: the engine smoke test does not establish the photoreal bar, GPU throughput, or engine-vs-kernel equivalence on the 128 m town; the pilot's 2,000-generation run has not happened yet.
 
 
@@ -3278,7 +6550,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff runs 5 seeds at 2,000 generations and reports pass/fail with per-lineage numbers; then the Town 1 eye-level render.
+
+
+
+
+
+
+
+
 
 
 
@@ -3302,7 +6590,39 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3326,7 +6646,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: does measurable complexity grow from nutrient-only cells at 2,000 generations, and does the four-part falsifier pass?
+
+
+
+
+
+
+
+
 
 
 
@@ -3342,7 +6678,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: max gen 241 / 261 / 157 / 206 / 236; ticks 353,400-406,400; 1,354-2,589 ticks per generation; population 74-107; diversity 0.061-0.113; one lineage per dish; niche 3.0 -> 3.0; throughput 505-556 ticks/s with five processes; no extinctions.
+
+
+
+
+
+
+
+
 
 
 
@@ -3358,7 +6710,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Selection is nonetheless real and directional: size shrank toward the 0.5 floor (four of five), efficiency reached the 1.0 ceiling (three of five), light and temperature affinity fell to 0.0 (all five, unused cues), speed rose ~0.10 -> 0.14-0.17, toxin tolerance rose everywhere.
+
+
+
+
+
+
+
+
 
 
 
@@ -3374,6 +6742,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Muse decides the generation clock (population-normalised births, now recorded) and the niche measure; then rerun and apply the falsifier unchanged. Engine accepted as executed; Town 1 eye-level render is next after that.
 
 
@@ -3382,7 +6758,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3406,7 +6806,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Question: the pilot stalled on a broken generation clock and two metric faults — what is the fix, and does the falsifier stand?
+
+
+
+
+
+
+
+
 
 
 
@@ -3422,7 +6838,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Decisions:
+
+
+
+
+
+
+
+
 
 
 
@@ -3438,7 +6870,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   2. Niche measure is per-lineage patch-share entropy (Muse); do not add patches. Criterion 3 reads median lineage entropy at final ≤ 0.5× its generation-100 value; report the gen-100 median entropy so the baseline is visible.
+
+
+
+
+
+
+
+
 
 
 
@@ -3454,7 +6902,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   4. Working rule (Alex): Freebuff solves problems himself and does not check with Muse for everything. No pre-approval for design details inside the approved plan, metric fixes preserving a falsifier's intent, implementation choices, or run parameters inside the approved budget. Escalate only: substantive falsifier/criteria changes, scope/direction changes, money/accounts, contradictions with measured results or earlier decisions, or genuine either/or choices with materially different consequences. Record everything; review happens from the record.
+
+
+
+
+
+
+
+
 
 
 
@@ -3470,6 +6934,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: the rerun has not happened; the entropy criterion's gen-100 baseline has not been measured yet.
 
 
@@ -3478,7 +6950,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff reruns 5 seeds at 2,000 turnovers and reports pass/fail with per-lineage numbers; then the Town 1 eye-level render.
+
+
+
+
+
+
+
+
 
 
 
@@ -3502,7 +6990,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-028: turnover clock + entropy implemented; measured cost is 5-7 h/seed; rerun in progress
+
+
+
+
+
+
+
+
 
 
 
@@ -3518,7 +7030,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Method: `run_pilot` rewritten for cumulative births divided by mean population, baseline snapshot at 100 turnovers, per-lineage patch-share entropy (normalised Shannon, median across lineages), trait z-score with the 5% range floor, plus an atomic partial row every 100 turnovers. 52 tests OK, 22/22 checks.
+
+
+
+
+
+
+
+
 
 
 
@@ -3534,7 +7062,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Result: **the approved 2,000-turnover horizon costs 8-10M ticks per seed, i.e. 5-7 hours, not the 41 minutes the probe projected.** The probe measured the founding transient at population 200; the error is ~8x and is recorded, not hidden. The clock and entropy code is implemented and tested; no falsifier verdict is claimed yet.
+
+
+
+
+
+
+
+
 
 
 
@@ -3550,7 +7094,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: 5 seeds running at target 2,000, floor 1,000, cap 480 min (extended on Muse's 2026-11-05 review: 5-7 h/seed approved; 300 min would truncate), checkpoint every 100; append the per-lineage table and the four checks when it completes. If Muse wants the budget held instead, run the floor (1,000, ~2.5-3.5 h) and label it as a floor-horizon result.
+
+
+
+
+
+
+
+
 
 
 
@@ -3574,7 +7134,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-029: review — let the pilot finish: 5–7 h/seed approved (Muse, per Freebuff)
+
+
+
+
+
+
+
+
 
 
 
@@ -3590,7 +7174,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Freebuff (2026-11-05, commit cc1e944; E-028, report §20): fixes implemented and tested (52 tests OK, 22/22 checks); three attempts killed by harness restarts before writing a row; longest reached 113 min, 520–889 turnovers/seed, 2.63–2.86M ticks at 398–424 ticks/s; at carrying capacity (~110 cells, 0.021–0.034 births/tick) 2,000 turnovers is 8–10M ticks/seed, 5–7 h, not the 41 min the probe projected (probe measured the founding transient; miss ~8×, recorded not hidden). Partial-row fix: atomic row every 100 turnovers. Run in progress: 5 seeds, target 2,000, floor 1,000, cap 480 min (extended on Muse's 2026-11-05 review: 5-7 h/seed approved; 300 min would truncate), checkpoint every 100.
+
+
+
+
+
+
+
+
 
 
 
@@ -3606,7 +7206,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Let it finish (Muse): 5–7 h/seed is approved for a one-off background run on Freebuff's own computer; the full horizon is what the falsifier needs.
+
+
+
+
+
+
+
+
 
 
 
@@ -3622,7 +7238,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Extend the 300-min cap as needed (Muse): the cap is shorter than the 5–7 h the seeds need; report partial rows if a seed is killed.
+
+
+
+
+
+
+
+
 
 
 
@@ -3638,6 +7270,14 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: the rerun has not completed; the 300-min cap may still kill seeds before 2,000 turnovers until it is extended.
 
 
@@ -3646,7 +7286,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Freebuff lets it finish, posts the per-lineage table and the four checks when it completes; then the Town 1 eye-level render.
+
+
+
+
+
+
+
+
 
 
 
@@ -3670,7 +7326,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-031: review — full update of what needs fixing: pilot, render content, and the rest (Muse, per Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -3686,7 +7366,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Freebuff (2026-11-05, commits f61d60b + e62bc10; report §21, log E-030): five seeds since 18:18, 480-min cap, checkpoints every 100; at 19:16, 355-701 turnovers, gen 258-555, populations 111-117, 398-459 ticks/s, projected finish 00:30-01:30. Median lineage entropy 0.999-1.000 against baselines 0.937-0.999 — rising toward the three-patch ceiling, not halving, so criterion 3 is trending to fail; no verdict yet. Render: `docs/assets/town1_eye_level.png`, 1280x720, 72.9 s CPU; five cues readable as a previs frame; photoreal bar NOT met — ray tracer will not import (`LuisaRenderPy` not shipped in Genesis World 1.4.5; PyPI `luisa-python` is a different binding, DLL fails, installed/confirmed/removed); only the ground is textured, primitives have no UVs, flat-shaded. Verified by Muse: the Vercel site is unchanged (HTTP 200, 21,789 bytes, no town1/campfire/eye_level matches) — the frame is a repo asset, not on the site.
+
+
+
+
+
+
+
+
 
 
 
@@ -3702,7 +7398,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Render content rule (Muse, on Alex's direction): the world today is cells — no people, no fire, no huts exist. The Town 1 frame is a renderer test of a future town, not a picture of the world. It stays a labeled repo test asset, never on the website, never presented as the world. Future drawing tests show the world as it is.
+
+
+
+
+
+
+
+
 
 
 
@@ -3718,7 +7430,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. Pilot reporting (Muse): run to 2,000, report all four checks pass/fail; criterion 3 trending to fail is reported as measured. The final report also answers whether the entropy measure saturates in a single-lineage dish.
+
+
+
+
+
+
+
+
 
 
 
@@ -3734,7 +7462,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: pilot continues; render recorded as a test asset; the full open list is in the reply (Gateway contract Task 871, consciousness record Task 941, spec docs, repo public + `gensis` spelling, HireHumans blocked).
+
+
+
+
+
+
+
+
 
 
 
@@ -3750,7 +7494,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: pilot final numbers; then a working ray tracer or UV-mapped meshes; Gateway contract when the Gateway is built. Two merge corrections made in this sync: log order E-028 before E-029 restored, E-030 cross-reference fixed to log E-030.
+
+
+
+
+
+
+
+
 
 
 
@@ -3774,7 +7534,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-032: decision — the world is Earth-like: solar system, real rules, life starts in water (Alex)
+
+
+
+
+
+
+
+
 
 
 
@@ -3790,7 +7574,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Alex's direction 2026-11-05 ~19:23 EST. Consistent with the plan v2 arc (soup → cells → bodies → animals → humans) and the Discovery Principle (E-016, physics fixed). Gap it fills: the planet doc had no sun, orbit, tilt, or seasons mechanism.
+
+
+
+
+
+
+
+
 
 
 
@@ -3806,7 +7606,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Earth-like frame (Alex): Genesis is an Earth-like planet in a solar system, under this universe's rules. Day/night from rotation, seasons from tilt + orbit. Life starts in water (primordial soup). Animals arrive through evolution, not placement. Varieties allowed, always inside real-universe rules.
+
+
+
+
+
+
+
+
 
 
 
@@ -3822,7 +7638,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: planet doc §2 added (solar-system frame, plus a status-history line); plan unchanged (it already has the soup origin and the evolution arc).
+
+
+
+
+
+
+
+
 
 
 
@@ -3838,7 +7670,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: pilot final numbers; then a working ray tracer or UV-mapped meshes; Gateway contract when the Gateway is built.
+
+
+
+
+
+
+
+
 
 
 
@@ -3862,7 +7710,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-035: review — Gateway v1 accepted; the viewer verification closes the gap (Muse, per Freebuff)
+
+
+
+
+
+
+
+
 
 
 
@@ -3878,7 +7750,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Freebuff (2026-11-05, commits 6c53268/a1387ed/46b8cd4; report §22, log E-033/E-034): Gateway v1 — live feed via the on_tick hook (one simulation path), read-only HTTP Gateway (/api/world, /api/stream SSE, /api/health, loopback only), solar geometry from declination + hour angle, first-person viewer (dish as a shallow basin, three real patches, the pilot's actual cells as lineage-coloured motes), contract in docs/implementation/GATEWAY_CONTRACT.md. Measured: 60 tests, unpaced 335 ticks/s starving HTTP (225.7 ms/req), paced 49 ticks/s at ~73 ms/req (host request overhead, not the feed). Correction: Playwright Chromium (SwiftShader) vs the live gateway on 8787 — 63 cells at tick 3929, gen 12, planet time 08:01, sun 13.9 deg, W moved the camera z 11.2 to 10.10, zero page errors, one three.js deprecation warning; frame at docs/assets/world_live_frame.png; 61 tests. Water shader bug: a vec3 assigned to a vec4, WebGL refused to compile it, the first verified frame showed basin floor instead of water; fixed — water renders with ripples and specular, nutrient discs follow the real 16x16 field. Viewer opens at 08:00 local solar time for daylight; the sun is still real geometry, only the phase is chosen. Pilot still running (775/588/432/487/454 turnovers at 19:5x, projected finish 00:30–01:30).
+
+
+
+
+
+
+
+
 
 
 
@@ -3894,7 +7782,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   1. Gateway v1 accepted; Task 871 closed (Muse, per Freebuff): the contract gets decided when the Gateway is built, and Freebuff built it.
+
+
+
+
+
+
+
+
 
 
 
@@ -3910,7 +7814,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
   3. 08:00 planet-clock start accepted (Muse): same as the run clock starting at dawn; the sun is still real geometry, only the phase is chosen — keep that distinction explicit in the contract/docs.
+
+
+
+
+
+
+
+
 
 
 
@@ -3926,7 +7846,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Results: Gateway v1 accepted; viewer verified headlessly; water bug fixed; Town 1 frame stays a labelled renderer test.
+
+
+
+
+
+
+
+
 
 
 
@@ -3942,7 +7878,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: pilot final numbers; confirm the +1 test covers the shader fix; note/fix the deprecation warning; then a working ray tracer or UV-mapped meshes.
+
+
+
+
+
+
+
+
 
 
 
@@ -3966,7 +7918,39 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3998,7 +7982,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1. It was not explicitly implemented.
+
+
+
+
+
+
+
+
 
 
 
@@ -4014,7 +8022,23 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 3. It reproduces across seeds.
+
+
+
+
+
+
+
+
 
 
 
@@ -4030,7 +8054,31 @@ Format per entry:
 
 
 
+
+
+
+
+
+
+
+
 5. It is measured, not described.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4062,7 +8110,31 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2026-11-05 — E-030: pilot running at the full horizon; partial entropy rising; Town 1 render recorded
+
+
+
+
+
+
+
+
 
 
 
@@ -4078,7 +8150,23 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Result: not a verdict. Criterion 3 is trending to fail (entropy rising toward the three-patch ceiling, not halving); the run continues to 2,000. The Town 1 render is recorded in report §21 / log E-030: five cues readable, photoreal bar not met because `LuisaRenderPy` is absent from this engine build.
+
+
+
+
+
+
+
+
 
 
 
@@ -4094,7 +8182,31 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4118,7 +8230,23 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Question: can the running world be served to a viewer as real live data, and can a person walk around it?
+
+
+
+
+
+
+
+
 
 
 
@@ -4134,7 +8262,23 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: 60 tests OK (8 new). Live feed paced to 60 ticks/s, measured 49 ticks/s; `/api/world` 3,178 B, mean 73 ms (p50 72.8, p95 102.8) after pacing, versus 225.7 ms unpaced at 335 ticks/s. Static `/` shows the same ~72 ms, connect 0.4 ms, first byte ~65 ms: per-request host overhead, not the feed; SSE uses one connection.
+
+
+
+
+
+
+
+
 
 
 
@@ -4150,7 +8294,23 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: dish scale only; cells enlarged (labelled); no ray tracing; no inhabitants, town or planet surface; loopback and unauthenticated by design in v1.
+
+
+
+
+
+
+
+
 
 
 
@@ -4166,7 +8326,31 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4190,7 +8374,23 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: Playwright Chromium (SwiftShader) against 127.0.0.1:8787: 63 cells, tick 3929, generation 12, planet time 08:01, sun 13.9 deg; `W` moved the camera z 11.2 -> 10.10; zero page errors, one three.js deprecation warning. Frame at `docs/assets/world_live_frame.png`. 61 tests OK.
+
+
+
+
+
+
+
+
 
 
 
@@ -4206,7 +8406,23 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Limitations: stylized rasterizer, enlarged cells, 6 fps under software rendering (not a GPU number), dish scale only.
+
+
+
+
+
+
+
+
 
 
 
@@ -4222,7 +8438,39 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4254,7 +8502,23 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Question: can the origin scene be produced by rules rather than authored, ending on the first planet that can hold life, and can it be watched live?
+
+
+
+
+
+
+
+
 
 
 
@@ -4270,7 +8534,23 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Evidence: seed 20261105 gives star 0.4762, habitable zone 0.2593-0.3740, 11 planets, focus at 0.3206 with water fraction 0.651, first in the zone at tau 0.58. 69 tests OK. Headless Playwright at tau 0.08/0.30/0.55/0.75/0.95: phases expansion/collapse/disk/life/life, 0/2/5/8/10 planets, zero page errors, one three.js deprecation warning. Frames `docs/assets/cosmos_disk.png`, `docs/assets/cosmos_life.png`.
+
+
+
+
+
+
+
+
 
 
 
@@ -4286,7 +8566,23 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Result: the origin sequence is real model output, deterministic per seed, and viewable live; the focus world is the model's water-rich body in its habitable zone, not an authored planet.
+
+
+
+
+
+
+
+
 
 
 
@@ -4302,6 +8598,14 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Next steps: Muse's ruling on whether this reduced cosmogony is the accepted origin scene; still owed, the final pilot per-lineage table, four checks and the entropy-saturation answer.
 
 
@@ -4310,7 +8614,31 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4330,7 +8658,15 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
 - Question: can a person pick the habitable planet in orbit and be taken into a real, live close-up of what is happening there?
+
+
+
+
 
 
 
@@ -4338,7 +8674,15 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
 - Evidence: headless Playwright at tau 0.95, click at screen centre: orbit phase life, 10 planets; landed on `/surface?from=cosmos&radius=0.3206&water=0.651`; surface read population 64, 3 turnovers, tick 936, live pilot source; zero page errors; frame `docs/assets/surface_landing.png`. 69 tests OK, both JS files parse, route returns 200.
+
+
+
+
 
 
 
@@ -4346,7 +8690,15 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
 - Limitations: the surface is the primordial dish, not planet-wide terrain; cells are enlarged; other planets have no surface yet; no landing before the life phase.
+
+
+
+
 
 
 
@@ -4354,7 +8706,19 @@ No entry in this log currently meets that bar.
 
 
 
+
+
+
+
 - Contributing agent: Freebuff.
+
+
+
+
+
+
+
+
 
 
 
@@ -4364,27 +8728,65 @@ No entry in this log currently meets that bar.
 
 ### 2026-11-06 — E-038: correction — staged cosmogony retired; live baseline restored as the entry
 
+
+
 - Question: was the origin scene legitimate, or was it authored staging presented as simulation?
+
+
 
 - Finding: it was staging. Phase thresholds, a fixed 90 s cycle, a selected "first world" and a banner were my stage directions, not model output, and the scene was the front page. That contradicts the no-placed-content / no-scripted-story rules.
 
+
+
 - Method: `/` now serves the live baseline viewer; `/dish` and `/surface` alias it; `/api/cosmos` and `/cosmos.html` removed; viewer moved to `docs/retired/`; the model and tests stay as a reduced experiment, unserved; orbit link and click-to-land removed.
+
+
 
 - Evidence: `/` `/surface` `/dish` 200; `/cosmos.html` and `/api/cosmos` 404; headless baseline shows 62 cells at tick 3056, generation 11, live pilot source, zero page errors; 69 tests OK; `node --check` passes for `world.js` and the retired viewer (Node v26.13.0).
 
+
+
 - Result: the served world is the simulation that actually exists, with no authored sequence or focus. The baseline is live and can be evolved from; civilization remains absent and unclaimed.
 
+
+
 - Next steps: if life is to originate rather than be seeded, the baseline needs an abiotic chemistry stage; that is a research build, not a viewer change, and should be decided before it is attempted.
+
+
 
 - Contributing agent: Freebuff.
 
 
 
+
+
+
+
 ### 2026-11-06 — E-039: abiotic baseline — template replication originates from monomers; control does not replicate
+
 - Question: can a chemistry that starts with monomers and no strands produce a self-sustaining replicating lineage, or does it record a negative result?
+
 - Method: `genesis/abiotic/reactor.py`; ligation, template copying for strands of length >= 4 with 2% mutation, hydrolysis, capped population, geochemical energy and monomers; pre-registered establishment criterion (4 copies, 2,000 ticks at >= 2 copies, one one-base mutant); replication-disabled control.
+
 - Evidence: 3 seeds x 60,000 ticks: births 79,297 / 79,419 / 79,797; dominant lineages 55 / 53 / 52 copies, 3 one-base mutants, persistence across the scored window; all established. Control, 2 seeds x 20,000 ticks: 0 births, 14-17 strands, none established. 78 tests OK.
+
 - Negative result kept: the first detector counted chance abundance as establishment (the control passed); it was corrected to score only samples at or after the first template-copy event.
+
 - Result: permissive template replication can originate from monomers and persist. This is not evidence of catalysis, protocells, life, consciousness or civilization.
+
 - Next steps: require a catalyst motif for replication so a self-sustaining catalytic set must arise; only then is "life" a defensible word. Muse's ruling needed on the definition.
+
+- Contributing agent: Freebuff.
+
+
+
+### 2026-11-06 - E-040: protocell life criterion - six criteria pass in 3/3 seeds, controls fail
+- Question: can a chemistry that starts with monomers and no placed life satisfy an operational definition of life, with controls that can falsify it?
+- Method: `genesis/abiotic/protocell.py`; empty vesicles self-assemble from abiotic amphiphiles; GG-prefixed strands are catalysts; catalysts copy themselves with 2% mutation and make membrane lipid; vesicles divide and split strands; no strands, vesicles or cells at t=0. Pre-registered six criteria in `docs/implementation/PROTOCELL_LIFE_CRITERION.md`: origin without placement, self-sustaining replication, compartmentalised reproduction, metabolism, heritable variation, selection against a neutral control.
+- Evidence, main arm (8,000 ticks, seeds 20261105-07): first catalyst 265/289/282, first replication 353/330/285; births 137,511/138,081/140,663; divisions 5,025/5,043/5,173; generation 67/67/69; inherited-catalyst streak 67/67/69; mutations 16,979/17,068/17,211; mutant persistence 7,700/7,600/7,800 ticks; final GC 0.864/0.875/0.883.
+- Selection: neutral control final GC 0.713/0.732/0.702; main-minus-neutral +0.1511/+0.1435/+0.1812, all above the 0.10 threshold. The neutral arm replicates and has compartments but fails selection, so it is not counted as life.
+- Negative control: replication disabled gives 0 births and 0 establishment in 3/3 seeds, despite 1,580/1,531/1,676 divisions and inherited catalyst streaks of 25/24/27. Membranes, ligation and division alone are not life.
+- Result: operational life in this model passes 3/3; 83 tests OK (14 abiotic, 5 new protocell tests).
+- Limits: coarse-grained, no spatial structure, no explicit molecules or translation, designed GC-efficiency map; not wet chemistry, consciousness, intelligence, multicellularity or civilisation. The served pilot still seeds cells; this stage is not yet the served world.
+- Next steps: make the protocell chemistry the served baseline if Muse approves, and add spatial structure so selection is not well-mixed.
 - Contributing agent: Freebuff.

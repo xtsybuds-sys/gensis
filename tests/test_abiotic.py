@@ -76,5 +76,50 @@ class AbioticTests(unittest.TestCase):
             self.assertIn(key, row)
 
 
+class ProtocellTests(unittest.TestCase):
+    def test_protocell_starts_without_life(self):
+        from genesis.abiotic.protocell import ProtocellReactor
+
+        reactor = ProtocellReactor(1)
+        self.assertEqual(reactor.vesicles, [])
+        self.assertIsNone(reactor.first_strand_tick)
+        self.assertIsNone(reactor.first_catalyst_tick)
+        self.assertEqual(reactor.births, 0)
+
+    def test_catalyst_rule_requires_gg_prefix_and_length(self):
+        from genesis.abiotic.protocell import BASE_INDEX, is_catalyst
+
+        G = BASE_INDEX["G"]
+        A = BASE_INDEX["A"]
+        self.assertTrue(is_catalyst((G, G, A, A)))
+        self.assertFalse(is_catalyst((G, A, G, G)))
+        self.assertFalse(is_catalyst((G, G, A)))
+
+    def test_no_catalysis_never_replicates(self):
+        from genesis.abiotic.protocell import run_protocell
+
+        row = run_protocell(5, ticks=800, sample_every=100, catalysis=False)
+        self.assertEqual(row["births"], 0)
+        self.assertEqual(row["mutations"], 0)
+        self.assertFalse(row["established"])
+
+    def test_protocell_is_deterministic(self):
+        from genesis.abiotic.protocell import run_protocell
+
+        first = run_protocell(11, ticks=600, sample_every=100)
+        second = run_protocell(11, ticks=600, sample_every=100)
+        self.assertEqual(first, second)
+
+    def test_catalyst_originates_then_replicates(self):
+        from genesis.abiotic.protocell import run_protocell
+
+        row = run_protocell(12, ticks=1500, sample_every=100)
+        self.assertIsNotNone(row["first_catalyst_tick"])
+        self.assertIsNotNone(row["first_replication_tick"])
+        self.assertGreaterEqual(row["first_replication_tick"], row["first_catalyst_tick"])
+        self.assertGreater(row["births"], 0)
+        self.assertGreater(row["best_max_catalyst_streak"], 0)
+
+
 if __name__ == "__main__":
     unittest.main()
