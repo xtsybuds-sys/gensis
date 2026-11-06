@@ -43800,3 +43800,29 @@ population descended from one origin; the HUD reports `lineages 1`. The warm sta
 origin happened before the page opened, though the first catalyst and first copy ticks are
 carried in the payload and shown. This is a coarse-grained chemistry, not a spatial world and
 not a new life claim.
+
+## 29. The live pond sits in an early-Earth shelf
+
+**What changed.** The viewer now loads `world/environment.js` after `world.js` and builds a
+procedural, illustrative setting around the existing pond. The live reactor and its HUD data
+are untouched: the feed, 120 vesicles, first catalyst tick 265, first copy tick 353, lineage
+count, colours and first-copy record still come from `ProtocellLiveFeed`. The camera's initial
+pitch was raised from -0.12 to -0.04 so the shelf and horizon are in view.
+
+The setting adds 12,921 terrain vertices in a ring from 11.45 to 140 units, a wet mineral apron
+at the waterline, a pebbly shore, 84 instanced boulders, 8 large outcrops, 3 vent chimneys with
+steam plumes, 2 distant volcanoes, 6 midground ridge peaks, 12 cloud clusters, a dark underlay
+below the pond edge, and a small ambient/fill light for readable shadow faces. `setting` is
+shown in the HUD and the legend says `early-Earth shelf (illustrative)`.
+
+**Verified 2026-11-06.** Browser: title `Genesis - Protocell Baseline`, 120 rendered cells,
+`window.__genesisEnvironment.ready === true`, terrain 12,921 vertices, 84 boulders, 3 vents,
+12 cloud clusters, camera at `[0, 1.71, 11.2]`. Console contains only the existing three.js
+deprecation warning; there were no application errors. Frame `docs/assets/protocell_shelf_final.png`.
+`node --check` passes for both `world.js` and `environment.js`; the full suite is 85/85.
+
+**Honest limits.** The shelf, vents, clouds and volcanoes are set dressing, not simulated
+terrain or a spatial ecology. The reactor remains well-mixed and all vesicle positions remain
+presentation-only; there is no terrain collision or local selection. The scenery is low-poly
+and deterministic, and the fill light is an art light, not part of the solar model. All extant
+vesicles are one lineage; the environment does not change that fact.

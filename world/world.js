@@ -7168,6 +7168,12 @@
 
   scene.add(cells);
 
+  window.__genesisWorld = {
+    scene, camera, renderer, sunLight, hemi, POND_RADIUS, DISH, HALF,
+    water, waterUniforms
+  };
+
+
 
 
 
@@ -7678,7 +7684,7 @@
 
 
 
-  let pitch = -0.12;
+  let pitch = -0.04;
 
 
 

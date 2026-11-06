@@ -234,3 +234,6 @@ is generated from the running pilot, not from an image.
 
 - `protocell_baseline_live.png` - live frame of the served protocell baseline at 8787:
   120 vesicles, first catalyst tick 265, first copy tick 353. Live chemistry, not staged.
+
+- `protocell_shelf_final.png` - the live protocell pond inside the illustrative early-Earth
+  shelf: 120 vesicles, wet shore, boulders, vents, ridges and cloud banks.

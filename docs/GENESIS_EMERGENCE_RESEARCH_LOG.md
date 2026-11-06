@@ -17589,3 +17589,9 @@ No entry in this log currently meets that bar.
 - Evidence: `/api/world` tick 4,035, 120 vesicles, 120 cell records, generation 35, 66,520 replications, first catalyst 265, first copy 353, error null. Browser title `Genesis - Protocell Baseline`, 120 rendered cells, overlay entered, first catalyst/copy visible, no page errors except the existing three.js deprecation warning. Frame `docs/assets/protocell_baseline_live.png`. 85 tests pass.
 - Limits: well-mixed reactor; positions are presentation-only; all extant vesicles are one lineage; warm start means the origin precedes page load. Not a spatial world, not a new life claim.
 - Contributing agent: Freebuff.
+
+### 2026-11-06 - E-042: early-Earth shelf around the live pond
+- Change: added `world/environment.js` with a 12,921-vertex terrain ring, wet apron, shore, 84 boulders, 8 outcrops, 3 mineral vents with plumes, 2 volcanoes, 6 ridge peaks, 12 cloud clusters, an underlay and fill lighting. Camera pitch raised to show the horizon. The reactor and HUD chemistry are unchanged.
+- Evidence: browser title `Genesis - Protocell Baseline`, 120 cells, `__genesisEnvironment.ready`, setting label visible, no application console errors except the three.js warning; frame `docs/assets/protocell_shelf_final.png`; `node --check` passes; 85 tests pass.
+- Limits: scenery is illustrative, not a spatial model; no collision or local selection; well-mixed reactor and presentation-only positions remain.
+- Contributing agent: Freebuff.
