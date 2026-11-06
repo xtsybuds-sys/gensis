@@ -553,3 +553,38 @@ checkpoint every 100, `--population 200 --cap 600`. Results and the four-part ve
 will be appended when it completes. No verdict is claimed yet.
 
 **Gen-100 baseline entropies (captured, final once written).** Median lineage patch-share entropy at the 100-turnover snapshot: 0.937 (seed 20261105, pop 72), 0.981 (seed 20261106, pop 88), 1.000 (seed 20261107, pop 89), 0.988 (seed 20261108, pop 69), 0.999 (seed 20261109, pop 85). 5 of five seeds captured at the time of writing. The baseline sits near the three-patch ceiling, so the <=0.5x criterion has room to move, unlike the patch-count measure it replaced.
+
+## 21. Town 1 eye-level render - five cues readable, photoreal bar not met
+
+The engine now draws the town from a 1.65 m camera. The image is committed at
+`docs/assets/town1_eye_level.png` (half-size: `town1_eye_level_half.png`).
+
+**What renders.** Procedural grass ground, a dirt path, a stone-rimmed pond, three
+timber-framed huts with doors, windows, gable roofs and chimneys, a stone fire ring with
+logs and a three-shell emissive flame plus a warm point light, two vegetable beds with
+ripe fruit, a fruited tree, five 1.7 m figures around the fire, a fence line and a
+distant tree line. 1280x720, 72.9 s wall on CPU while five pilot processes were running.
+
+**Five-cue review.** Water, food, fire, shelter and peers are each identifiable at eye
+level and at the distances they matter. As a previs frame it passes that test.
+
+**The photoreal bar (task 721) is not met, and the blocker is measured.** The bar is
+ray-traced lighting, textured materials, no low-poly. This is a rasterizer frame:
+- The ray tracer does not import in this build. `genesis.vis.raytracer` raises
+  "Failed to import LuisaRenderer"; `LuisaRenderPy` is not shipped with Genesis World
+  1.4.5. PyPI's `luisa-python` is a different binding (`luisa`) whose native module
+  fails to load here (`DLL load failed while importing lcapi`); it was installed,
+  confirmed, and removed, so no dependency change remains.
+- Only the ground plane carries a texture. Primitives have no UVs, so image textures
+  fall back to flat colour; huts, figures, rocks and the tree are flat-shaded
+  primitives. That is low-poly by construction, and it looks it.
+
+**Two host fixes were needed to render at all.** The rasterizer JIT-compiles through
+numba, whose cache path inside this long project directory exceeds the Windows
+260-character limit (`FileNotFoundError` on the `.nbc.tmp` write); `NUMBA_CACHE_DIR`
+now points at a short temp path. `genesis/ext/pyrender/__pycache__` also had to exist.
+
+**What the bar still needs.** A ray-tracing renderer that imports on this Python build
+(a `LuisaRenderPy` wheel, or a different engine), UV-mapped meshes for the structures
+and figures, and an anti-aliased ray-traced frame. None of that is claimed here. The
+stdlib kernel remains the source of truth for simulation numbers.
