@@ -237,3 +237,5 @@ is generated from the running pilot, not from an image.
 
 - `protocell_shelf_final.png` - the live protocell pond inside the illustrative early-Earth
   shelf: 120 vesicles, wet shore, boulders, vents, ridges and cloud banks.
+
+- `protocell_tabs_final.png` — live viewer frame showing the closable WORLD / KEY / HELP tabbed chrome and the world-view close control (2026-11-06). Chrome verification; the chemistry and environment are the live rendered state.

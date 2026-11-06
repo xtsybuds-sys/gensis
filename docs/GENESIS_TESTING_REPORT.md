@@ -43849,3 +43849,24 @@ environment remained live. Console contains only the existing three.js deprecati
 through the terrain. Zoom is a camera dolly, not a lens/FOV zoom. `+`/`-` are supported but the
 on-page hint advertises the wheel. Pointer drag covers mouse/touch; two-finger pinch has not
 been implemented. The map view still uses its fixed top-down camera.
+
+## 31. Closable tabbed viewer chrome
+
+**What changed.** The fixed HUD, legend and controls hint were consolidated into one
+WORLD / KEY / HELP tabbed panel. The tab rail has a closing ×; closing it hides the panel
+and leaves a WORLD tab at the same location to reopen it. The world-view intro now has a
+matching tab header and close ×. Escape closes the intro first, then the tab panel. The
+rail is offset below the host's Freebuff badge so the first tab stays reachable.
+
+**Verified 2026-11-06.** At 1100×800: the four tab buttons rendered at y=54, the WORLD tab
+was unobstructed, switching produced exactly one active panel, the close button set
+`ui.hidden=true` and exposed the reopen tab, and reopening restored the active tab.
+The intro close hid a visible overlay. 120 live vesicles remained rendered; console had
+only the existing three.js deprecation warning. `node --check world/ui.js` and
+`node --check world/world.js` pass; the full suite is 85/85.
+
+**Visual evidence.** `docs/assets/protocell_tabs_final.png`.
+
+**Honest limits.** Tab selection is not persisted across reloads. Closing the panel hides
+it rather than stopping the simulation, and the chemistry continues. The panel is chrome
+only; it adds no spatial model or interaction with vesicles.

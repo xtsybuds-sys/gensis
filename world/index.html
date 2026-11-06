@@ -1,392 +1,76 @@
-<!doctype html>
-
-
-
-
-
-
-
-<html lang="en">
-
-
-
-
-
-
-
-<head>
-
-
-
-
-
-
-
-<meta charset="utf-8" />
-
-
-
-
-
-
-
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-
-
-
-
-
-
-
-<title>Genesis — Protocell Baseline</title>
-
-
-
-
-
-
-
-<link rel="stylesheet" href="style.css" />
-
-
-
-
-
-
-
-</head>
-
-
-
-
-
-
-
-<body>
-
-
-
-
-
-
-
-<canvas id="scene"></canvas>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div id="hud">
-
-
-
-
-
-
-
-  <div id="title">GENESIS <span id="viewName">WORLD VIEW</span></div>
-
-
-
-
-
-
-
-  <div class="row"><span>vesicles</span><b id="pop">—</b></div>
-
-
-
-
-
-
-
-  <div class="row"><span>replications</span><b id="turn">—</b></div>
-
-
-
-
-
-
-
-  <div class="row"><span>lineage gen</span><b id="gen">—</b></div>
-  <div class="row"><span>first catalyst</span><b id="cat">—</b></div>
-  <div class="row"><span>first copy</span><b id="copy">—</b></div>
-
-
-
-
-
-
-
-  <div class="row"><span>lineages</span><b id="lin">—</b></div>
-
-
-
-
-
-
-
-  <div class="row"><span>mean lipid</span><b id="size">—</b></div>
-
-
-
-
-
-
-
-  <div class="row"><span>mean strands</span><b id="speed">—</b></div>
-
-
-
-
-
-
-
-  <div class="row"><span>sun elevation</span><b id="elev">—</b></div>
-
-
-
-
-
-
-
-  <div class="row"><span>planet time</span><b id="ptime">—</b></div>
-
-
-
-
-
-
-
-  <div class="row"><span>setting</span><b>early-Earth shelf</b></div>
-
-
-
-
-
-
-<div class="row"><span>fps</span><b id="fps">—</b></div>
-
-
-
-
-
-
-
-  <div id="status">connecting to the gateway…</div>
-
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div id="legend">
-
-
-
-
-
-
-
-  <div class="dot" style="background:#39d0c8"></div> lineage colour = vesicle lineage
-
-
-
-
-
-
-
-  <div class="dot" style="background:#ffd166"></div> vesicles (enlarged)
-  <div class="dot" style="background:#7d6a4f"></div> early-Earth shelf (illustrative)
-
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div id="hint">drag to orbit · scroll to zoom · R reset · M map</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div id="overlay">
-
-
-
-
-
-
-
-  <div class="panel">
-
-
-
-
-
-
-
-    <h1>Genesis</h1>
-
-
-
-
-
-
-
-        <p>This is the protocell baseline: a live, well-mixed chemistry that started from
-
-       monomers and energy, with no cells placed. Every vesicle is a real protocell from the
-
-       reactor; its size, lineage and catalyst count come from the simulation.</p>
-
-
-
-
-
-
-
-        <p class="small">The shoreline, hills and vents are an illustrative setting for the live chemistry, not simulated terrain. Vesicle positions are presentation-only because the reactor is well-mixed; they are spread for visibility, not to claim a spatial model. The sun is real geometry.</p>
-
-
-
-
-
-
-
-    <button id="enter">Click to enter</button>
-
-
-
-
-
-
-
-    <p class="small">Drag to orbit, scroll to zoom. R resets to the pond view.</p>
-<p class="small" id="overlayStatus">waiting for the first frame…</p>
-
-
-
-
-
-
-
-  </div>
-
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script src="vendor/three.min.js"></script>
-
-
-
-
-
-
-
-<script src="world.js"></script>
-<script src="environment.js"></script>
-
-
-
-
-
-
-
-</body>
-
-
-
-
-
-
-
-</html>
-
-
-
-
-
-
-
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Genesis — Protocell Baseline</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="scene"></canvas>
+
+  <div id="ui">
+    <div class="ui-tabbar" role="tablist" aria-label="World information">
+      <button class="ui-tab active" type="button" data-panel="world" role="tab" aria-selected="true">WORLD</button>
+      <button class="ui-tab" type="button" data-panel="key" role="tab" aria-selected="false">KEY</button>
+      <button class="ui-tab" type="button" data-panel="help" role="tab" aria-selected="false">HELP</button>
+      <button id="ui-close" class="ui-tab ui-tab-close" type="button" title="Close panel" aria-label="Close panel">×</button>
+    </div>
+
+    <section class="ui-panel active" data-panel="world" role="tabpanel" aria-label="World statistics">
+      <div id="title">GENESIS <span id="viewName">WORLD VIEW</span></div>
+      <div class="row"><span>vesicles</span><b id="pop">—</b></div>
+      <div class="row"><span>replications</span><b id="turn">—</b></div>
+      <div class="row"><span>lineage gen</span><b id="gen">—</b></div>
+      <div class="row"><span>first catalyst</span><b id="cat">—</b></div>
+      <div class="row"><span>first copy</span><b id="copy">—</b></div>
+      <div class="row"><span>lineages</span><b id="lin">—</b></div>
+      <div class="row"><span>mean lipid</span><b id="size">—</b></div>
+      <div class="row"><span>mean strands</span><b id="speed">—</b></div>
+      <div class="row"><span>sun elevation</span><b id="elev">—</b></div>
+      <div class="row"><span>planet time</span><b id="ptime">—</b></div>
+      <div class="row"><span>setting</span><b>early-Earth shelf</b></div>
+      <div class="row"><span>fps</span><b id="fps">—</b></div>
+      <div id="status">connecting to the gateway…</div>
+    </section>
+
+    <section class="ui-panel" data-panel="key" role="tabpanel" aria-label="Legend">
+      <div class="panel-heading">KEY</div>
+      <div class="legend-row"><span class="dot" style="background:#39d0c8"></span><span>lineage colour = vesicle lineage</span></div>
+      <div class="legend-row"><span class="dot" style="background:#ffd166"></span><span>vesicles (enlarged)</span></div>
+      <div class="legend-row"><span class="dot" style="background:#7d6a4f"></span><span>early-Earth shelf (illustrative)</span></div>
+      <p class="small-note">Positions are presentation-only; the reactor is well-mixed.</p>
+    </section>
+
+    <section class="ui-panel" data-panel="help" role="tabpanel" aria-label="Controls">
+      <div class="panel-heading">CONTROLS</div>
+      <div class="help-row"><b>drag</b><span>orbit the pond through 360°</span></div>
+      <div class="help-row"><b>scroll / + −</b><span>zoom in and out</span></div>
+      <div class="help-row"><b>R</b><span>reset the pond view</span></div>
+      <div class="help-row"><b>M</b><span>command-center map</span></div>
+    </section>
+  </div>
+
+  <button id="ui-reopen" class="ui-reopen" type="button" aria-label="Open world panel" hidden>WORLD</button>
+
+  <div id="overlay">
+    <div class="panel">
+      <div class="panel-tabbar">
+        <span class="panel-tab active">WORLD VIEW</span>
+        <button id="overlay-close" class="panel-tab panel-tab-close" type="button" title="Close world view" aria-label="Close world view">×</button>
+      </div>
+      <h1>Genesis</h1>
+      <p>This is the protocell baseline: a live, well-mixed chemistry that started from monomers and energy, with no cells placed. Every vesicle is a real protocell from the reactor; its size, lineage and catalyst count come from the simulation.</p>
+      <p class="small">The shoreline, hills and vents are an illustrative setting for the live chemistry, not simulated terrain. Vesicle positions are presentation-only because the reactor is well-mixed; they are spread for visibility, not to claim a spatial model. The sun is real geometry.</p>
+      <p class="small">Drag to orbit, scroll to zoom. R resets to the pond view.</p>
+      <button id="enter" type="button">Click to enter</button>
+      <p class="small" id="overlayStatus">waiting for the first frame…</p>
+    </div>
+  </div>
+
+  <script src="vendor/three.min.js"></script>
+  <script src="world.js"></script>
+  <script src="environment.js"></script>
+  <script src="ui.js"></script>
+</body>
+</html>

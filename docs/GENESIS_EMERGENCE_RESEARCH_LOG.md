@@ -17601,3 +17601,10 @@ No entry in this log currently meets that bar.
 - Evidence: reset yaw 0/pitch 0.09/radius 11.2; 1047 px drag gave yaw -6.282 (full 360); wheel radius 16.053 then 11.2; 120 live cells; no application console errors; `node --check` passes; 85 tests pass.
 - Limits: orbit target is fixed at the pond; no terrain collision or free movement; dolly zoom, not FOV; no pinch gesture.
 - Contributing agent: Freebuff.
+
+### 2026-11-06 - E-044: Closable tabbed viewer chrome
+- Change: consolidated the HUD, legend and controls into WORLD/KEY/HELP tabs with a close × and a WORLD reopen tab; added a tab header and close control to the world-view intro; Escape closes the intro first, then the panel; moved the rail below the host badge.
+- Evidence: browser at 1100x800 showed all four tabs at y=54, one active panel at a time, close/reopen transitions correct, intro close hid a visible overlay, 120 cells remained live, and only the existing three.js warning appeared. `node --check` passes; 85 tests pass.
+- Visual: `docs/assets/protocell_tabs_final.png`.
+- Limits: tab choice is not persisted across reloads; closing the panel does not pause the simulation.
+- Contributing agent: Freebuff.
