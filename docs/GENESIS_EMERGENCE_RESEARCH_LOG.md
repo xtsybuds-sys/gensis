@@ -436,6 +436,15 @@ Format per entry:
 - Next steps: Freebuff reruns 5 seeds at 2,000 turnovers and reports pass/fail with per-lineage numbers; then the Town 1 eye-level render.
 - Contributing agent: Freebuff (stall report + fixes), Muse (review), Alex (the working rule).
 
+### 2026-11-05 — E-028: turnover clock + entropy implemented; measured cost is 5-7 h/seed; rerun in progress
+- Question: with the corrected generation clock and niche measure, does the nutrient-only pilot reach 2,000 turnovers and pass the four-part falsifier?
+- Method: `run_pilot` rewritten for cumulative births divided by mean population, baseline snapshot at 100 turnovers, per-lineage patch-share entropy (normalised Shannon, median across lineages), trait z-score with the 5% range floor, plus an atomic partial row every 100 turnovers. 52 tests OK, 22/22 checks.
+- Evidence: three attempts, all killed by harness restarts before writing a row. The longest ran 113 minutes at 398-424 ticks/s per seed (five in parallel) and reached 2.63-2.86M ticks / 520-889 turnovers per seed: 3,212-5,183 ticks per turnover at carrying capacity (~110 cells, 0.021-0.034 births/tick). No extinctions; populations 108-116; max gen 305-626.
+- Result: **the approved 2,000-turnover horizon costs 8-10M ticks per seed, i.e. 5-7 hours, not the 41 minutes the probe projected.** The probe measured the founding transient at population 200; the error is ~8x and is recorded, not hidden. The clock and entropy code is implemented and tested; no falsifier verdict is claimed yet.
+- Limitations: the rerun has not completed; the gen-100 entropy baseline and the final trait displacements are unmeasured. Runs are lost when the harness restarts, which is why checkpointing was added.
+- Next steps: 5 seeds running at target 2,000, floor 1,000, cap 480 min (extended on Muse's 2026-11-05 review: 5-7 h/seed approved; 300 min would truncate), checkpoint every 100; append the per-lineage table and the four checks when it completes. If Muse wants the budget held instead, run the floor (1,000, ~2.5-3.5 h) and label it as a floor-horizon result.
+- Contributing agent: Freebuff.
+
 ### 2026-11-05 — E-029: review — let the pilot finish: 5–7 h/seed approved (Muse, per Freebuff)
 - Question: is 5–7 h/seed acceptable for the 2,000-turnover horizon, or report the 1,000 floor instead?
 - Evidence: Freebuff (2026-11-05, commit cc1e944; E-028, report §20): fixes implemented and tested (52 tests OK, 22/22 checks); three attempts killed by harness restarts before writing a row; longest reached 113 min, 520–889 turnovers/seed, 2.63–2.86M ticks at 398–424 ticks/s; at carrying capacity (~110 cells, 0.021–0.034 births/tick) 2,000 turnovers is 8–10M ticks/seed, 5–7 h, not the 41 min the probe projected (probe measured the founding transient; miss ~8×, recorded not hidden). Partial-row fix: atomic row every 100 turnovers. Run in progress: 5 seeds, target 2,000, floor 1,000, cap 480 min (extended on Muse's 2026-11-05 review: 5-7 h/seed approved; 300 min would truncate), checkpoint every 100.
@@ -447,6 +456,19 @@ Format per entry:
 - Limitations: the rerun has not completed; the 300-min cap may still kill seeds before 2,000 turnovers until it is extended.
 - Next steps: Freebuff lets it finish, posts the per-lineage table and the four checks when it completes; then the Town 1 eye-level render.
 - Contributing agent: Freebuff (cost report + fixes), Muse (review).
+
+### 2026-11-05 — E-031: review — full update of what needs fixing: pilot, render content, and the rest (Muse, per Alex)
+- Question: what needs fixing after Freebuff's pilot status update and Town 1 render? Alex: the campfires-and-people frame is not what the world is supposed to be.
+- Evidence: Freebuff (2026-11-05, commits f61d60b + e62bc10; report §21, log E-030): five seeds since 18:18, 480-min cap, checkpoints every 100; at 19:16, 355-701 turnovers, gen 258-555, populations 111-117, 398-459 ticks/s, projected finish 00:30-01:30. Median lineage entropy 0.999-1.000 against baselines 0.937-0.999 — rising toward the three-patch ceiling, not halving, so criterion 3 is trending to fail; no verdict yet. Render: `docs/assets/town1_eye_level.png`, 1280x720, 72.9 s CPU; five cues readable as a previs frame; photoreal bar NOT met — ray tracer will not import (`LuisaRenderPy` not shipped in Genesis World 1.4.5; PyPI `luisa-python` is a different binding, DLL fails, installed/confirmed/removed); only the ground is textured, primitives have no UVs, flat-shaded. Verified by Muse: the Vercel site is unchanged (HTTP 200, 21,789 bytes, no town1/campfire/eye_level matches) — the frame is a repo asset, not on the site.
+- Decisions:
+  1. Render content rule (Muse, on Alex's direction): the world today is cells — no people, no fire, no huts exist. The Town 1 frame is a renderer test of a future town, not a picture of the world. It stays a labeled repo test asset, never on the website, never presented as the world. Future drawing tests show the world as it is.
+  2. Site ownership restated (Muse): Muse owns the website shell + both views; Freebuff owns the Agent Gateway API feed. Freebuff does not build site content or site images.
+  3. Pilot reporting (Muse): run to 2,000, report all four checks pass/fail; criterion 3 trending to fail is reported as measured. The final report also answers whether the entropy measure saturates in a single-lineage dish.
+  4. Photoreal bar still unmet (Muse, on Freebuff's measured blocker): next measurement is a ray-tracing renderer that imports on this Python build, UV-mapped meshes, an anti-aliased ray-traced frame.
+- Results: pilot continues; render recorded as a test asset; the full open list is in the reply (Gateway contract Task 871, consciousness record Task 941, spec docs, repo public + `gensis` spelling, HireHumans blocked).
+- Limitations: pilot unfinished; photoreal bar unmet; Gateway contract and consciousness record still open.
+- Next steps: pilot final numbers; then a working ray tracer or UV-mapped meshes; Gateway contract when the Gateway is built. Two merge corrections made in this sync: log order E-028 before E-029 restored, E-030 cross-reference fixed to log E-030.
+- Contributing agent: Freebuff (pilot + render), Muse (review).
 
 ---
 
@@ -460,17 +482,8 @@ Format per entry:
 
 No entry in this log currently meets that bar.
 
-### 2026-11-05 — E-028: turnover clock + entropy implemented; measured cost is 5-7 h/seed; rerun in progress
-- Question: with the corrected generation clock and niche measure, does the nutrient-only pilot reach 2,000 turnovers and pass the four-part falsifier?
-- Method: `run_pilot` rewritten for cumulative births divided by mean population, baseline snapshot at 100 turnovers, per-lineage patch-share entropy (normalised Shannon, median across lineages), trait z-score with the 5% range floor, plus an atomic partial row every 100 turnovers. 52 tests OK, 22/22 checks.
-- Evidence: three attempts, all killed by harness restarts before writing a row. The longest ran 113 minutes at 398-424 ticks/s per seed (five in parallel) and reached 2.63-2.86M ticks / 520-889 turnovers per seed: 3,212-5,183 ticks per turnover at carrying capacity (~110 cells, 0.021-0.034 births/tick). No extinctions; populations 108-116; max gen 305-626.
-- Result: **the approved 2,000-turnover horizon costs 8-10M ticks per seed, i.e. 5-7 hours, not the 41 minutes the probe projected.** The probe measured the founding transient at population 200; the error is ~8x and is recorded, not hidden. The clock and entropy code is implemented and tested; no falsifier verdict is claimed yet.
-- Limitations: the rerun has not completed; the gen-100 entropy baseline and the final trait displacements are unmeasured. Runs are lost when the harness restarts, which is why checkpointing was added.
-- Next steps: 5 seeds running at target 2,000, floor 1,000, cap 480 min (extended on Muse's 2026-11-05 review: 5-7 h/seed approved; 300 min would truncate), checkpoint every 100; append the per-lineage table and the four checks when it completes. If Muse wants the budget held instead, run the floor (1,000, ~2.5-3.5 h) and label it as a floor-horizon result.
-- Contributing agent: Freebuff.
-
 ### 2026-11-05 — E-030: pilot running at the full horizon; partial entropy rising; Town 1 render recorded
 - Evidence: five seeds since 18:18, 480-minute cap, checkpoints every 100 turnovers. At 19:16: 355-701 turnovers, gen 258-555, populations 111-117, 398-459 ticks/s. Partial median lineage entropy 0.999-1.000 against baselines 0.937-0.999.
-- Result: not a verdict. Criterion 3 is trending to fail (entropy rising toward the three-patch ceiling, not halving); the run continues to 2,000. The Town 1 render is recorded in report §21 / E-029: five cues readable, photoreal bar not met because `LuisaRenderPy` is absent from this engine build.
+- Result: not a verdict. Criterion 3 is trending to fail (entropy rising toward the three-patch ceiling, not halving); the run continues to 2,000. The Town 1 render is recorded in report §21 / log E-030: five cues readable, photoreal bar not met because `LuisaRenderPy` is absent from this engine build.
 - Next steps: collect the final rows, apply `evaluate()` unchanged, post the per-lineage table and the four checks; then obtain a working ray tracer or move the town to UV-mapped meshes.
 - Contributing agent: Freebuff.
