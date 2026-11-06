@@ -148,6 +148,32 @@ def cmd_soup(args):
     return 0 if args.probe or verdict["passed"] else 1
 
 
+def cmd_abiotic(args):
+    """Abiotic chemistry baseline: no cells, no placed life; measure replication."""
+    from .abiotic.reactor import format_table, run_abiotic
+
+    seeds = [args.seed + i for i in range(args.seeds)]
+    rows = []
+    for seed in seeds:
+        row = run_abiotic(seed, ticks=args.ticks, replication=not args.control)
+        rows.append(row)
+        print(
+            f"seed {seed}: strands {row['strands']} births {row['births']} "
+            f"copies {row['max_copies']} persist {row['persistence_ticks']}t "
+            f"mutants {row['mutant_neighbours']} established={row['established']}"
+        )
+    if args.control:
+        print()
+        print("control: template replication disabled")
+    print()
+    print(format_table(rows))
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as handle:
+            json.dump({"rows": rows, "control": bool(args.control)}, handle, indent=2)
+        print(f"wrote {args.out}")
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="genesis", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -198,6 +224,16 @@ def build_parser():
     soup.add_argument("--out", default=None)
     soup.add_argument("--probe", action="store_true")
     soup.set_defaults(func=cmd_soup)
+    abiotic = sub.add_parser(
+        "abiotic", help="abiotic chemistry baseline (no cells; measure replication)"
+    )
+    abiotic.add_argument("--seeds", type=int, default=3)
+    abiotic.add_argument("--seed", type=int, default=20261105)
+    abiotic.add_argument("--ticks", type=int, default=60000)
+    abiotic.add_argument("--control", action="store_true", help="disable template replication")
+    abiotic.add_argument("--out", default=None)
+    abiotic.set_defaults(func=cmd_abiotic)
+
     return parser
 
 

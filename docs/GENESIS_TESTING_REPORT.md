@@ -14,7 +14,31 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Status: Implemented and tested for the simulation kernel (v0.5, house floor +
+
+
+
+
+
+
+
+
 
 
 
@@ -30,7 +54,23 @@ planner cut + one mind). Everything downstream of the kernel - HTTP API, dashboa
 
 
 
+
+
+
+
+
+
+
+
 engine backend - is Planned or Blocked, and is not claimed here. The unaware start
+
+
+
+
+
+
+
+
 
 
 
@@ -46,7 +86,23 @@ now holds at spawn (33.7 m minimum house separation against a 15 m peer range) a
 
 
 
+
+
+
+
+
+
+
+
 every inhabitant runs the same hybrid, but the pre-stated bar is still not met: the
+
+
+
+
+
+
+
+
 
 
 
@@ -70,6 +126,22 @@ random control had zero deaths in all five seeds (section 15).**
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Human-scale numbers, parked:** the cells-first decision (Muse, 2026-11-05) pauses
 
 
@@ -78,7 +150,23 @@ random control had zero deaths in all five seeds (section 15).**
 
 
 
+
+
+
+
+
+
+
+
 this calibration. Sections 13-15 describe the human-scale kernel and resume in Phase 9;
+
+
+
+
+
+
+
+
 
 
 
@@ -102,7 +190,31 @@ the immediate next step is the primordial-soup pilot design, awaiting Muse's rev
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Maintained by Freebuff. Every number below came from a command run on 2026-11-05.
+
+
+
+
+
+
+
+
 
 
 
@@ -118,7 +230,31 @@ Nothing is marked complete because code was written; each row names the check th
 
 
 
+
+
+
+
+
+
+
+
 exercises it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -150,7 +286,31 @@ exercises it.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | Item | Value |
+
+
+
+
+
+
+
+
 
 
 
@@ -166,7 +326,23 @@ exercises it.
 
 
 
+
+
+
+
+
+
+
+
 | OS | Windows 11 Education, build 26200 |
+
+
+
+
+
+
+
+
 
 
 
@@ -182,7 +358,23 @@ exercises it.
 
 
 
+
+
+
+
+
+
+
+
 | GPU | Intel Iris Xe, 2 GB VRAM, no CUDA (no NVIDIA driver present) |
+
+
+
+
+
+
+
+
 
 
 
@@ -198,7 +390,31 @@ exercises it.
 
 
 
+
+
+
+
+
+
+
+
 | Engine | **not installed, not used** - `genesis-world` was still installing into `.venv-engine` when this report was written, and nothing in it comes from the engine |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -230,7 +446,31 @@ exercises it.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
+
+
+
+
+
+
+
+
 
 
 
@@ -246,7 +486,23 @@ python -m unittest discover -s tests -t . -v     -> 37 tests, OK
 
 
 
+
+
+
+
+
+
+
+
 python -m genesis verify                         -> 22/22 checks passed
+
+
+
+
+
+
+
+
 
 
 
@@ -262,7 +518,23 @@ python -m genesis run --days 5 --db runs/five-days.sqlite
 
 
 
+
+
+
+
+
+
+
+
 python -m genesis status --db runs/five-days.sqlite
+
+
+
+
+
+
+
+
 
 
 
@@ -278,6 +550,14 @@ python -m genesis calibrate --seeds 3 --days 5 --arms population,no_planner,rand
 
 
 
+
+
+
+
+
+
+
+
     --out runs/calibration-5day.json
 
 
@@ -286,7 +566,23 @@ python -m genesis calibrate --seeds 3 --days 5 --arms population,no_planner,rand
 
 
 
+
+
+
+
+
+
+
+
 python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,random \
+
+
+
+
+
+
+
+
 
 
 
@@ -302,7 +598,23 @@ python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,rand
 
 
 
+
+
+
+
+
+
+
+
 python -m genesis calibrate --seeds 2 --days 2 --arms population,no_sleep \
+
+
+
+
+
+
+
+
 
 
 
@@ -318,7 +630,23 @@ python -m genesis calibrate --seeds 2 --days 2 --arms population,no_sleep \
 
 
 
+
+
+
+
+
+
+
+
 python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,random \
+
+
+
+
+
+
+
+
 
 
 
@@ -334,7 +662,23 @@ python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,rand
 
 
 
+
+
+
+
+
+
+
+
 python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random \
+
+
+
+
+
+
+
+
 
 
 
@@ -350,7 +694,23 @@ python -m genesis calibrate --seeds 5 --days 5 --arms population,planner,random 
 
 
 
+
+
+
+
+
+
+
+
 PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
+
+
+
+
+
+
+
+
 
 
 
@@ -366,7 +726,31 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -398,7 +782,31 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | Check | Result | Measured |
+
+
+
+
+
+
+
+
 
 
 
@@ -414,7 +822,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | architecture/two-inhabitant-architectures | PASS | neural + hybrid only |
+
+
+
+
+
+
+
+
 
 
 
@@ -430,7 +854,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | physics/shallow-water-mass-and-flow | PASS | 32 -> 32 m^3; peak 2.0 -> 0.259 m; corner wetted 0.172 m |
+
+
+
+
+
+
+
+
 
 
 
@@ -446,7 +886,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | physics/thermal-energy-ledger | PASS | residual 0; radiated 243; capacity change 1150 booked |
+
+
+
+
+
+
+
+
 
 
 
@@ -462,7 +918,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | physics/ballistic-energy-drift | PASS | 2.31e-16 relative over 1.5 s |
+
+
+
+
+
+
+
+
 
 
 
@@ -478,7 +950,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | integration/determinism | PASS | two worlds, same seed, identical digest at 60 ticks |
+
+
+
+
+
+
+
+
 
 
 
@@ -494,7 +982,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | integration/five-separate-houses | PASS | 5 distinct sites on land, min separation 33.7 m at a 128 m world (>= 10% of world) |
+
+
+
+
+
+
+
+
 
 
 
@@ -510,7 +1014,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | intelligence/architectures-comparable | PASS | same 28-dim input, both 6 bounded outputs |
+
+
+
+
+
+
+
+
 
 
 
@@ -526,7 +1046,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | biology/permanent-death-recorded | PASS | dies once, stays dead, event logged |
+
+
+
+
+
+
+
+
 
 
 
@@ -542,7 +1078,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | intelligence/conspecific-channel | PASS | peer at 10 m: proximity 0.917, bearing sin 1.0 / cos 0.0; alone 0.0 |
+
+
+
+
+
+
+
+
 
 
 
@@ -558,7 +1110,23 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | intelligence/dense-shaping-attribution | PASS | drink reward 1.03, no-change reward -0.17 |
+
+
+
+
+
+
+
+
 
 
 
@@ -574,7 +1142,31 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
 | environment/reachability-measured-per-world | PASS | 128 m world, 7 wadeable cells, 15.1-76.9 m per house |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -606,7 +1198,31 @@ PYTHONPATH=. python tools/repro_diagnostic.py    -> reproduction gate diagnosis
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 31 tests, all passing. The original 18 cover every check above plus SQLite
+
+
+
+
+
+
+
+
 
 
 
@@ -622,7 +1238,23 @@ persistence (events, metrics, checkpoints written and re-readable) and a 900-tic
 
 
 
+
+
+
+
+
+
+
+
 five-inhabitant run. The 13 added tests cover genomes (bounded mutation over 300
+
+
+
+
+
+
+
+
 
 
 
@@ -638,7 +1270,23 @@ generations, dict round-trip, brain built from genome), reproduction (birth crea
 
 
 
+
+
+
+
+
+
+
+
 generation 1, population cap blocks it, range gate blocks it, an exhausted parent
+
+
+
+
+
+
+
+
 
 
 
@@ -654,7 +1302,23 @@ cannot breed), dream mode (a sleeping inhabitant takes zero decisions and accrue
 
 
 
+
+
+
+
+
+
+
+
 replays; an awake one decides), the ablation switches (`planner=False` persists on
+
+
+
+
+
+
+
+
 
 
 
@@ -670,7 +1334,31 @@ the hybrid brain; `BRAIN_KINDS` stays at two and `RandomPolicy` is not one of th
 
 
 
+
+
+
+
+
+
+
+
 and the calibration harness output fields.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -702,7 +1390,31 @@ and the calibration harness output fields.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | Metric | Value |
+
+
+
+
+
+
+
+
 
 
 
@@ -718,7 +1430,23 @@ and the calibration harness output fields.
 
 
 
+
+
+
+
+
+
+
+
 | World | 1.024 km^2 heightfield, 32x32 cells, 5.0 world days = 43,200 ticks |
+
+
+
+
+
+
+
+
 
 
 
@@ -734,7 +1462,23 @@ and the calibration harness output fields.
 
 
 
+
+
+
+
+
+
+
+
 | Survivors | **0 of 5** - all died at tick 16,792 (day 1.94), hydration 0.0 |
+
+
+
+
+
+
+
+
 
 
 
@@ -750,7 +1494,23 @@ and the calibration harness output fields.
 
 
 
+
+
+
+
+
+
+
+
 | Meals | 577 / 100 / 173 / 157 / 176 |
+
+
+
+
+
+
+
+
 
 
 
@@ -766,7 +1526,23 @@ and the calibration harness output fields.
 
 
 
+
+
+
+
+
+
+
+
 | Food sources | 81 distinct cells |
+
+
+
+
+
+
+
+
 
 
 
@@ -782,7 +1558,23 @@ and the calibration harness output fields.
 
 
 
+
+
+
+
+
+
+
+
 | Encounters | 43 pair-ticks, 3 first contacts, first at day 2 06:23 (21.5 m) |
+
+
+
+
+
+
+
+
 
 
 
@@ -798,7 +1590,23 @@ and the calibration harness output fields.
 
 
 
+
+
+
+
+
+
+
+
 | Water conservation | 993,060.69 -> 993,060.69 m^3 (drift 0.0) |
+
+
+
+
+
+
+
+
 
 
 
@@ -822,7 +1630,31 @@ and the calibration harness output fields.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Reachability check (the obvious objection): nearest wadeable water was 71.6 / 163.2
+
+
+
+
+
+
+
+
 
 
 
@@ -838,7 +1670,23 @@ Reachability check (the obvious objection): nearest wadeable water was 71.6 / 16
 
 
 
+
+
+
+
+
+
+
+
 depth 9.21 m. Water was reachable. The inhabitants never found a shore inside the
+
+
+
+
+
+
+
+
 
 
 
@@ -862,7 +1710,31 @@ depth 9.21 m. Water was reachable. The inhabitants never found a shore inside th
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Do not read this as a result about intelligence, learning quality, or the two
+
+
+
+
+
+
+
+
 
 
 
@@ -878,7 +1750,31 @@ architectures.** It is a calibration failure, diagnosed in
 
 
 
+
+
+
+
+
+
+
+
 `GENESIS_EMERGENCE_RESEARCH_LOG.md` E-004.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -910,6 +1806,22 @@ architectures.** It is a calibration failure, diagnosed in
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 `python -m genesis calibrate --seeds 3 --days 5 --arms population,no_planner,random
 
 
@@ -918,7 +1830,23 @@ architectures.** It is a calibration failure, diagnosed in
 
 
 
+
+
+
+
+
+
+
+
 --grid 32 --population 5 --out runs/calibration-5day.json` (artefact checked in as
+
+
+
+
+
+
+
+
 
 
 
@@ -942,7 +1870,31 @@ architectures.** It is a calibration failure, diagnosed in
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | arm | seed | survivors | observed days | first death (day) | first drink (day) | births | sleep-skipped |
+
+
+
+
+
+
+
+
 
 
 
@@ -958,7 +1910,23 @@ architectures.** It is a calibration failure, diagnosed in
 
 
 
+
+
+
+
+
+
+
+
 | population | 20261105 | 0 | 2.60 | 1.59 | 0.00 | 0 | 0.936 |
+
+
+
+
+
+
+
+
 
 
 
@@ -974,7 +1942,23 @@ architectures.** It is a calibration failure, diagnosed in
 
 
 
+
+
+
+
+
+
+
+
 | population | 20261107 | 0 | 2.77 | 1.66 | 1.47 | 0 | 0.977 |
+
+
+
+
+
+
+
+
 
 
 
@@ -990,7 +1974,23 @@ architectures.** It is a calibration failure, diagnosed in
 
 
 
+
+
+
+
+
+
+
+
 | no_planner | 20261106 | 1 | 5.00 | 1.85 | 0.66 | 0 | 0.512 |
+
+
+
+
+
+
+
+
 
 
 
@@ -1006,7 +2006,23 @@ architectures.** It is a calibration failure, diagnosed in
 
 
 
+
+
+
+
+
+
+
+
 | random | 20261105 | 0 | 4.00 | 1.94 | 0.43 | 0 | 0.986 |
+
+
+
+
+
+
+
+
 
 
 
@@ -1022,7 +2038,31 @@ architectures.** It is a calibration failure, diagnosed in
 
 
 
+
+
+
+
+
+
+
+
 | random | 20261107 | 1 | 5.00 | 1.94 | 0.01 | 0 | 0.983 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1054,7 +2094,31 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - Drinking now happens in 7 of 9 runs, first at day 0.00-1.47 (v0.1 recorded 0
+
+
+
+
+
+
+
+
 
 
 
@@ -1070,7 +2134,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
   new water-seeking rule; no water-seeking rule was added.
+
+
+
+
+
+
+
+
 
 
 
@@ -1086,7 +2166,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
   between 1.59 and 1.94 days.
+
+
+
+
+
+
+
+
 
 
 
@@ -1102,7 +2198,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
   (observed 4.00 / 4.16 days vs 2.60 / 2.77). At 5 days and 5 inhabitants, learned
+
+
+
+
+
+
+
+
 
 
 
@@ -1118,7 +2230,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
   the current calibration blocker.
+
+
+
+
+
+
+
+
 
 
 
@@ -1134,7 +2262,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
   in the sleep-skip fraction on seed 3. The planner ablation therefore does not yet
+
+
+
+
+
+
+
+
 
 
 
@@ -1150,7 +2294,31 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
 - Zero births in every arm at default density - see section 7.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1182,7 +2350,31 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Gates are reachable.** Diagnostic on seed 20261105, 5 days
+
+
+
+
+
+
+
+
 
 
 
@@ -1198,7 +2390,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
 61.5% of sampled agent-instances, nutrition gate in 53.1%, both together in 38.5%.
+
+
+
+
+
+
+
+
 
 
 
@@ -1222,7 +2430,31 @@ So the thresholds are not the blocker.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Proximity is the blocker.** Zero births occurred because the closest any two
+
+
+
+
+
+
+
+
 
 
 
@@ -1238,7 +2470,23 @@ inhabitants ever came was **342.8 m**, against a 12 m reproduction range and a 2
 
 
 
+
+
+
+
+
+
+
+
 encounter range. The 24-dim sensor vector has no channel for other inhabitants, so
+
+
+
+
+
+
+
+
 
 
 
@@ -1254,7 +2502,31 @@ agents cannot perceive, and therefore cannot approach, each other. Reproduction 
 
 
 
+
+
+
+
+
+
+
+
 implemented and exercised by tests, but it is inert at the default world scale.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1286,7 +2558,31 @@ Density sweep (seed 20261105, 2 days, population 5, 32x32 cells):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | World | Births | Encounters | Closest approach |
+
+
+
+
+
+
+
+
 
 
 
@@ -1302,7 +2598,23 @@ Density sweep (seed 20261105, 2 days, population 5, 32x32 cells):
 
 
 
+
+
+
+
+
+
+
+
 | 1024 m | 0 | 0 | 342.8 m |
+
+
+
+
+
+
+
+
 
 
 
@@ -1318,7 +2630,23 @@ Density sweep (seed 20261105, 2 days, population 5, 32x32 cells):
 
 
 
+
+
+
+
+
+
+
+
 | 256 m | 0 | 0 | 47.8 m |
+
+
+
+
+
+
+
+
 
 
 
@@ -1342,7 +2670,31 @@ Density sweep (seed 20261105, 2 days, population 5, 32x32 cells):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 The 128 m arm reproduces through the CLI:
+
+
+
+
+
+
+
+
 
 
 
@@ -1358,7 +2710,23 @@ The 128 m arm reproduces through the CLI:
 
 
 
+
+
+
+
+
+
+
+
 gives generation 1 born on seed 20261105 (1 birth) and 0 births on 20261106. One
+
+
+
+
+
+
+
+
 
 
 
@@ -1382,7 +2750,31 @@ birth in one seed is not a viable population, and no selection claim is made.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Dream mode.** While asleep an inhabitant takes no sensory sample and no motor
+
+
+
+
+
+
+
+
 
 
 
@@ -1398,7 +2790,23 @@ decision; every `dream_every` ticks a memory replay re-fits the forward model. T
 
 
 
+
+
+
+
+
+
+
+
 measured share of decision slots skipped for sleep is 0.512-0.986 across the nine
+
+
+
+
+
+
+
+
 
 
 
@@ -1414,6 +2822,14 @@ runs (the world clock starts at night and night is most of the run). This saves 
 
 
 
+
+
+
+
+
+
+
+
 decision path only - the physics step still advances at full rate, so wall-clock
 
 
@@ -1422,7 +2838,31 @@ decision path only - the physics step still advances at full rate, so wall-clock
 
 
 
+
+
+
+
+
+
+
+
 savings are a fraction of total step cost, not a discount on the simulation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1454,7 +2894,31 @@ savings are a fraction of total step cost, not a discount on the simulation.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1. `brain.state` list shadowed the `brain.state()` method - crashed on first checkpoint.
+
+
+
+
+
+
+
+
 
 
 
@@ -1470,7 +2934,23 @@ savings are a fraction of total step cost, not a discount on the simulation.
 
 
 
+
+
+
+
+
+
+
+
 3. Forward-model LMS update had the wrong sign - prediction MSE grew 0.51 -> 19.3.
+
+
+
+
+
+
+
+
 
 
 
@@ -1486,7 +2966,23 @@ savings are a fraction of total step cost, not a discount on the simulation.
 
 
 
+
+
+
+
+
+
+
+
 5. Resume was not identical: unrestored RNG stream, unpersisted pending decision,
+
+
+
+
+
+
+
+
 
 
 
@@ -1502,7 +2998,23 @@ savings are a fraction of total step cost, not a discount on the simulation.
 
 
 
+
+
+
+
+
+
+
+
 6. Raw-pickle digest flagged behaviourally irrelevant dict ordering; replaced with a
+
+
+
+
+
+
+
+
 
 
 
@@ -1518,7 +3030,23 @@ savings are a fraction of total step cost, not a discount on the simulation.
 
 
 
+
+
+
+
+
+
+
+
 7. `_birth` used `clamp` without importing it - the first reproduction test raised
+
+
+
+
+
+
+
+
 
 
 
@@ -1534,7 +3062,23 @@ savings are a fraction of total step cost, not a discount on the simulation.
 
 
 
+
+
+
+
+
+
+
+
 8. Measurement error, not code: `import genesis` in the engine venv "succeeded"
+
+
+
+
+
+
+
+
 
 
 
@@ -1550,6 +3094,14 @@ savings are a fraction of total step cost, not a discount on the simulation.
 
 
 
+
+
+
+
+
+
+
+
    moved to `tools/` (where the repo root is not on `sys.path`) so it can only ever
 
 
@@ -1558,7 +3110,31 @@ savings are a fraction of total step cost, not a discount on the simulation.
 
 
 
+
+
+
+
+
+
+
+
    report the real engine.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1590,7 +3166,39 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 9. Not tested - do not claim
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1614,7 +3222,23 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
 - No soak test past 5 world days; no memory-growth measurement over 120 h.
+
+
+
+
+
+
+
+
 
 
 
@@ -1630,7 +3254,23 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
 - No engine backend: `genesis-world 1.4.5` and `torch 2.15.0+cpu` are installed, but
+
+
+
+
+
+
+
+
 
 
 
@@ -1646,7 +3286,23 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
   creates its kernel cache at `C:/quadrants_cache/qdcache/kernel_compilation_manager`
+
+
+
+
+
+
+
+
 
 
 
@@ -1662,7 +3318,23 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
   create_directories: Access is denied`). No scene has been built or stepped on this
+
+
+
+
+
+
+
+
 
 
 
@@ -1678,7 +3350,23 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
   - all of them come from the stdlib kernel.
+
+
+
+
+
+
+
+
 
 
 
@@ -1694,7 +3382,23 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
 - No generalisation test for the world model (in-distribution only).
+
+
+
+
+
+
+
+
 
 
 
@@ -1710,7 +3414,23 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
 - No evidence that learning improves survival: a random policy outlives both
+
+
+
+
+
+
+
+
 
 
 
@@ -1726,7 +3446,31 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
 - No evidence of selection: one birth in one seed at a non-default world size.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1758,7 +3502,31 @@ Each was caught by a check with a numeric criterion. None was found by reading c
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Changes from Muse's 2026-11-05 decisions (commit `9f67dd0`), all exercised by the
+
+
+
+
+
+
+
+
 
 
 
@@ -1782,7 +3550,31 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - sensor vector 24 -> 28 dims: nearest-peer proximity, peer bearing as cos/sin in the
+
+
+
+
+
+
+
+
 
 
 
@@ -1798,7 +3590,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 - social drive in physiology and wellbeing (rises alone, relieved by a peer, never lethal)
+
+
+
+
+
+
+
+
 
 
 
@@ -1814,7 +3622,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
   + 2.5 x d(sensed water/food proximity) + 1.5 x d(isolation relief)
+
+
+
+
+
+
+
+
 
 
 
@@ -1830,7 +3654,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 - default world 128 m; lives start at 06:00 (dawn); reachability re-derived per world
+
+
+
+
+
+
+
+
 
 
 
@@ -1854,7 +3694,31 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 `python -m genesis calibrate --seeds 5 --days 5 --arms population,no_planner,random
+
+
+
+
+
+
+
+
 
 
 
@@ -1878,7 +3742,31 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | arm | seed | survivors | observed days | first death | first drink | births | sightings | planner uses | sleep-skipped |
+
+
+
+
+
+
+
+
 
 
 
@@ -1894,7 +3782,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | population | 20261105 | 0 | 2.51 | 1.78 | 0.01 | 0 | 4 | 88 | 0.981 |
+
+
+
+
+
+
+
+
 
 
 
@@ -1910,7 +3814,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | population | 20261107 | 0 | 3.08 | 1.66 | 0.01 | 0 | 6 | 80 | 0.985 |
+
+
+
+
+
+
+
+
 
 
 
@@ -1926,7 +3846,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | population | 20261109 | 0 | 4.11 | 1.47 | 0.00 | 1 | 6 | 36 | 0.986 |
+
+
+
+
+
+
+
+
 
 
 
@@ -1942,7 +3878,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | no_planner | 20261106 | 0 | 3.72 | 1.66 | 0.31 | 1 | 11 | 0 | 0.974 |
+
+
+
+
+
+
+
+
 
 
 
@@ -1958,7 +3910,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | no_planner | 20261108 | 1 | 5.00 | 1.70 | 0.01 | 0 | 8 | 0 | 0.719 |
+
+
+
+
+
+
+
+
 
 
 
@@ -1974,7 +3942,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | random | 20261105 | 4 | 5.00 | 1.43 | 0.00 | 2 | 14 | 0 | 0.981 |
+
+
+
+
+
+
+
+
 
 
 
@@ -1990,6 +3974,14 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | random | 20261107 | 1 | 5.00 | 1.30 | 0.00 | 1 | 13 | 0 | 0.981 |
 
 
@@ -1998,7 +3990,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | random | 20261108 | 1 | 5.00 | 1.30 | 0.22 | 1 | 14 | 0 | 0.982 |
+
+
+
+
+
+
+
+
 
 
 
@@ -2022,7 +4030,31 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | arm | survivors / 25 | median observed days | median first death | births | sightings | planner uses |
+
+
+
+
+
+
+
+
 
 
 
@@ -2038,7 +4070,23 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | population | 1 | 3.08 | 1.66 | 2 | 36 | 230 |
+
+
+
+
+
+
+
+
 
 
 
@@ -2054,7 +4102,31 @@ checks above:
 
 
 
+
+
+
+
+
+
+
+
 | random | 10 | 5.00 | 1.43 | 4 | 59 | 0 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2086,7 +4158,31 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - **The success bar is not met.** Hybrid was to beat random on first-drink day AND
+
+
+
+
+
+
+
+
 
 
 
@@ -2102,7 +4198,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
   median survival is 3.08 vs 5.00 days; survivors 1/25 vs 10/25. Dense shaping plus a
+
+
+
+
+
+
+
+
 
 
 
@@ -2118,7 +4230,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
 - **The planner acts and still does not separate.** `planner_uses` 230 vs 0 proves the
+
+
+
+
+
+
+
+
 
 
 
@@ -2134,7 +4262,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
   if anything, backwards. Muse's challenge is unresolved; the planner's steering is not
+
+
+
+
+
+
+
+
 
 
 
@@ -2150,7 +4294,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
 - **First sightings happen at spawn.** `first_sighting_day` is 0.0 in every run: at
+
+
+
+
+
+
+
+
 
 
 
@@ -2166,7 +4326,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
   of each other" is violated at this density. Reproducible social measurement now
+
+
+
+
+
+
+
+
 
 
 
@@ -2182,7 +4358,23 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
 - **Reproduction works and is not yet self-sustaining:** 8 births across 15 runs, with
+
+
+
+
+
+
+
+
 
 
 
@@ -2198,6 +4390,14 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
 - Reachability at 128 m is real: 7 wadeable cells in the verification world, nearest
 
 
@@ -2206,7 +4406,31 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
   15.1 m from a house, worst 76.9 m; median over the five calibration seeds 16.5 m.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2238,6 +4462,22 @@ What this actually says:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Dawn start did not reduce sleep. The skipped share is still 0.968-0.986, because the
 
 
@@ -2246,7 +4486,23 @@ Dawn start did not reduce sleep. The skipped share is still 0.968-0.986, because
 
 
 
+
+
+
+
+
+
+
+
 attractor is the rest channel (`rest > 0.45` while `energy < 0.98`), not the clock.
+
+
+
+
+
+
+
+
 
 
 
@@ -2270,7 +4526,31 @@ attractor is the rest channel (`rest > 0.45` while `energy < 0.98`), not the clo
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | arm | seed | survivors | first death | sleep-skipped | ticks/s |
+
+
+
+
+
+
+
+
 
 
 
@@ -2286,7 +4566,23 @@ attractor is the rest channel (`rest > 0.45` while `energy < 0.98`), not the clo
 
 
 
+
+
+
+
+
+
+
+
 | population | 20261105 | 3 | 1.78 | 0.981 | 1404 |
+
+
+
+
+
+
+
+
 
 
 
@@ -2302,7 +4598,23 @@ attractor is the rest channel (`rest > 0.45` while `energy < 0.98`), not the clo
 
 
 
+
+
+
+
+
+
+
+
 | no_sleep | 20261105 | 6 (1 birth) | none | 0.0 | 652 |
+
+
+
+
+
+
+
+
 
 
 
@@ -2326,7 +4638,31 @@ attractor is the rest channel (`rest > 0.45` while `energy < 0.98`), not the clo
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Zeroing the rest channel doubled 2-day survival and produced the only death-free run,
+
+
+
+
+
+
+
+
 
 
 
@@ -2342,6 +4678,14 @@ but at 2.3x the wall-clock cost per tick. Caveat before quoting it: 2 seeds, 2 d
 
 
 
+
+
+
+
+
+
+
+
 and the random arm also slept ~98% and still reached 10/25 at 5 days. Sleep is a large
 
 
@@ -2350,7 +4694,31 @@ and the random arm also slept ~98% and still reached 10/25 at 5 days. Sleep is a
 
 
 
+
+
+
+
+
+
+
+
 contributor, not the whole cause.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2382,7 +4750,31 @@ contributor, not the whole cause.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - Peer perception is proximity-only within 40 m, nearest peer only, with no terrain
+
+
+
+
+
+
+
+
 
 
 
@@ -2398,7 +4790,23 @@ contributor, not the whole cause.
 
 
 
+
+
+
+
+
+
+
+
 - The "starts unaware" property does not hold at 128 m with 40 m peer range.
+
+
+
+
+
+
+
+
 
 
 
@@ -2414,7 +4822,23 @@ contributor, not the whole cause.
 
 
 
+
+
+
+
+
+
+
+
 - Shaping weights were chosen a priori and were not swept; no claim that they are good,
+
+
+
+
+
+
+
+
 
 
 
@@ -2430,7 +4854,23 @@ contributor, not the whole cause.
 
 
 
+
+
+
+
+
+
+
+
 - Reproduction is demonstrated, not sustained.
+
+
+
+
+
+
+
+
 
 
 
@@ -2446,7 +4886,31 @@ contributor, not the whole cause.
 
 
 
+
+
+
+
+
+
+
+
   access at `C:/quadrants_cache`, which this account lacks. Remains unverified.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2478,7 +4942,31 @@ contributor, not the whole cause.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Changes (Muse decisions 1-3, 2026-11-05): a sleeper now wakes when rested, thirsty
+
+
+
+
+
+
+
+
 
 
 
@@ -2494,7 +4982,23 @@ Changes (Muse decisions 1-3, 2026-11-05): a sleeper now wakes when rested, thirs
 
 
 
+
+
+
+
+
+
+
+
 start sleeping while thirsty, hungry, or within 30 min of waking; the conspecific range
+
+
+
+
+
+
+
+
 
 
 
@@ -2510,7 +5014,31 @@ is 15 m and the social-drive relief radius is aligned to it; the planner steers 
 
 
 
+
+
+
+
+
+
+
+
 vector sum of per-ray votes with 3-decision hysteresis instead of one best ray.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2542,7 +5070,31 @@ Same command as section 10, artefact `runs/calibration-v4-sleep15m.json`.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | arm | survivors | deaths | median observed days | median first death | births | sightings | planner uses | sleep-skipped | ticks/s |
+
+
+
+
+
+
+
+
 
 
 
@@ -2558,6 +5110,14 @@ Same command as section 10, artefact `runs/calibration-v4-sleep15m.json`.
 
 
 
+
+
+
+
+
+
+
+
 | population | 20 | 10 | 5.00 | 1.94 | 5 | 60 | 4493 | 0.69 | 846 |
 
 
@@ -2566,7 +5126,23 @@ Same command as section 10, artefact `runs/calibration-v4-sleep15m.json`.
 
 
 
+
+
+
+
+
+
+
+
 | no_planner | 18 | 12 | 5.00 | 1.94 | 5 | 61 | 0 | 0.64 | 829 |
+
+
+
+
+
+
+
+
 
 
 
@@ -2590,6 +5166,22 @@ Same command as section 10, artefact `runs/calibration-v4-sleep15m.json`.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Deaths are `population_end - survivors`, because populations now grow through births
 
 
@@ -2598,7 +5190,31 @@ Deaths are `population_end - survivors`, because populations now grow through bi
 
 
 
+
+
+
+
+
+
+
+
 and raw survivor counts are not comparable across arms without it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2630,7 +5246,31 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - Learned arms now survive the run: 1 -> 20 and 2 -> 18 of the created population;
+
+
+
+
+
+
+
+
 
 
 
@@ -2646,7 +5286,23 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
   and it came from the two fixes Muse approved, not from tuning weights.
+
+
+
+
+
+
+
+
 
 
 
@@ -2662,7 +5318,23 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
   the 3 h bout cap and the rest channel still put them under for most of the day.
+
+
+
+
+
+
+
+
 
 
 
@@ -2678,7 +5350,23 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
   section 10 (1.7x slower), random 1584 against 1929. Awake decision slots are what
+
+
+
+
+
+
+
+
 
 
 
@@ -2694,7 +5382,23 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
 - Reproduction now fires in every arm: 5 / 5 / 7 births against 2 / 2 / 4.
+
+
+
+
+
+
+
+
 
 
 
@@ -2710,7 +5414,23 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
   the learned arms lost 10 and 12 inhabitants. First-drink day remains a tie
+
+
+
+
+
+
+
+
 
 
 
@@ -2726,7 +5446,23 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
   random walk.
+
+
+
+
+
+
+
+
 
 
 
@@ -2742,7 +5478,23 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
   the same first-death median of 1.94 d, with 4493 interventions against 0. Per Muse's
+
+
+
+
+
+
+
+
 
 
 
@@ -2758,7 +5510,23 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
 - **The unaware start is still violated, and 15 m did not fix it:** `first_sighting_day`
+
+
+
+
+
+
+
+
 
 
 
@@ -2774,6 +5542,14 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
   through gaps of 35.8, 21.5, 10.7 and 4.3 m at 128 m, so houses can start ~4 m apart.
 
 
@@ -2782,7 +5558,31 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
   The fix belongs in placement (minimum gap above the peer range), not in the sensor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2814,7 +5614,31 @@ What changed from section 10:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 The quadrants cache path is a hardcoded literal `C:/quadrants_cache/` inside
+
+
+
+
+
+
+
+
 
 
 
@@ -2830,7 +5654,23 @@ The quadrants cache path is a hardcoded literal `C:/quadrants_cache/` inside
 
 
 
+
+
+
+
+
+
+
+
 layer exposes no `cache_dir`, and `QD_CACHE_PATH`, `QD_CACHE_DIR`, `QD_LIB_DIR`,
+
+
+
+
+
+
+
+
 
 
 
@@ -2846,7 +5686,23 @@ layer exposes no `cache_dir`, and `QD_CACHE_PATH`, `QD_CACHE_DIR`, `QD_LIB_DIR`,
 
 
 
+
+
+
+
+
+
+
+
 `gs.init` with `PermissionError: [WinError 5] Access is denied: 'C:/quadrants_cache'`
+
+
+
+
+
+
+
+
 
 
 
@@ -2862,6 +5718,14 @@ before any scene is built. The only remaining unblock is a one-time elevated
 
 
 
+
+
+
+
+
+
+
+
 `mkdir C:\quadrants_cache`. The engine remains unverified and no engine number is
 
 
@@ -2870,7 +5734,31 @@ before any scene is built. The only remaining unblock is a one-time elevated
 
 
 
+
+
+
+
+
+
+
+
 claimed anywhere in this report.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2902,7 +5790,31 @@ claimed anywhere in this report.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Three approved changes: `_choose_homes` now refuses to seat houses below
+
+
+
+
+
+
+
+
 
 
 
@@ -2918,7 +5830,23 @@ Three approved changes: `_choose_homes` now refuses to seat houses below
 
 
 
+
+
+
+
+
+
+
+
 `home_gap_shortfall` instead of silently shrinking the gap; `Config.planner` defaults
+
+
+
+
+
+
+
+
 
 
 
@@ -2934,7 +5862,31 @@ to `False`, with the `planner` arm retained as the research arm that keeps the c
 
 
 
+
+
+
+
+
+
+
+
 falsifiable; every inhabitant is hybrid, so there is no second-class neural tier.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2966,7 +5918,31 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | arm | survivors | deaths | median observed | median first death | births | sightings | first sighting | planner uses | sleep-skipped | ticks/s |
+
+
+
+
+
+
+
+
 
 
 
@@ -2982,6 +5958,14 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
 | population (hybrid, planner cut) | 22 | 8 | 5.00 | 2.12 | 5 | 67 | 0.00 | 0 | 0.68 | 664 |
 
 
@@ -2990,7 +5974,23 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
 | planner (research arm) | 25 | 5 | 5.00 | 1.83 | 5 | 61 | 0.00 | 12191 | 0.74 | 661 |
+
+
+
+
+
+
+
+
 
 
 
@@ -3014,7 +6014,31 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - **The house floor works and is verified:** the population check reports 33.7 m
+
+
+
+
+
+
+
+
 
 
 
@@ -3030,7 +6054,23 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
   unaware start is true at t=0 for the first time; the earlier 4.3 m fallback is gone.
+
+
+
+
+
+
+
+
 
 
 
@@ -3046,7 +6086,23 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
   and walking at roughly 1 m/s the 18-34 m gap closes in seconds, so `first_sighting_day`
+
+
+
+
+
+
+
+
 
 
 
@@ -3062,7 +6118,23 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
   contact is meant to be a multi-day event, the town has to be larger; moving houses
+
+
+
+
+
+
+
+
 
 
 
@@ -3078,7 +6150,23 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
 - **The cut costs nothing measurable, and the retained research arm does not vindicate
+
+
+
+
+
+
+
+
 
 
 
@@ -3094,7 +6182,23 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
   and 10 with it, at the same ~660 ticks/s. But in this run the `planner` arm scored 25
+
+
+
+
+
+
+
+
 
 
 
@@ -3110,7 +6214,23 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
   decided by two seeds (one of them 6/6 vs 6/6), and still inside five-seed noise. The
+
+
+
+
+
+
+
+
 
 
 
@@ -3126,7 +6246,23 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
   direction. What would reopen it is a steering idea that separates across >=5 seeds,
+
+
+
+
+
+
+
+
 
 
 
@@ -3142,7 +6278,23 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
 - **One mind costs compute:** 664 ticks/s against 846 in v4, because all five
+
+
+
+
+
+
+
+
 
 
 
@@ -3158,6 +6310,14 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
 - **The bar remains unmet:** random lost nobody in 5 of 5 seeds while the learned
 
 
@@ -3166,7 +6326,31 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
   population lost 8, and first-drink day is a tie at 0.00 in all three arms.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3198,7 +6382,31 @@ falsifiable; every inhabitant is hybrid, so there is no second-class neural tier
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 With the engine call delegated, the only remaining path still needs an OS permission
+
+
+
+
+
+
+
+
 
 
 
@@ -3214,7 +6422,23 @@ this account does not have. The elevated `mkdir C:\quadrants_cache` was submitte
 
 
 
+
+
+
+
+
+
+
+
 through the desktop approval prompt, was not approved within the timeout, and the
+
+
+
+
+
+
+
+
 
 
 
@@ -3230,7 +6454,23 @@ directory does not exist afterwards - so the smoke test has not been re-run and 
 
 
 
+
+
+
+
+
+
+
+
 engine frame exists. Nothing here claims the engine works. The standing decision is
+
+
+
+
+
+
+
+
 
 
 
@@ -3246,7 +6486,31 @@ the honest one: the stdlib kernel remains the source of truth, and the engine is
 
 
 
+
+
+
+
+
+
+
+
 revisited the moment that folder exists.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3278,7 +6542,31 @@ revisited the moment that folder exists.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Approved nutrient-only (Muse, 2026-11-05). Implementation in `genesis/soup/`: a
+
+
+
+
+
+
+
+
 
 
 
@@ -3294,7 +6582,23 @@ Approved nutrient-only (Muse, 2026-11-05). Implementation in `genesis/soup/`: a
 
 
 
+
+
+
+
+
+
+
+
 a bounded 16 m x 16 m dish on a 64 x 64 grid with three nutrient patches, diffusion
+
+
+
+
+
+
+
+
 
 
 
@@ -3310,7 +6614,23 @@ and capped regrowth, cell metabolism (uptake, size, speed cost, crowding, adhesi
 
 
 
+
+
+
+
+
+
+
+
 dormancy), division with per-gene mutation (default 1%, sigma 5% of range, mutator
+
+
+
+
+
+
+
+
 
 
 
@@ -3326,7 +6646,31 @@ gene bounded 0.1-5%), six complexity metrics, and the four-part falsifier.
 
 
 
+
+
+
+
+
+
+
+
 `python -m genesis soup --probe` measures the ceiling; `--seeds 5` runs the pilot.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3358,7 +6702,31 @@ gene bounded 0.1-5%), six complexity metrics, and the four-part falsifier.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | measure | value |
+
+
+
+
+
+
+
+
 
 
 
@@ -3374,7 +6742,23 @@ gene bounded 0.1-5%), six complexity metrics, and the four-part falsifier.
 
 
 
+
+
+
+
+
+
+
+
 | ticks | 80,181 |
+
+
+
+
+
+
+
+
 
 
 
@@ -3390,7 +6774,23 @@ gene bounded 0.1-5%), six complexity metrics, and the four-part falsifier.
 
 
 
+
+
+
+
+
+
+
+
 | wall clock | 93.7 s |
+
+
+
+
+
+
+
+
 
 
 
@@ -3406,7 +6806,23 @@ gene bounded 0.1-5%), six complexity metrics, and the four-part falsifier.
 
 
 
+
+
+
+
+
+
+
+
 | median depth at end | 93 |
+
+
+
+
+
+
+
+
 
 
 
@@ -3422,7 +6838,23 @@ gene bounded 0.1-5%), six complexity metrics, and the four-part falsifier.
 
 
 
+
+
+
+
+
+
+
+
 | genome diversity | 0.087 |
+
+
+
+
+
+
+
+
 
 
 
@@ -3446,7 +6878,31 @@ gene bounded 0.1-5%), six complexity metrics, and the four-part falsifier.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **The ceiling, stated plainly:** ~801 ticks per generation of lineage depth. The
+
+
+
+
+
+
+
+
 
 
 
@@ -3462,7 +6918,23 @@ approved target of 20,000 generations therefore needs ~16.0 million ticks, or
 
 
 
+
+
+
+
+
+
+
+
 **18,740 s (5.2 h) per seed** and ~26 h for five seeds. The approved 45-minute
+
+
+
+
+
+
+
+
 
 
 
@@ -3478,6 +6950,14 @@ budget cannot reach 20,000 generations with this ecology. This is not a code
 
 
 
+
+
+
+
+
+
+
+
 bottleneck - 856 ticks/s is how fast the code runs - it is ecological: nutrient-limited
 
 
@@ -3486,7 +6966,23 @@ bottleneck - 856 ticks/s is how fast the code runs - it is ecological: nutrient-
 
 
 
+
+
+
+
+
+
+
+
 cells spend most ticks at maintenance, so divisions are rare and depth advances about
+
+
+
+
+
+
+
+
 
 
 
@@ -3510,7 +7006,31 @@ one generation per 800 ticks.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Not done, deliberately:** no nutrient or metabolism tuning to force 20,000
+
+
+
+
+
+
+
+
 
 
 
@@ -3526,7 +7046,23 @@ generations into the budget. That would change the selection pressure the pilot 
 
 
 
+
+
+
+
+
+
+
+
 to measure. A shorter design is proposed for review instead: target 2,000 generations
+
+
+
+
+
+
+
+
 
 
 
@@ -3542,7 +7078,23 @@ to measure. A shorter design is proposed for review instead: target 2,000 genera
 
 
 
+
+
+
+
+
+
+
+
 generation 10,000 to 1,000; the other three criteria unchanged. On the probe's
+
+
+
+
+
+
+
+
 
 
 
@@ -3566,7 +7118,31 @@ numbers, 1,000 generations costs ~16 min per seed.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Validation: 48 unit tests OK (11 new soup tests cover gene bounds, dish conservation,
+
+
+
+
+
+
+
+
 
 
 
@@ -3582,7 +7158,31 @@ regrowth cap, determinism, division and the falsifier's pass/fail logic); 22/22
 
 
 
+
+
+
+
+
+
+
+
 validation checks unchanged.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3614,7 +7214,31 @@ validation checks unchanged.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 The engine was unblocked with two permissions, no engine patch and no override: an
+
+
+
+
+
+
+
+
 
 
 
@@ -3630,6 +7254,14 @@ elevated `mkdir C:\quadrants_cache`, then an elevated `icacls` grant on that fol
 
 
 
+
+
+
+
+
+
+
+
 because the elevated token owned it and the normal account could not create `qdcache`
 
 
@@ -3638,7 +7270,31 @@ because the elevated token owned it and the normal account could not create `qdc
 
 
 
+
+
+
+
+
+
+
+
 inside it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3670,7 +7326,31 @@ inside it.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
+
+
+
+
+
+
+
+
 
 
 
@@ -3686,6 +7366,14 @@ engine=cpu steps=200 seconds=4.073 fps=49.1 rest_z=0.2499 expected=0.2500
 
 
 
+
+
+
+
+
+
+
+
 settled=True
 
 
@@ -3694,7 +7382,31 @@ settled=True
 
 
 
+
+
+
+
+
+
+
+
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3718,7 +7430,23 @@ settled=True
 
 
 
+
+
+
+
+
+
+
+
 analytic 0.2500 m. This is the first engine-stepped scene in the project, and
+
+
+
+
+
+
+
+
 
 
 
@@ -3742,7 +7470,31 @@ analytic 0.2500 m. This is the first engine-stepped scene in the project, and
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Not established by this run, and not claimed: the photoreal standard (task 721), GPU
+
+
+
+
+
+
+
+
 
 
 
@@ -3758,6 +7510,14 @@ throughput, or engine-versus-kernel equivalence on the 128 m town. The stdlib ke
 
 
 
+
+
+
+
+
+
+
+
 remains the source of truth for every number in this report until an engine scene
 
 
@@ -3766,7 +7526,31 @@ remains the source of truth for every number in this report until an engine scen
 
 
 
+
+
+
+
+
+
+
+
 reproduces one.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3798,7 +7582,31 @@ reproduces one.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Muse approved 2,000 generations with the extinction floor at 1,000 and clarified that
+
+
+
+
+
+
+
+
 
 
 
@@ -3814,7 +7622,23 @@ niche breadth is a per-lineage median. Five seeds ran in parallel, each capped a
 
 
 
+
+
+
+
+
+
+
+
 minutes; the stall guard (20,000 ticks with no new lineage depth) stopped every seed
+
+
+
+
+
+
+
+
 
 
 
@@ -3838,7 +7662,31 @@ first. 50 unit tests OK, 22/22 validation checks.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | seed | max gen | ticks | ticks/gen | population | diversity | lineages | niche (gen100 -> end) |
+
+
+
+
+
+
+
+
 
 
 
@@ -3854,7 +7702,23 @@ first. 50 unit tests OK, 22/22 validation checks.
 
 
 
+
+
+
+
+
+
+
+
 | 20261105 | 241 | 363,600 | 1,509 | 74 | 0.061 | 1 | 3 -> 3 |
+
+
+
+
+
+
+
+
 
 
 
@@ -3870,6 +7734,14 @@ first. 50 unit tests OK, 22/22 validation checks.
 
 
 
+
+
+
+
+
+
+
+
 | 20261107 | 157 | 406,400 | 2,589 | 103 | 0.063 | 1 | 3 -> 3 |
 
 
@@ -3878,7 +7750,23 @@ first. 50 unit tests OK, 22/22 validation checks.
 
 
 
+
+
+
+
+
+
+
+
 | 20261108 | 206 | 405,000 | 1,966 | 97 | 0.107 | 1 | 3 -> 3 |
+
+
+
+
+
+
+
+
 
 
 
@@ -3902,7 +7790,31 @@ first. 50 unit tests OK, 22/22 validation checks.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Throughput 505-556 ticks/s with five processes in parallel (856 alone). No extinction
+
+
+
+
+
+
+
+
 
 
 
@@ -3926,7 +7838,31 @@ in any seed (`extinct_after_floor=False`), and no seed reached the target.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Why the counter stalled.** `max_gen` is the deepest lineage ever reached. In every
+
+
+
+
+
+
+
+
 
 
 
@@ -3942,6 +7878,14 @@ dish a single lineage outcompetes all others (`lineages=1`), so when that chain 
 
 
 
+
+
+
+
+
+
+
+
 record can never be beaten by the survivors and the counter freezes while the
 
 
@@ -3950,7 +7894,23 @@ record can never be beaten by the survivors and the counter freezes while the
 
 
 
+
+
+
+
+
+
+
+
 population keeps turning over. The stall guard then fires. This is a definition bug in
+
+
+
+
+
+
+
+
 
 
 
@@ -3974,6 +7934,22 @@ the generation clock, not a compute limit and not extinction.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Criterion 3 is vacuous, as Muse predicted.** Median lineage niche breadth is 3.0 at
 
 
@@ -3982,7 +7958,23 @@ the generation clock, not a compute limit and not extinction.
 
 
 
+
+
+
+
+
+
+
+
 generation 100 - the three-patch ceiling - and 3.0 at the end, ratio 1.0. It is
+
+
+
+
+
+
+
+
 
 
 
@@ -4006,7 +7998,31 @@ reported as measured, not reformulated.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Criterion 4's statistic was numerically broken.** Cross-seed spread of the baseline
+
+
+
+
+
+
+
+
 
 
 
@@ -4022,7 +8038,23 @@ means was ~1e-9, so a 0.1 trait shift read as a 2.5e8-sigma "discovery". The
 
 
 
+
+
+
+
+
+
+
+
 denominator now has a floor of 5% of each gene's declared range. No pass is claimed
+
+
+
+
+
+
+
+
 
 
 
@@ -4046,7 +8078,31 @@ from the old numbers.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **What the cells actually did (generation 100 -> end, means):** size shrank toward the
+
+
+
+
+
+
+
+
 
 
 
@@ -4062,7 +8118,23 @@ from the old numbers.
 
 
 
+
+
+
+
+
+
+
+
 0.89 -> 0.50); efficiency rose to the 1.0 ceiling in three (0.65 -> 0.80,
+
+
+
+
+
+
+
+
 
 
 
@@ -4078,6 +8150,14 @@ from the old numbers.
 
 
 
+
+
+
+
+
+
+
+
 unused cues; speed rose from ~0.10 to 0.14-0.17; toxin tolerance rose in every dish.
 
 
@@ -4086,7 +8166,23 @@ unused cues; speed rose from ~0.10 to 0.14-0.17; toxin tolerance rose in every d
 
 
 
+
+
+
+
+
+
+
+
 Directional selection is real and consistent. The falsifier, not the biology, is what
+
+
+
+
+
+
+
+
 
 
 
@@ -4110,7 +8206,31 @@ failed.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Proposed fix, awaiting Muse:** generation clock = population-normalised births
+
+
+
+
+
+
+
+
 
 
 
@@ -4126,6 +8246,14 @@ failed.
 
 
 
+
+
+
+
+
+
+
+
 that is not already at its ceiling at generation 100 (more patches or a per-lineage
 
 
@@ -4134,7 +8262,31 @@ that is not already at its ceiling at generation 100 (more patches or a per-line
 
 
 
+
+
+
+
+
+
+
+
 specialisation index); and the 2 SD trait criterion with the range floor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4166,7 +8318,39 @@ Artifacts: `runs/soup/seed-*.json` (not committed).
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 20. Turnover-clock rerun - corrected code, measured cost, run in progress
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4190,7 +8374,23 @@ Muse approved the corrected generation clock (population-normalised births) and 
 
 
 
+
+
+
+
+
+
+
+
 per-lineage patch-share entropy niche measure; both are implemented and the falsifier's
+
+
+
+
+
+
+
+
 
 
 
@@ -4214,7 +8414,31 @@ meaning is unchanged. 52 unit tests OK, 22/22 validation checks.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **The cost the probe hid.** The probe projected 2,000 turnovers in 41 minutes from 50
+
+
+
+
+
+
+
+
 
 
 
@@ -4230,6 +8454,14 @@ turnovers measured at population 200. That measured the founding transient. Unde
 
 
 
+
+
+
+
+
+
+
+
 five-way parallelism the same dishes settle at ~110 cells and 0.021-0.034 births per
 
 
@@ -4238,7 +8470,23 @@ five-way parallelism the same dishes settle at ~110 cells and 0.021-0.034 births
 
 
 
+
+
+
+
+
+
+
+
 tick, i.e. 3,200-5,200 ticks per turnover. The longest attempt (killed at 113 minutes by
+
+
+
+
+
+
+
+
 
 
 
@@ -4262,7 +8510,31 @@ a harness restart, before it could write its row) had:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 | seed | ticks | turnovers | max gen | population | ticks/turnover |
+
+
+
+
+
+
+
+
 
 
 
@@ -4278,7 +8550,23 @@ a harness restart, before it could write its row) had:
 
 
 
+
+
+
+
+
+
+
+
 | 20261105 | 2,855,000 | 889 | 626 | 115 | 3,212 |
+
+
+
+
+
+
+
+
 
 
 
@@ -4294,6 +8582,14 @@ a harness restart, before it could write its row) had:
 
 
 
+
+
+
+
+
+
+
+
 | 20261107 | 2,695,000 | 520 | 305 | 114 | 5,183 |
 
 
@@ -4302,7 +8598,23 @@ a harness restart, before it could write its row) had:
 
 
 
+
+
+
+
+
+
+
+
 | 20261108 | 2,720,000 | 604 | 344 | 115 | 4,503 |
+
+
+
+
+
+
+
+
 
 
 
@@ -4326,6 +8638,22 @@ a harness restart, before it could write its row) had:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 At 2,000 turnovers that flux implies 8-10 million ticks per seed: 5-7 hours at the
 
 
@@ -4334,7 +8662,23 @@ At 2,000 turnovers that flux implies 8-10 million ticks per seed: 5-7 hours at t
 
 
 
+
+
+
+
+
+
+
+
 398-424 ticks/s five processes sustain in parallel, roughly 8x the probe's projection.
+
+
+
+
+
+
+
+
 
 
 
@@ -4358,7 +8702,31 @@ No extinction occurred in any seed while this ran; populations held at 108-116.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Data-loss fix.** The pilot wrote its row only on completion, and three attempts were
+
+
+
+
+
+
+
+
 
 
 
@@ -4374,7 +8742,23 @@ killed by harness restarts with nothing saved. `run_pilot` now writes an atomic 
 
 
 
+
+
+
+
+
+
+
+
 row every 100 turnovers (same snapshot, digest and trait means as the final row; test
+
+
+
+
+
+
+
+
 
 
 
@@ -4398,7 +8782,31 @@ added). A killed run keeps its measured numbers.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Current run.** 5 seeds, target 2,000 turnovers, floor 1,000, cap 480 minutes (Muse, 2026-11-05: 5-7 h/seed approved; the earlier 300-min cap would have truncated the slowest seed before 2,000),
+
+
+
+
+
+
+
+
 
 
 
@@ -4414,7 +8822,31 @@ checkpoint every 100, `--population 200 --cap 600`. Results and the four-part ve
 
 
 
+
+
+
+
+
+
+
+
 will be appended when it completes. No verdict is claimed yet.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4446,7 +8878,39 @@ will be appended when it completes. No verdict is claimed yet.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 21. Town 1 eye-level render - five cues readable, photoreal bar not met
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4470,7 +8934,31 @@ The engine now draws the town from a 1.65 m camera. The image is committed at
 
 
 
+
+
+
+
+
+
+
+
 `docs/assets/town1_eye_level.png` (half-size: `town1_eye_level_half.png`).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4494,7 +8982,23 @@ The engine now draws the town from a 1.65 m camera. The image is committed at
 
 
 
+
+
+
+
+
+
+
+
 timber-framed huts with doors, windows, gable roofs and chimneys, a stone fire ring with
+
+
+
+
+
+
+
+
 
 
 
@@ -4510,7 +9014,23 @@ logs and a three-shell emissive flame plus a warm point light, two vegetable bed
 
 
 
+
+
+
+
+
+
+
+
 ripe fruit, a fruited tree, five 1.7 m figures around the fire, a fence line and a
+
+
+
+
+
+
+
+
 
 
 
@@ -4534,7 +9054,31 @@ distant tree line. 1280x720, 72.9 s wall on CPU while five pilot processes were 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Five-cue review.** Water, food, fire, shelter and peers are each identifiable at eye
+
+
+
+
+
+
+
+
 
 
 
@@ -4558,7 +9102,31 @@ level and at the distances they matter. As a previs frame it passes that test.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **The photoreal bar (task 721) is not met, and the blocker is measured.** The bar is
+
+
+
+
+
+
+
+
 
 
 
@@ -4574,7 +9142,23 @@ ray-traced lighting, textured materials, no low-poly. This is a rasterizer frame
 
 
 
+
+
+
+
+
+
+
+
 - The ray tracer does not import in this build. `genesis.vis.raytracer` raises
+
+
+
+
+
+
+
+
 
 
 
@@ -4590,7 +9174,23 @@ ray-traced lighting, textured materials, no low-poly. This is a rasterizer frame
 
 
 
+
+
+
+
+
+
+
+
   1.4.5. PyPI's `luisa-python` is a different binding (`luisa`) whose native module
+
+
+
+
+
+
+
+
 
 
 
@@ -4606,7 +9206,23 @@ ray-traced lighting, textured materials, no low-poly. This is a rasterizer frame
 
 
 
+
+
+
+
+
+
+
+
   confirmed, and removed, so no dependency change remains.
+
+
+
+
+
+
+
+
 
 
 
@@ -4622,7 +9238,23 @@ ray-traced lighting, textured materials, no low-poly. This is a rasterizer frame
 
 
 
+
+
+
+
+
+
+
+
   fall back to flat colour; huts, figures, rocks and the tree are flat-shaded
+
+
+
+
+
+
+
+
 
 
 
@@ -4646,7 +9278,31 @@ ray-traced lighting, textured materials, no low-poly. This is a rasterizer frame
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Two host fixes were needed to render at all.** The rasterizer JIT-compiles through
+
+
+
+
+
+
+
+
 
 
 
@@ -4662,7 +9318,23 @@ numba, whose cache path inside this long project directory exceeds the Windows
 
 
 
+
+
+
+
+
+
+
+
 260-character limit (`FileNotFoundError` on the `.nbc.tmp` write); `NUMBA_CACHE_DIR`
+
+
+
+
+
+
+
+
 
 
 
@@ -4686,7 +9358,31 @@ now points at a short temp path. `genesis/ext/pyrender/__pycache__` also had to 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **What the bar still needs.** A ray-tracing renderer that imports on this Python build
+
+
+
+
+
+
+
+
 
 
 
@@ -4702,6 +9398,14 @@ now points at a short temp path. `genesis/ext/pyrender/__pycache__` also had to 
 
 
 
+
+
+
+
+
+
+
+
 and figures, and an anti-aliased ray-traced frame. None of that is claimed here. The
 
 
@@ -4710,7 +9414,31 @@ and figures, and an anti-aliased ray-traced frame. None of that is claimed here.
 
 
 
+
+
+
+
+
+
+
+
 stdlib kernel remains the source of truth for simulation numbers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4742,7 +9470,31 @@ stdlib kernel remains the source of truth for simulation numbers.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Muse's Earth-like frame and the full review landed, and the Gateway is now built: the
+
+
+
+
+
+
+
+
 
 
 
@@ -4766,7 +9518,31 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **What was built.**
+
+
+
+
+
+
+
+
 
 
 
@@ -4782,7 +9558,23 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
   a new `on_tick` hook in `run_pilot`. There is one simulation code path, not a second copy
+
+
+
+
+
+
+
+
 
 
 
@@ -4798,7 +9590,23 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
 - `gateway/solar.py` - solar position from real orbital geometry (declination and hour
+
+
+
+
+
+
+
+
 
 
 
@@ -4814,7 +9622,23 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
 - `gateway/server.py` - read-only HTTP: `/api/world`, `/api/stream` (SSE), `/api/health`,
+
+
+
+
+
+
+
+
 
 
 
@@ -4830,7 +9654,23 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
 - `world/` - a first-person three.js viewer: a shallow basin with the dish's three real
+
+
+
+
+
+
+
+
 
 
 
@@ -4846,7 +9686,23 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
   the sun's real direction driving sky, water specular and stars, `WASD` + mouse look,
+
+
+
+
+
+
+
+
 
 
 
@@ -4862,7 +9718,23 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
 - `docs/implementation/GATEWAY_CONTRACT.md` - the v1 contract, fields, units, failure
+
+
+
+
+
+
+
+
 
 
 
@@ -4886,7 +9758,31 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Measured.**
+
+
+
+
+
+
+
+
 
 
 
@@ -4902,7 +9798,23 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
 - Live feed: 335 ticks/s unpaced, which starved the HTTP threads (225.7 ms mean for
+
+
+
+
+
+
+
+
 
 
 
@@ -4918,7 +9830,23 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
   rate to 49 ticks/s and the mean request to ~73 ms (p50 72.8, p95 102.8).
+
+
+
+
+
+
+
+
 
 
 
@@ -4934,6 +9862,14 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
   `/` takes the same ~72 ms, and `connect` is 0.4 ms while the first byte is ~65 ms. The
 
 
@@ -4942,7 +9878,23 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
   viewer's live path is one SSE connection, which does not pay it per frame.
+
+
+
+
+
+
+
+
 
 
 
@@ -4966,7 +9918,31 @@ contract Task 871 deferred is decided, implemented, and measurable.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Not verified, and not claimed.** The packaged browser tab would not attach in this
+
+
+
+
+
+
+
+
 
 
 
@@ -4982,7 +9958,23 @@ session (`preview_open` and `register_preview` both returned "preview page is no
 
 
 
+
+
+
+
+
+
+
+
 attached"), so no rendered frame of the viewer was inspected and no screenshot exists.
+
+
+
+
+
+
+
+
 
 
 
@@ -4998,7 +9990,23 @@ The HTTP surface, the live tick advance, the payload contents and the tests are 
 
 
 
+
+
+
+
+
+
+
+
 the pixels are not. Treat the scene as shipped-but-unviewed until someone opens
+
+
+
+
+
+
+
+
 
 
 
@@ -5022,7 +10030,31 @@ the pixels are not. Treat the scene as shipped-but-unviewed until someone opens
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **What the viewer shows, and what it does not.** It shows the world that exists: cells in
+
+
+
+
+
+
+
+
 
 
 
@@ -5038,7 +10070,23 @@ water, three patches, real sunlight. It does not show people, huts, fire rings o
 
 
 
+
+
+
+
+
+
+
+
 because none exist yet. The Town 1 frame stays a labelled renderer test in
+
+
+
+
+
+
+
+
 
 
 
@@ -5054,7 +10102,23 @@ because none exist yet. The Town 1 frame stays a labelled renderer test in
 
 
 
+
+
+
+
+
+
+
+
 so; positions and counts are the simulation's. There is no ray tracing and no claim of the
+
+
+
+
+
+
+
+
 
 
 
@@ -5078,7 +10142,31 @@ photoreal bar.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Update, 20:22 - verified, and the first frame caught a real bug.** The viewer was loaded
+
+
+
+
+
+
+
+
 
 
 
@@ -5094,7 +10182,23 @@ headlessly (Playwright Chromium, SwiftShader) against the live gateway: 63 cells
 
 
 
+
+
+
+
+
+
+
+
 3929, generation 12, planet time 08:01, sun 13.9 deg, `W` moved the camera from z 11.2 to
+
+
+
+
+
+
+
+
 
 
 
@@ -5110,7 +10214,23 @@ headlessly (Playwright Chromium, SwiftShader) against the live gateway: 63 cells
 
 
 
+
+
+
+
+
+
+
+
 water vertex-shader type error (a vec3 assigned to a vec4) that WebGL refused to compile,
+
+
+
+
+
+
+
+
 
 
 
@@ -5126,7 +10246,23 @@ so the basin floor was showing instead of water; it is fixed, water now renders 
 
 
 
+
+
+
+
+
+
+
+
 ripples and specular, and the nutrient discs follow the real field. Frame at
+
+
+
+
+
+
+
+
 
 
 
@@ -5142,7 +10278,39 @@ ripples and specular, and the nutrient discs follow the real field. Frame at
 
 
 
+
+
+
+
+
+
+
+
 verified" paragraph above was true when written; this supersedes it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5182,7 +10350,31 @@ verified" paragraph above was true when written; this supersedes it.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **What was built.** `genesis/cosmos/cosmogony.py` is a reduced cosmogony: 84 shells expand,
+
+
+
+
+
+
+
+
 
 
 
@@ -5198,7 +10390,23 @@ fall under the mass interior to them, and stop at their centrifugal radius
 
 
 
+
+
+
+
+
+
+
+
 `r = j^2 / (G M_star)`, so infall becomes a disk. Shells inside the star feed it; it ignites
+
+
+
+
+
+
+
+
 
 
 
@@ -5214,7 +10422,23 @@ at 0.35 and its luminosity `L ~ M^3.5` sets the habitable zone. Settled shells w
 
 
 
+
+
+
+
+
+
+
+
 merge into planets, conserving mass and water. The candidate for life is the water-rich body
+
+
+
+
+
+
+
+
 
 
 
@@ -5230,7 +10454,23 @@ that ends inside the final habitable zone. Nothing is placed and no outcome is s
 
 
 
+
+
+
+
+
+
+
+
 `gateway/server.py` serves it at `/api/cosmos` (with an optional `?tau=` override of the 90 s
+
+
+
+
+
+
+
+
 
 
 
@@ -5254,7 +10494,31 @@ cycle); `/` now opens the cosmogony scene and `/dish` keeps the live dish viewer
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Measured, seed 20261105.** Star mass 0.4762; habitable zone 0.2593-0.3740; 11 planets; the
+
+
+
+
+
+
+
+
 
 
 
@@ -5270,7 +10534,23 @@ focus world at 0.3206 with water fraction 0.651, first inside the zone at tau 0.
 
 
 
+
+
+
+
+
+
+
+
 pass (8 new cosmogony tests, including determinism per seed and a different outcome for
+
+
+
+
+
+
+
+
 
 
 
@@ -5286,6 +10566,14 @@ seed 7). Headless Playwright against the live gateway at tau 0.08 / 0.30 / 0.55 
 
 
 
+
+
+
+
+
+
+
+
 phases expansion, collapse, disk, life, life; 0 / 2 / 5 / 8 / 10 planets; zero page errors and
 
 
@@ -5294,7 +10582,23 @@ phases expansion, collapse, disk, life, life; 0 / 2 / 5 / 8 / 10 planets; zero p
 
 
 
+
+
+
+
+
+
+
+
 one three.js deprecation warning. Frames: `docs/assets/cosmos_disk.png`,
+
+
+
+
+
+
+
+
 
 
 
@@ -5318,7 +10622,31 @@ one three.js deprecation warning. Frames: `docs/assets/cosmos_disk.png`,
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Limits, stated.** This is a reduced model, not an N-body simulation: one-dimensional
+
+
+
+
+
+
+
+
 
 
 
@@ -5334,7 +10662,23 @@ shells, a prescribed isothermal mass profile, times and G scaled for watchabilit
 
 
 
+
+
+
+
+
+
+
+
 reaches its final mass by tau 0.08, so an "ignition" phase is never displayed and the star is
+
+
+
+
+
+
+
+
 
 
 
@@ -5350,6 +10694,14 @@ already lit during expansion; planets begin appearing during collapse rather tha
 
 
 
+
+
+
+
+
+
+
+
 The phase labels are approximate story beats over a continuous simulation. The focus world
 
 
@@ -5358,7 +10710,23 @@ The phase labels are approximate story beats over a continuous simulation. The f
 
 
 
+
+
+
+
+
+
+
+
 carries a procedural surface texture in the renderer; the model itself has water fraction,
+
+
+
+
+
+
+
+
 
 
 
@@ -5378,74 +10746,180 @@ not geography. The renderer is still a rasterizer; the photoreal bar is unmet an
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 ## 24. Landing on the first world: click-to-zoom into the live surface
+
+
+
+
 
 
 
 The water world in orbit is now pickable. Clicking it (or its dedicated close-up mesh) starts
 
+
+
 a 1.5 s camera dive, then opens `/surface?from=cosmos&radius=...&water=...`, which is the live
+
+
 
 primordial dish at eye level: real cells from the running pilot, the real sun position and the
 
+
+
 planet's day/night. The surface hides its intro when arriving from orbit, labels itself
+
+
 
 SURFACE, shows the planet's orbit radius and water fraction, and offers "← orbit" back to the
 
+
+
 cosmogony. Other planets report that no surface simulation exists there yet; a click before
+
+
 
 the life phase does not land.
 
 
 
+
+
+
+
 **Measured.** Headless Playwright at tau 0.95 clicked screen centre: orbit reported phase
+
+
 
 life with 10 planets, the page landed at
 
+
+
 `/surface?from=cosmos&radius=0.3206&water=0.651`, and the surface reported population 64,
+
+
 
 3 turnovers, tick 936 and `genesis.soup.pilot.run_pilot on_tick (live)`, with zero page errors
 
+
+
 and only the known three.js deprecation warning. Frame: `docs/assets/surface_landing.png`.
 
+
+
 69 tests still pass; both viewer scripts parse under esprima (Node is not installed on this
+
+
 
 host). The `/surface` route returns 200.
 
 
 
+
+
+
+
 **Limit.** The surface is the world that exists — the primordial dish — not planet-wide
 
+
+
 terrain, and the cells are drawn enlarged as the contract says. This is a real live view of
+
+
 
 the simulation, not a rendered planet surface.
 
 
 
+
+
+
+
 ## 25. Correction: the staged origin is retired; the baseline is the front door
 
+
+
 **What was wrong.** The cosmogony scene I built presented an authored sequence as the origin
+
 of the world: phase thresholds (0.16, 0.38, 0.66) written by hand, a fixed 90-second cycle, a
+
 camera that selected the "first world", and a "THE FIRST WORLD" banner. Those are stage
+
 directions, not simulation. They violate the project rule that nothing is placed and no story
+
 is scripted, and presenting the result as what is happening was wrong.
 
+
+
 **What changed.** `/` serves the live baseline viewer again; `/dish` and `/surface` serve the
+
 same page. `/cosmos.html` and `/api/cosmos` are gone (both 404). The cosmogony viewer moved to
+
 `docs/retired/`; the model and its tests remain in the repo as a reduced experiment, not part
+
 of the served world. The orbit link and the click-to-orbit landing were removed from the
+
 baseline page because they belonged to the retired staging.
 
+
+
 **Measured.** `/` 200, `/surface` 200, `/dish` 200, `/cosmos.html` 404, `/api/cosmos` 404,
+
 `/api/world` 200. Headless Chromium on `/`: overlay dismissed, 62 real cells, tick 3056,
+
 generation 11, status `genesis.soup.pilot.run_pilot on_tick (live)`, no orbit link, zero page
+
 errors. 69 tests pass. Node v26.13.0 at `C:\Program Files
+
 odejs
+
 ode.exe`; `world.js` and
+
 the retired `cosmos.js` both pass `node --check`. Frame: `runs/render/baseline.png` (not
+
 committed; the baseline is live).
 
+
+
 **Limit, stated plainly.** The baseline is the primordial dish as it exists: cells already
+
 alive and evolving under the pilot. Civilization does not exist. No staged path to it will be
+
 added; if civilization is to happen it has to come from inhabitants and their interactions,
+
 which are not built yet.
+
+
+
+## 26. Abiotic baseline: replication from monomers, with a control
+
+**Why.** The dish seeded 200 cells, so life was placed. Muse's correction on the staged origin
+made the standard explicit: nothing placed, no scripted outcome. `genesis/abiotic/reactor.py`
+is the first baseline that starts with chemistry only - four monomers and energy, no strands.
+
+**Rules and pre-registered criterion.** Monomers ligate; strands of length 4+ template-copy
+when complementary monomers and energy exist, with 2% per-base mutation; strands hydrolyse.
+A lineage is "established" only if, from the first template-copy event onward, it reaches 4
+copies, holds 2+ copies for 2,000 ticks, and has a one-base mutant neighbour. Specification:
+`docs/implementation/ABIOTIC_BASELINE.md`.
+
+**Measured (60,000 ticks, seeds 20261105-07).** All three seeds establish: births 79,297 /
+79,419 / 79,797, dominant lineages at 55 / 53 / 52 copies with 3 one-base mutants each, and
+persistence across the whole scored window. The replication-disabled control (2 seeds, 20,000
+ticks) produced 0 births, 14-17 strands, and no established lineage.
+
+**Limits.** This is permissive template chemistry: any strand of length 4+ can copy, so the
+result shows that self-replication can start from monomers under these rules, not that
+catalysis, protocells, life or civilization emerge. "Established" is a chemical criterion, not
+a claim of life or consciousness. 78 tests pass (9 new abiotic tests, including the control).
