@@ -11,3 +11,7 @@ These are **renderer tests**, not pictures of the world.
 The world that exists is cells in water. Its live, first-person view is served by the
 Gateway at `http://127.0.0.1:8787/` (see `docs/implementation/GATEWAY_CONTRACT.md`) and
 is generated from the running pilot, not from an image.
+
+- `world_live_frame.png` — a frame captured from the live viewer at 20:22, showing 63 real
+  cells in the dish. It is evidence of the live render, not an illustration; the live
+  render itself is the deliverable at `http://127.0.0.1:8787/`.

@@ -24,6 +24,15 @@ WORLD_DIR = os.path.join(ROOT, "world")
 CONTRACT_VERSION = 1
 VIEWER_LATITUDE = 35.0
 VIEWER_LONGITUDE = 0.0
+# Phase the planet clock so the viewer opens in morning light (08:00 local solar time).
+# The shift is computed from the sun's actual hour angle at startup, because the
+# host clock is not UTC; the sun itself stays real geometry.
+def _dawn_shift_seconds(latitude, longitude):
+    hours = solar_position(time.time(), latitude, longitude)["solar_time_hours"]
+    delta = ((8.0 - hours + 12.0) % 24.0) - 12.0
+    return delta * 3600.0
+
+VIEWER_EPOCH_SHIFT_S = _dawn_shift_seconds(VIEWER_LATITUDE, VIEWER_LONGITUDE)
 
 FEED = LiveFeed()
 FEED.start()
@@ -32,7 +41,7 @@ FEED.start()
 def world_payload():
     frame = FEED.snapshot()
     now = time.time()
-    sun = solar_position(now, VIEWER_LATITUDE, VIEWER_LONGITUDE)
+    sun = solar_position(now + VIEWER_EPOCH_SHIFT_S, VIEWER_LATITUDE, VIEWER_LONGITUDE)
     return {
         "contract": CONTRACT_VERSION,
         "source": "genesis.soup.pilot.run_pilot on_tick (live)",

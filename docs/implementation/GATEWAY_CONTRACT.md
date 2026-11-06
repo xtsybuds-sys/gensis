@@ -71,6 +71,9 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 - `sun` comes from real solar geometry (`gateway/solar.py`): declination and hour angle
   from the standard low-precision formulae. Latitude 35° and longitude 0° are viewer
   initial conditions, stated in the payload, not measurements of a simulated planet.
+  The planet clock is phased to start at dawn (06:20 local solar time) and advances
+  1:1, so the viewer opens in daylight; the phase is a viewer initial condition,
+  the geometry is not. `sun.solar_time_hours` reports the resulting local time.
 - `nutrient` is a coarse 16×16 sample of the real dish field, 0–100.
 - `cells` is capped at 400 entries, in simulation order. `population` is the true count,
   so a client can detect the cap (`len(cells) < population`).

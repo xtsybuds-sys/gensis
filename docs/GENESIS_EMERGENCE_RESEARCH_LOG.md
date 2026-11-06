@@ -507,3 +507,10 @@ No entry in this log currently meets that bar.
 - Limitations: dish scale only; cells enlarged (labelled); no ray tracing; no inhabitants, town or planet surface; loopback and unauthenticated by design in v1.
 - Next steps: open the viewer and inspect the frame; then a live town run for the inhabitants' World View, and planet-scale terrain when the planet simulation exists.
 - Contributing agent: Freebuff.
+
+### 2026-11-05 — E-034: live world viewer verified headlessly; water shader bug found and fixed
+- Evidence: Playwright Chromium (SwiftShader) against 127.0.0.1:8787: 63 cells, tick 3929, generation 12, planet time 08:01, sun 13.9 deg; `W` moved the camera z 11.2 -> 10.10; zero page errors, one three.js deprecation warning. Frame at `docs/assets/world_live_frame.png`. 61 tests OK.
+- Result: the live 3D render works and has been viewed. The first run exposed a water vertex-shader type error (vec3 assigned to vec4); WebGL refused the program, so the basin floor showed instead of water. Fixed; patch glow now derives from the real nutrient field.
+- Limitations: stylized rasterizer, enlarged cells, 6 fps under software rendering (not a GPU number), dish scale only.
+- Next steps: GPU frame-rate check on the desktop panel; inhabitants' World View when a live town run exists.
+- Contributing agent: Freebuff.
