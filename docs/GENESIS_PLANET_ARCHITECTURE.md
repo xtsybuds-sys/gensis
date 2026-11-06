@@ -10,7 +10,16 @@ Genesis is one planet, not one field. The planet has **28 countries**. **Five of
 - The 28 countries are the starting geography the owner sets — the initial conditions. After that, spread, contact, and change are the inhabitants' doing.
 - Inhabitants perceive the world only through their own senses. Nothing about the planet is handed to them whole.
 
-## 2. Phasing — the planet is the destination, not the first experiment
+## 2. The planet sits in a solar system, under this universe's rules
+
+Genesis is an Earth-like planet, not a fantasy world. It sits in a solar system, and it runs on the same rules as this universe — the same physics and chemistry as real life. Nothing about the laws is invented.
+
+- **A sun.** Light and heat come from a star. Day and night come from the planet turning. Seasons come from the planet's tilt and its orbit around the sun — not from a scripted clock. The run clock starting at dawn already assumed a sun; this is the mechanism.
+- **Life starts in water.** The first cells begin in a watery medium — the primordial soup — the way Earth's first cells did. The soup pilot is the first version of that. The dish is the start of the water, not a substitute for it.
+- **Animals arrive through evolution, not placement.** Variation, selection, multicellularity, body plans — the same transitions as on Earth. Our job is to create the conditions that make those transitions possible; the animals themselves are never placed or scripted.
+- **Varieties are allowed, inside real rules.** The life that evolves does not have to be exactly Earth life, and different tests can use different conditions to test different things. But the laws never change — no invented physics, no magic. This is the Discovery Principle with the frame made explicit: physics fixed, discovery is new understanding of fixed laws.
+
+## 3. Phasing — the planet is the destination, not the first experiment
 
 If the 5 first-experiment inhabitants started in 5 different countries, they could not meet in 5 days — no first contact, no social emergence, no reproduction — and the experiment would measure nothing social. So the planet arrives in phases:
 
@@ -22,14 +31,14 @@ Within a town, houses are spaced wider than the peer range (the house-gap rule) 
 
 The simulation architecture must be built to scale this way from the start: regions tile into countries, countries tile into the planet. A single fixed-size field is not the design.
 
-## 3. The interface is a website, not an app
+## 4. The interface is a website, not an app
 
 Alex's call: a website is what agents can connect to. The planet viewer and the control center live on the web, on the same API surface as the Agent Gateway — no install, no store, works on any device, and it slots into the HireHumans.si `/genesis/*` module plan.
 
 - Agents connect through HTTP APIs. The website is the human-facing surface of the same system.
 - The simulation runs continuously server-side. The website never simulates anything in the browser.
 
-## 4. The planet viewer — like Google Maps, in two views
+## 5. The planet viewer — like Google Maps, in two views
 
 The website has two views (live now), and they do different jobs:
 
@@ -45,7 +54,7 @@ The viewer works the way a map works:
 
 **Build split:** Muse builds the website shell and both views; Freebuff builds the Agent Gateway API that feeds them (Command Center feed = world state and metrics; World View feed = per-inhabitant first-person sensory stream, read-only, one-way — the world must never sense the watcher).
 
-## 5. What the viewer shows
+## 6. What the viewer shows
 
 - Live population and individuals (location, status, survival).
 - Neural and learning metrics, relationships, discoveries, events, mortality.
@@ -54,7 +63,7 @@ The viewer works the way a map works:
 
 Every number on the viewer comes from the real simulation or is clearly marked as a placeholder. No fabricated metrics.
 
-## 6. Build order
+## 7. Build order
 
 1. Calibration first (sleep physiology, peer range, planner steering) — unchanged.
 2. World systems in draft §5 order (water, fire, materials & crafting).
@@ -63,7 +72,7 @@ Every number on the viewer comes from the real simulation or is clearly marked a
 
 The viewer is built after the world systems land, not before. The planet design does not move calibration off the critical path.
 
-## 7. Open questions
+## 8. Open questions
 
 - Country generation: how the 28 countries are generated (terrain + climate + borders) and what, if anything, is fixed vs emergent. To be specified before Phase 2.
 - Viewer technology: which mapping/rendering stack the web viewer uses. To be picked when the viewer is built, not before.
@@ -74,3 +83,4 @@ The viewer is built after the world systems land, not before. The planet design 
 
 - 2026-11-05: Decided by Alex and Muse; doc written by Muse. Planet is the destination architecture; Phase 1 (one region) is the current work.
 - 2026-11-05: Corrected by Alex — five countries, each with its own town of people (not one lone inhabitant per country). Phase 1 is the first town; Phase 2 is five towns in five countries.
+- 2026-11-05: Alex added the Earth-like frame — planet in a solar system under this universe's rules, life starts in water, animals arrive through evolution; varieties allowed inside real rules (E-032).

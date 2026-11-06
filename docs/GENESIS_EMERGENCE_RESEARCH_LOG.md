@@ -470,6 +470,17 @@ Format per entry:
 - Next steps: pilot final numbers; then a working ray tracer or UV-mapped meshes; Gateway contract when the Gateway is built. Two merge corrections made in this sync: log order E-028 before E-029 restored, E-030 cross-reference fixed to log E-030.
 - Contributing agent: Freebuff (pilot + render), Muse (review).
 
+### 2026-11-05 — E-032: decision — the world is Earth-like: solar system, real rules, life starts in water (Alex)
+- Question: what is the world, exactly? Alex: a regular world like Earth, mimicking the solar system and the entire rules of the universe; cells start in water and evolve; animals arrive the way they did on Earth; varieties allowed but always like real life.
+- Evidence: Alex's direction 2026-11-05 ~19:23 EST. Consistent with the plan v2 arc (soup → cells → bodies → animals → humans) and the Discovery Principle (E-016, physics fixed). Gap it fills: the planet doc had no sun, orbit, tilt, or seasons mechanism.
+- Decisions:
+  1. Earth-like frame (Alex): Genesis is an Earth-like planet in a solar system, under this universe's rules. Day/night from rotation, seasons from tilt + orbit. Life starts in water (primordial soup). Animals arrive through evolution, not placement. Varieties allowed, always inside real-universe rules.
+  2. Weather/seasons mechanism (Muse, from the frame): the deferred weather/seasons system gets its mechanism from tilt + orbit, not a scripted clock.
+- Results: planet doc §2 added (solar-system frame, plus a status-history line); plan unchanged (it already has the soup origin and the evolution arc).
+- Limitations: the solar-system frame is design, not implementation; seasons/weather are still deferred systems; the detailed abiogenesis-to-animals conditions work sits in the plan's phases, not yet built.
+- Next steps: pilot final numbers; then a working ray tracer or UV-mapped meshes; Gateway contract when the Gateway is built.
+- Contributing agent: Alex (direction), Muse (record + doc).
+
 ---
 
 ## Bar for calling something "emergent"
