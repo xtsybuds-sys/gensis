@@ -292,12 +292,12 @@
     if (sim.tick !== undefined) simTime = sim.tick;
     lastFrameAt = performance.now();
 
-    document.getElementById('pop').textContent = sim.population ?? '—';
-    document.getElementById('turn').textContent = (sim.turnovers ?? 0).toFixed(0);
-    document.getElementById('gen').textContent = sim.max_gen ?? '—';
-    document.getElementById('lin').textContent = sim.lineages ?? '—';
-    document.getElementById('size').textContent = (sim.mean_size ?? 0).toFixed(2);
-    document.getElementById('speed').textContent = (sim.mean_speed ?? 0).toFixed(3);
+    document.getElementById('pop').textContent = (sim.population == null ? '—' : sim.population);
+    document.getElementById('turn').textContent = (sim.turnovers == null ? 0 : sim.turnovers).toFixed(0);
+    document.getElementById('gen').textContent = (sim.max_gen == null ? '—' : sim.max_gen);
+    document.getElementById('lin').textContent = (sim.lineages == null ? '—' : sim.lineages);
+    document.getElementById('size').textContent = (sim.mean_size == null ? 0 : sim.mean_size).toFixed(2);
+    document.getElementById('speed').textContent = (sim.mean_speed == null ? 0 : sim.mean_speed).toFixed(3);
     document.getElementById('status').textContent = sim.tick
       ? `live · tick ${sim.tick} · ${data.source}`
       : 'waiting for the simulation…';
@@ -329,7 +329,7 @@
     if (sim.nutrient) {
       const n = sim.nutrient;
       for (let i = 0; i < 256; i++) {
-        const v = Math.max(0, Math.min(100, n[i] ?? 0)) / 100;
+        const v = Math.max(0, Math.min(100, (n[i] == null ? 0 : n[i]))) / 100;
         const idx = i * 4;
         nutImage.data[idx] = 30 + v * 40;
         nutImage.data[idx + 1] = 120 + v * 120;
