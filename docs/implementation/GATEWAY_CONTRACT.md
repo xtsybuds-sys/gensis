@@ -6,7 +6,19 @@
 
 
 
+
+
+
+
+
+
+
+
 **Status: implemented 2026-11-05.** Task 871 said the contract would be decided when the
+
+
+
+
 
 
 
@@ -14,7 +26,19 @@ Gateway is built; this is that decision. The site shell and its two views are Mu
 
 
 
+
+
+
+
 document covers the feed that fills them, and the local viewer used to verify it.
+
+
+
+
+
+
+
+
 
 
 
@@ -30,11 +54,27 @@ document covers the feed that fills them, and the local viewer used to verify it
 
 
 
+
+
+
+
+
+
+
+
 One read-only HTTP surface over the running world. It serves the local viewer and answers
 
 
 
+
+
+
+
 agents. It never simulates in the browser, and it exposes no write path: observation is
+
+
+
+
 
 
 
@@ -46,7 +86,19 @@ one-way, per the planet design (§5), so nothing in the world can sense a watche
 
 
 
+
+
+
+
+
+
+
+
 Base URL is the machine that runs the simulation (`http://127.0.0.1:8787` locally). No
+
+
+
+
 
 
 
@@ -54,7 +106,19 @@ auth in v1 because it binds to loopback; a public deployment must add auth befor
 
 
 
+
+
+
+
 binds anything else. Do not expose v1 directly to the internet.
+
+
+
+
+
+
+
+
 
 
 
@@ -70,7 +134,19 @@ binds anything else. Do not expose v1 directly to the internet.
 
 
 
+
+
+
+
+
+
+
+
 | Method | Path | Returns |
+
+
+
+
 
 
 
@@ -78,7 +154,15 @@ binds anything else. Do not expose v1 directly to the internet.
 
 
 
+
+
+
+
 | GET | `/api/world` | one complete snapshot (JSON) |
+
+
+
+
 
 
 
@@ -86,7 +170,15 @@ binds anything else. Do not expose v1 directly to the internet.
 
 
 
+
+
+
+
 | GET | `/api/health` | `{"ok": true, "tick": <int>}` |
+
+
+
+
 
 
 
@@ -98,11 +190,31 @@ binds anything else. Do not expose v1 directly to the internet.
 
 
 
+
+
+
+
+
+
+
+
 Every response is `Cache-Control: no-store`. `GET /api/world` is the stable contract;
 
 
 
+
+
+
+
 `/api/stream` is a convenience transport carrying the same object.
+
+
+
+
+
+
+
+
 
 
 
@@ -118,7 +230,19 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
+
+
+
+
 ```json
+
+
+
+
 
 
 
@@ -126,7 +250,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
   "contract": 1,
+
+
+
+
 
 
 
@@ -134,7 +266,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
   "server_time": 1793925209.12,
+
+
+
+
 
 
 
@@ -142,7 +282,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "tick": 13125,
+
+
+
+
 
 
 
@@ -150,7 +298,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "turnovers": 14.52,
+
+
+
+
 
 
 
@@ -158,7 +314,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "max_gen": 17,
+
+
+
+
 
 
 
@@ -166,7 +330,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "mean_size": 0.967,
+
+
+
+
 
 
 
@@ -174,7 +346,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "lineages": 3,
+
+
+
+
 
 
 
@@ -182,7 +362,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "nutrient": [0..100, ...256 values, row-major 16x16],
+
+
+
+
 
 
 
@@ -190,11 +378,23 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "wall_time": 1793925209.11
 
 
 
+
+
+
+
   },
+
+
+
+
 
 
 
@@ -202,7 +402,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "elevation_deg": -67.85,
+
+
+
+
 
 
 
@@ -210,7 +418,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "direction": [-0.209, -0.926, 0.314],
+
+
+
+
 
 
 
@@ -218,7 +434,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
     "latitude_deg": 35.0,
+
+
+
+
 
 
 
@@ -226,7 +450,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
   },
+
+
+
+
 
 
 
@@ -234,7 +466,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
   "viewer": {"latitude_deg": 35.0, "longitude_deg": 0.0, "units": "metres",
+
+
+
+
 
 
 
@@ -242,7 +482,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
   "error": null
+
+
+
+
 
 
 
@@ -250,7 +498,19 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
 ```
+
+
+
+
+
+
+
+
 
 
 
@@ -266,7 +526,19 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
+
+
+
+
 - Positions are metres in the dish frame, `0..16` on both axes, matching
+
+
+
+
 
 
 
@@ -274,7 +546,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
 - Direction is a unit vector with +y up, +x east, +z south.
+
+
+
+
 
 
 
@@ -282,7 +562,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
   from the standard low-precision formulae. Latitude 35° and longitude 0° are viewer
+
+
+
+
 
 
 
@@ -290,7 +578,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
   The planet clock is phased to start at dawn (06:20 local solar time) and advances
+
+
+
+
 
 
 
@@ -298,7 +594,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
   the geometry is not. `sun.solar_time_hours` reports the resulting local time.
+
+
+
+
 
 
 
@@ -306,11 +610,27 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
 - `cells` is capped at 400 entries, in simulation order. `population` is the true count,
 
 
 
+
+
+
+
   so a client can detect the cap (`len(cells) < population`).
+
+
+
+
+
+
+
+
 
 
 
@@ -326,7 +646,19 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
+
+
+
+
 - `sim.tick` strictly increases while the feed runs. A client must show the last good
+
+
+
+
 
 
 
@@ -334,7 +666,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
 - If the simulation thread throws, `error` holds `TypeName: message` and `sim` freezes.
+
+
+
+
 
 
 
@@ -342,7 +682,15 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
 - No fabricated metrics: every number above is read from the running pilot or computed
+
+
+
+
 
 
 
@@ -350,7 +698,19 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
   is to scale.
+
+
+
+
+
+
+
+
 
 
 
@@ -366,7 +726,19 @@ Every response is `Cache-Control: no-store`. `GET /api/world` is the stable cont
 
 
 
+
+
+
+
+
+
+
+
 `world/` renders the dish as a shallow basin with three nutrient patches and the actual
+
+
+
+
 
 
 
@@ -374,7 +746,15 @@ cells as enlarged motes, first-person (`WASD`, mouse look, `M` for the top-down 
 
 
 
+
+
+
+
 view). Day and night follow `sun.direction`: the directional light, sky gradient, water
+
+
+
+
 
 
 
@@ -382,7 +762,19 @@ specular and stars all use it. The viewer draws only what the payload contains; 
 
 
 
+
+
+
+
 no trees, huts, animals or towns, because none exist yet.
+
+
+
+
+
+
+
+
 
 
 
@@ -398,7 +790,19 @@ no trees, huts, animals or towns, because none exist yet.
 
 
 
+
+
+
+
+
+
+
+
 - No write path, no control of inhabitants, no observation feedback.
+
+
+
+
 
 
 
@@ -406,7 +810,15 @@ no trees, huts, animals or towns, because none exist yet.
 
 
 
+
+
+
+
   subject; the dish is. World View for inhabitants arrives when a live town run exists.
+
+
+
+
 
 
 
@@ -414,7 +826,19 @@ no trees, huts, animals or towns, because none exist yet.
 
 
 
+
+
+
+
   checkpoints, not this API.
+
+
+
+
+
+
+
+
 
 
 
@@ -430,11 +854,31 @@ no trees, huts, animals or towns, because none exist yet.
 
 
 
+
+
+
+
+
+
+
+
 `contract` is an integer. Additive fields do not bump it; removing or changing the meaning
 
 
 
+
+
+
+
 of a field does. Clients should ignore unknown keys and refuse an unknown major version.
+
+
+
+
+
+
+
+
 
 
 
@@ -450,11 +894,27 @@ of a field does. Clients should ignore unknown keys and refuse an unknown major 
 
 
 
+
+
+
+
+
+
+
+
 ```bash
 
 
 
+
+
+
+
 python -m gateway.server 8787     # from the repo root
+
+
+
+
 
 
 
@@ -466,7 +926,19 @@ python -m gateway.server 8787     # from the repo root
 
 
 
+
+
+
+
+
+
+
+
 The feed starts one real pilot (seed 20261105, 200 founders, cap 600) and steps it
+
+
+
+
 
 
 
@@ -474,7 +946,23 @@ continuously. It costs roughly one core; the falsifier runs are separate process
 
 
 
+
+
+
+
 not modified by it.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -494,7 +982,19 @@ not modified by it.
 
 
 
+
+
+
+
+
+
+
+
 Read-only JSON frame of the reduced cosmogony in `genesis/cosmos/cosmogony.py`: `tau`,
+
+
+
+
 
 
 
@@ -502,11 +1002,23 @@ Read-only JSON frame of the reduced cosmogony in `genesis/cosmos/cosmogony.py`: 
 
 
 
+
+
+
+
 (radius, mass, water, angle, in_hz, focus) and `points[]` (x, y, z, size, water flag).
 
 
 
+
+
+
+
 `?tau=0..1` overrides the 90 s story cycle; without it the cycle is driven by server time.
+
+
+
+
 
 
 
@@ -518,21 +1030,63 @@ The route is removed: it returned 404 on 2026-11-06 and its viewer moved to `doc
 
 
 
+
+
+
+
+
+
+
+
 ### `/surface` (added 2026-11-06)
+
+
+
+
 
 
 
 Serves `world/index.html`, the live baseline viewer. It was formerly opened by the retired cosmogony viewer as
 
+
+
 `/surface?from=cosmos&radius=<au>&water=<fraction>` after a click on the first world; the
 
+
+
 page then hides its intro, labels itself SURFACE and shows those values. The route is
+
+
 
 read-only and changes no state.
 
 
 
+
+
+
+
 ### Route correction, 2026-11-06
 
+
+
 `/`, `/dish` and `/surface` all serve the live baseline viewer. The cosmogony route and API
+
 were retired along with the authored origin sequence; see report §25 and log E-038.
+
+
+
+## Protocell live source (2026-11-06)
+
+`/` now serves `ProtocellLiveFeed` (`genesis/abiotic/live.py`). The payload keeps the v1 shape
+and adds:
+
+- `source`: `genesis.abiotic.protocell.ProtocellReactor (live, warm-started)`
+- `sim.mode`: `protocell`
+- `sim.position_note`: `presentation only; the reactor is well-mixed`
+- `sim.first_catalyst_tick`, `sim.first_replication_tick`: origin record
+- `sim.cells` entries: `[x, y, lipids/40, min(catalysts, 4), lineage, strands]`
+
+Positions are for visibility only; they are not simulation state, selection or a spatial model.
+The feed is warm-started at 2,000 ticks so the viewer opens on a populated pond. There is no
+nutrient grid and nutrient patches are hidden for this source.

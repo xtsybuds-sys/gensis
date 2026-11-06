@@ -6,7 +6,23 @@
 
 
 
+
+
+
+
+
+
+
+
 These are **renderer tests**, not pictures of the world.
+
+
+
+
+
+
+
+
 
 
 
@@ -18,7 +34,15 @@ These are **renderer tests**, not pictures of the world.
 
 
 
+
+
+
+
   (terrain, water, a fire, timber-framed huts, figures) for a **future** town. No town,
+
+
+
+
 
 
 
@@ -26,7 +50,15 @@ These are **renderer tests**, not pictures of the world.
 
 
 
+
+
+
+
   as the world, on the site or anywhere else. The photoreal bar is not met: this is a
+
+
+
+
 
 
 
@@ -38,11 +70,27 @@ These are **renderer tests**, not pictures of the world.
 
 
 
+
+
+
+
+
+
+
+
 The world that exists is cells in water. Its live, first-person view is served by the
 
 
 
+
+
+
+
 Gateway at `http://127.0.0.1:8787/` (see `docs/implementation/GATEWAY_CONTRACT.md`) and
+
+
+
+
 
 
 
@@ -54,7 +102,19 @@ is generated from the running pilot, not from an image.
 
 
 
+
+
+
+
+
+
+
+
 - `world_live_frame.png` — a frame captured from the live viewer at 20:22, showing 63 real
+
+
+
+
 
 
 
@@ -62,7 +122,19 @@ is generated from the running pilot, not from an image.
 
 
 
+
+
+
+
   render itself is the deliverable at `http://127.0.0.1:8787/`.
+
+
+
+
+
+
+
+
 
 
 
@@ -78,9 +150,23 @@ is generated from the running pilot, not from an image.
 
 
 
+
+
+
+
+
+
+
+
 - Retired 2026-11-06: these frames came from an authored stage sequence and are kept only as a
+
   record of a reduced experiment. They are not the world and are no longer served.
+
 - `cosmos_disk.png`, `cosmos_life.png` — frames captured headlessly from the live cosmogony
+
+
+
+
 
 
 
@@ -88,7 +174,15 @@ is generated from the running pilot, not from an image.
 
 
 
+
+
+
+
   reduced model's own output: the disk, its planets, and the water-rich world at 0.3206 that
+
+
+
+
 
 
 
@@ -96,7 +190,15 @@ is generated from the running pilot, not from an image.
 
 
 
+
+
+
+
   (renderer-side); the model has water fraction, not geography. These are evidence of the
+
+
+
+
 
 
 
@@ -106,11 +208,29 @@ is generated from the running pilot, not from an image.
 
 
 
+
+
+
+
+
+
 ## Landing frame
+
+
+
+
 
 
 
 - `surface_landing.png` — the surface view reached by clicking the first world in orbit:
 
+
+
   the live dish at eye level with 64 real cells, captured headlessly at tick 936.
 
+
+
+
+
+- `protocell_baseline_live.png` - live frame of the served protocell baseline at 8787:
+  120 vesicles, first catalyst tick 265, first copy tick 353. Live chemistry, not staged.
