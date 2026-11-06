@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Genesis — Cosmogony</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+  body { background: #01030a; }
+  #hud { min-width: 260px; }
+  #flash {
+    position: fixed; inset: 0; background: #fff; pointer-events: none;
+    opacity: 0; transition: opacity 0.25s linear;
+  }
+  #banner {
+    position: fixed; left: 50%; top: 9%; transform: translateX(-50%);
+    text-align: center; letter-spacing: 0.28em; font-size: 13px; color: #8ff5e0;
+    opacity: 0; transition: opacity 0.6s ease; text-transform: uppercase;
+  }
+  #banner.show { opacity: 1; }
+  #banner small { display: block; letter-spacing: 0.08em; color: #9fb4c0;
+                  font-size: 11px; margin-top: 8px; text-transform: none; }
+  a { color: #6ee7cf; }
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="flash"></div>
+<div id="banner">the first world<small id="bannerSub">water, and a habitable orbit</small></div>
+
+<div id="hud">
+  <div id="title">GENESIS <span id="viewName">COSMOGONY</span></div>
+  <div class="row"><span>phase</span><b id="phase">—</b></div>
+  <div class="row"><span>story time</span><b id="tau">—</b></div>
+  <div class="row"><span>star mass</span><b id="star">—</b></div>
+  <div class="row"><span>planets</span><b id="planets">—</b></div>
+  <div class="row"><span>habitable zone</span><b id="hz">—</b></div>
+  <div class="row"><span>focus water</span><b id="focus">—</b></div>
+  <div class="row"><span>fps</span><b id="fps">—</b></div>
+  <div id="status">connecting to the cosmogony feed…</div>
+</div>
+
+<div id="legend">
+  <div class="dot" style="background:#8ff5e0"></div> habitable zone
+  <div class="dot" style="background:#5ab0ff"></div> water-rich bodies
+</div>
+<div id="hint">one cycle · 90 s · <a href="/dish">live dish</a></div>
+
+<script src="vendor/three.min.js"></script>
+<script src="cosmos.js"></script>
+</body>
+</html>

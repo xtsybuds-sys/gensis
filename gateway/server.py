@@ -17,6 +17,7 @@ import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from .solar import solar_position
+from genesis.cosmos import Cosmogony
 from genesis.soup.live import LiveFeed
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,6 +37,10 @@ VIEWER_EPOCH_SHIFT_S = _dawn_shift_seconds(VIEWER_LATITUDE, VIEWER_LONGITUDE)
 
 FEED = LiveFeed()
 FEED.start()
+
+COSMOGONY = Cosmogony()
+COSMO_START = time.time()
+COSMO_CYCLE = 90.0
 
 
 def world_payload():
@@ -89,6 +94,20 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
+        if path == "/api/cosmos":
+            query = urllib.parse.parse_qs(parsed.query)
+            if "tau" in query:
+                try:
+                    tau = float(query["tau"][0])
+                except ValueError:
+                    tau = 0.0
+            else:
+                tau = ((time.time() - COSMO_START) / COSMO_CYCLE) % 1.0
+            payload = COSMOGONY.frame(tau)
+            payload["contract"] = CONTRACT_VERSION
+            payload["source"] = "genesis.cosmos.cosmogony (reduced model)"
+            self._send(200, json.dumps(payload))
+            return
         if path == "/api/world":
             self._send(200, json.dumps(world_payload()))
             return
@@ -117,6 +136,8 @@ class Handler(BaseHTTPRequestHandler):
 
     def _static(self, path):
         if path in ("", "/"):
+            path = "/cosmos.html"
+        elif path == "/dish":
             path = "/index.html"
         clean = posixpath.normpath(path).lstrip("/")
         if clean.startswith("..") or os.path.isabs(clean):
