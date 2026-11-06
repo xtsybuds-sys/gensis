@@ -498,3 +498,12 @@ No entry in this log currently meets that bar.
 - Result: not a verdict. Criterion 3 is trending to fail (entropy rising toward the three-patch ceiling, not halving); the run continues to 2,000. The Town 1 render is recorded in report §21 / log E-030: five cues readable, photoreal bar not met because `LuisaRenderPy` is absent from this engine build.
 - Next steps: collect the final rows, apply `evaluate()` unchanged, post the per-lineage table and the four checks; then obtain a working ray tracer or move the town to UV-mapped meshes.
 - Contributing agent: Freebuff.
+
+### 2026-11-05 — E-033: Gateway v1 built and measured; live world viewer shipped, pixels unviewed
+- Question: can the running world be served to a viewer as real live data, and can a person walk around it?
+- Method: `on_tick` hook on `run_pilot` feeding `genesis/soup/live.py`; `gateway/server.py` (HTTP + SSE, loopback, read-only); `gateway/solar.py` (real solar geometry); `world/` three.js first-person viewer; contract in `docs/implementation/GATEWAY_CONTRACT.md`.
+- Evidence: 60 tests OK (8 new). Live feed paced to 60 ticks/s, measured 49 ticks/s; `/api/world` 3,178 B, mean 73 ms (p50 72.8, p95 102.8) after pacing, versus 225.7 ms unpaced at 335 ticks/s. Static `/` shows the same ~72 ms, connect 0.4 ms, first byte ~65 ms: per-request host overhead, not the feed; SSE uses one connection.
+- Result: the Gateway is real and live. The viewer was **not** visually verified: the browser tab would not attach in this session, so no frame was inspected and no screenshot was taken. Shipped-but-unviewed is the honest status.
+- Limitations: dish scale only; cells enlarged (labelled); no ray tracing; no inhabitants, town or planet surface; loopback and unauthenticated by design in v1.
+- Next steps: open the viewer and inspect the frame; then a live town run for the inhabitants' World View, and planet-scale terrain when the planet simulation exists.
+- Contributing agent: Freebuff.
