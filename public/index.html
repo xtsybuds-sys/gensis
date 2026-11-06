@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#05090f">
+  <meta name="description" content="Sky Sentinel AI — a simulated aerial awareness dashboard scaffold.">
+  <title>Sky Sentinel AI / Aerial Awareness</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Sky Sentinel AI home">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span class="brand-word">SKY SENTINEL <b>AI</b></span>
+    </a>
+    <div class="topbar-meta">
+      <span class="feed-pill"><i></i><span id="feed-mode">SIMULATED FEED</span></span>
+      <span id="clock" class="clock">--:--:-- UTC</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">Aerial awareness / 01</p>
+        <h1>See the sky<br><span>before it changes.</span></h1>
+        <p class="lede">Sky Sentinel AI turns a noisy sky into a readable picture: sector health, tracked contacts and the signals that matter, in one place.</p>
+        <div class="hero-actions">
+          <button id="scan-btn" class="scan-btn" type="button"><span>Run a sweep</span><span class="arrow" aria-hidden="true">→</span></button>
+          <span class="micro">Demo telemetry · no hardware attached</span>
+        </div>
+      </div>
+
+      <aside class="hero-stats" aria-label="Current assessment">
+        <div class="stat-main">
+          <span class="stat-label">Current posture</span>
+          <strong id="posture">WATCH</strong>
+          <span class="stat-note">Simulated assessment</span>
+        </div>
+        <div class="stat-grid">
+          <div><span>Model confidence</span><strong id="confidence">—</strong></div>
+          <div><span>Active tracks</span><strong id="active-tracks">—</strong></div>
+          <div><span>API</span><strong id="api-status">CONNECTING</strong></div>
+          <div><span>Build</span><strong id="api-version">v0.1.0</strong></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="workspace" aria-label="Live airspace">
+      <article class="card radar-card">
+        <div class="card-head">
+          <div><p class="card-kicker">01 / Live airspace</p><h2>Sector radar</h2></div>
+          <span id="radar-state" class="tag">SYNCING</span>
+        </div>
+        <div class="radar-wrap">
+          <canvas id="radar" aria-label="Radar view of simulated airspace tracks"></canvas>
+          <span class="radar-scale">0–30 KM</span>
+        </div>
+        <div class="legend">
+          <span><i class="dot dot-cyan"></i>Tracked</span>
+          <span><i class="dot dot-amber"></i>Boundary</span>
+          <span><i class="dot dot-muted"></i>Clear sector</span>
+        </div>
+      </article>
+
+      <div class="stack">
+        <article class="card">
+          <div class="card-head">
+            <div><p class="card-kicker">02 / Contacts</p><h2>Tracks</h2></div>
+            <span id="track-count" class="tag">—</span>
+          </div>
+          <div id="tracks" class="track-list" aria-live="polite"><p class="empty">Awaiting telemetry…</p></div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div><p class="card-kicker">03 / Coverage</p><h2>Sectors</h2></div>
+            <span class="tag">SIM</span>
+          </div>
+          <div id="sectors" class="sector-list"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="lower">
+      <article class="card">
+        <div class="card-head">
+          <div><p class="card-kicker">04 / Signal log</p><h2>Recent events</h2></div>
+          <span id="updated-at" class="tag">—</span>
+        </div>
+        <div id="events" class="event-list" aria-live="polite"></div>
+      </article>
+
+      <article class="card system-card">
+        <div class="card-head">
+          <div><p class="card-kicker">05 / Interface</p><h2>System notes</h2></div>
+        </div>
+        <p>This is a scaffold, not a trained model. The API serves simulated telemetry so the interface can be built and reviewed without pretending a sensor is connected.</p>
+        <ul>
+          <li><code>GET /api/health</code><span>service state</span></li>
+          <li><code>GET /api/telemetry</code><span>sector + track data</span></li>
+          <li><code>POST /api/scan</code><span>simulated sweep</span></li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <span>SKY SENTINEL AI / SCAFFOLD 0.1.0</span>
+    <span>Designed for human review. Simulated data only.</span>
+  </footer>
+</body>
+</html>

@@ -1,16 +1,6 @@
-__pycache__/
-*.pyc
-.venv/
-venv/
 node_modules/
 .env
+.env.*
+!.env.example
 *.log
 .DS_Store
-
-# simulation artifacts (large, regenerable)
-runs/
-*.sqlite
-*.sqlite-wal
-*.sqlite-shm
-.venv-engine/
-.engine-cache/
