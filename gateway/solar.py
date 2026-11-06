@@ -64,6 +64,8 @@ def solar_position(unix_time, latitude_deg=35.0, longitude_deg=0.0):
         "azimuth_deg": round(azimuth_deg, 3),
         "direction": [round(value, 6) for value in direction],
         "is_day": elevation_deg > 0.0,
+        "hour_angle_deg": round(math.degrees(hour_angle), 3),
+        "solar_time_hours": round((12.0 + math.degrees(hour_angle) / 15.0) % 24.0, 3),
         "latitude_deg": latitude_deg,
         "longitude_deg": longitude_deg,
     }

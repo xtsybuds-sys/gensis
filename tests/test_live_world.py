@@ -96,6 +96,10 @@ class SolarTests(unittest.TestCase):
         sun = solar_position(1782000000.0, 70.0, 0.0)
         self.assertGreater(sun["elevation_deg"], 0.0)
 
+    def test_solar_time_is_noon_at_noon(self):
+        sun = solar_position(1774008000.0, 0.0, 0.0)
+        self.assertAlmostEqual(sun["solar_time_hours"], 12.0, delta=0.3)
+
 
 if __name__ == "__main__":
     unittest.main()

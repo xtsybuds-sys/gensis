@@ -632,3 +632,13 @@ because none exist yet. The Town 1 frame stays a labelled renderer test in
 `docs/assets/README.md`, never the world. Cells are drawn enlarged and the contract says
 so; positions and counts are the simulation's. There is no ray tracing and no claim of the
 photoreal bar.
+
+**Update, 20:22 - verified, and the first frame caught a real bug.** The viewer was loaded
+headlessly (Playwright Chromium, SwiftShader) against the live gateway: 63 cells at tick
+3929, generation 12, planet time 08:01, sun 13.9 deg, `W` moved the camera from z 11.2 to
+10.10, zero page errors and one three.js deprecation warning. The first attempt exposed a
+water vertex-shader type error (a vec3 assigned to a vec4) that WebGL refused to compile,
+so the basin floor was showing instead of water; it is fixed, water now renders with
+ripples and specular, and the nutrient discs follow the real field. Frame at
+`docs/assets/world_live_frame.png`. Software FPS 6 is not a GPU measurement. The "Not
+verified" paragraph above was true when written; this supersedes it.

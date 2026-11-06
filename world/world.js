@@ -146,12 +146,25 @@
   nutTexture.minFilter = THREE.LinearFilter;
   const nutrientPlane = new THREE.Mesh(
     new THREE.PlaneGeometry(DISH, DISH),
-    new THREE.MeshBasicMaterial({ map: nutTexture, transparent: true, opacity: 0.85,
+    new THREE.MeshBasicMaterial({ map: nutTexture, transparent: true, opacity: 0.40,
                                   depthWrite: false })
   );
   nutrientPlane.rotation.x = -Math.PI / 2;
   nutrientPlane.position.y = -0.27;
   scene.add(nutrientPlane);
+
+  const PATCH_CENTRES = [[4.0, 4.0], [12.0, 4.0], [8.0, 12.0]];
+  const patchMeshes = PATCH_CENTRES.map(([px, py]) => {
+    const mesh = new THREE.Mesh(
+      new THREE.CircleGeometry(3.0, 48),
+      new THREE.MeshBasicMaterial({ color: 0x39d0c8, transparent: true,
+                                    opacity: 0.16, depthWrite: false })
+    );
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.set(px - HALF, -0.25, py - HALF);
+    scene.add(mesh);
+    return mesh;
+  });
 
   // ---------------------------------------------------------------------- water
   const waterUniforms = {
@@ -172,8 +185,7 @@
         void main() {
           vUv = uv;
           vWorld = (modelMatrix * vec4(position, 1.0)).xyz;
-          vec4 p = position;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }`,
       fragmentShader: `
         uniform float time; uniform vec3 sunDir; uniform vec3 sunColor;
@@ -205,7 +217,7 @@
   const MAX_CELLS = 400;
   const cellGeo = new THREE.SphereGeometry(1, 10, 8);
   const cellMat = new THREE.MeshStandardMaterial({
-    roughness: 0.35, metalness: 0.05, emissive: 0x1a3a3a, emissiveIntensity: 0.4
+    roughness: 0.35, metalness: 0.05, emissive: 0x2f6f63, emissiveIntensity: 0.55
   });
   const cells = new THREE.InstancedMesh(cellGeo, cellMat, MAX_CELLS);
   cells.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -307,6 +319,11 @@
       const dir = new THREE.Vector3(...sun.direction);
       const elevation = sun.elevation_deg;
       document.getElementById('elev').textContent = `${elevation.toFixed(1)}°`;
+      const hours = sun.solar_time_hours;
+      const hh = Math.floor(hours);
+      const mm = Math.floor((hours - hh) * 60);
+      document.getElementById('ptime').textContent =
+        String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0');
       const day = THREE.MathUtils.clamp((elevation + 4.0) / 20.0, 0.0, 1.0);
       skyUniforms.day.value = day;
       waterUniforms.day.value = day;
@@ -338,6 +355,17 @@
       }
       nutCtx.putImageData(nutImage, 0, 0);
       nutTexture.needsUpdate = true;
+      patchMeshes.forEach((mesh, index) => {
+        const [cx, cy] = PATCH_CENTRES[index];
+        let sum = 0, count = 0;
+        for (let j = 0; j < 16; j++) {
+          for (let i = 0; i < 16; i++) {
+            const wx = (i + 0.5), wy = (j + 0.5);
+            if (Math.hypot(wx - cx, wy - cy) <= 3.0) { sum += n[j * 16 + i]; count++; }
+          }
+        }
+        mesh.material.opacity = 0.10 + 0.55 * (count ? (sum / count) / 100 : 0);
+      });
     }
 
     if (overlayStatus.textContent.includes('waiting')) {
