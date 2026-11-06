@@ -52,3 +52,18 @@ A body dropped onto the floor settles at 0.2499 m against the analytic 0.2500 m 
 ## Cost
 
 One elevated folder and one ACL grant. No money, no account, no dependency change.
+
+## Rendering path, measured 2026-11-05
+
+The ray tracer does not import on this build: `genesis.vis.raytracer` raises "Failed to
+import LuisaRenderer" because `LuisaRenderPy` is not shipped with Genesis World 1.4.5.
+PyPI's `luisa-python` is a different binding (`luisa`) whose native module fails to load
+here; it was installed and removed, leaving no dependency change.
+
+The rasterizer is the camera path that works, with two host fixes:
+- `NUMBA_CACHE_DIR` must point at a short path; the default path inside this project
+  exceeds the Windows 260-character limit and numba raises FileNotFoundError.
+- `genesis/ext/pyrender/__pycache__` must exist for the JIT cache write.
+
+Town 1 renders at 1280x720 in 72.9 s on CPU with five pilot processes running. Report
+§21 carries the five-cue verdict and the photoreal-bar gap.
