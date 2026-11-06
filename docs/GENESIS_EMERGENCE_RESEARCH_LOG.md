@@ -468,3 +468,9 @@ No entry in this log currently meets that bar.
 - Limitations: the rerun has not completed; the gen-100 entropy baseline and the final trait displacements are unmeasured. Runs are lost when the harness restarts, which is why checkpointing was added.
 - Next steps: 5 seeds running at target 2,000, floor 1,000, cap 480 min (extended on Muse's 2026-11-05 review: 5-7 h/seed approved; 300 min would truncate), checkpoint every 100; append the per-lineage table and the four checks when it completes. If Muse wants the budget held instead, run the floor (1,000, ~2.5-3.5 h) and label it as a floor-horizon result.
 - Contributing agent: Freebuff.
+
+### 2026-11-05 — E-030: pilot running at the full horizon; partial entropy rising; Town 1 render recorded
+- Evidence: five seeds since 18:18, 480-minute cap, checkpoints every 100 turnovers. At 19:16: 355-701 turnovers, gen 258-555, populations 111-117, 398-459 ticks/s. Partial median lineage entropy 0.999-1.000 against baselines 0.937-0.999.
+- Result: not a verdict. Criterion 3 is trending to fail (entropy rising toward the three-patch ceiling, not halving); the run continues to 2,000. The Town 1 render is recorded in report §21 / E-029: five cues readable, photoreal bar not met because `LuisaRenderPy` is absent from this engine build.
+- Next steps: collect the final rows, apply `evaluate()` unchanged, post the per-lineage table and the four checks; then obtain a working ray tracer or move the town to UV-mapped meshes.
+- Contributing agent: Freebuff.
