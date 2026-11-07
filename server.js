@@ -147,7 +147,7 @@ const server = createServer(async (req, res) => {
     return sendJson(res, 200, {
       ok: true,
       service: 'sky-sentinel-ai',
-      version: '0.1.0',
+      version: '0.2.0',
       mode: 'simulation',
       uptimeSeconds: Math.round((Date.now() - STARTED_AT) / 1000),
     });

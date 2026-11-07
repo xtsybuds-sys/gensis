@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#05090f">
-  <meta name="description" content="Sky Sentinel AI — a simulated aerial awareness dashboard scaffold.">
-  <title>Sky Sentinel AI / Aerial Awareness</title>
+  <meta name="description" content="Sky Sentinel AI — a simulated aerial awareness dashboard and ground defense staging board.">
+  <title>Sky Sentinel AI / Sim Prep</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/sim.css">
   <script src="/app.js" defer></script>
+  <script src="/sim.js" defer></script>
 </head>
 <body>
   <div class="ambient" aria-hidden="true"></div>
@@ -18,6 +20,10 @@
       <span class="brand-mark" aria-hidden="true"><span></span></span>
       <span class="brand-word">SKY SENTINEL <b>AI</b></span>
     </a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#sim">Sim prep</a>
+      <a href="#air">Air picture</a>
+    </nav>
     <div class="topbar-meta">
       <span class="feed-pill"><i></i><span id="feed-mode">SIMULATED FEED</span></span>
       <span id="clock" class="clock">--:--:-- UTC</span>
@@ -27,34 +33,178 @@
   <main class="shell">
     <section class="hero">
       <div class="hero-copy">
-        <p class="kicker">Aerial awareness / 01</p>
-        <h1>See the sky<br><span>before it changes.</span></h1>
-        <p class="lede">Sky Sentinel AI turns a noisy sky into a readable picture: sector health, tracked contacts and the signals that matter, in one place.</p>
+        <p class="kicker">Ground defense / 01</p>
+        <h1>Build the defense.<br><span>Test the breach.</span></h1>
+        <p class="lede">Stage soldiers with 100-packs, place 200 caches, and drag hostile pressure onto the board. Run the sim and watch the defense spend its rounds.</p>
         <div class="hero-actions">
-          <button id="scan-btn" class="scan-btn" type="button"><span>Run a sweep</span><span class="arrow" aria-hidden="true">→</span></button>
-          <span class="micro">Demo telemetry · no hardware attached</span>
+          <a id="prep-btn" class="scan-btn" href="#sim"><span>Open sim prep</span><span class="arrow" aria-hidden="true">↓</span></a>
+          <button id="scan-btn" class="ghost-btn" type="button"><span>Run air sweep</span><span class="arrow" aria-hidden="true">→</span></button>
+          <span class="micro">Simulated board · no live hardware</span>
         </div>
       </div>
 
-      <aside class="hero-stats" aria-label="Current assessment">
+      <aside class="hero-stats" aria-label="Current simulation state">
         <div class="stat-main">
-          <span class="stat-label">Current posture</span>
-          <strong id="posture">WATCH</strong>
-          <span class="stat-note">Simulated assessment</span>
+          <span class="stat-label">Sim phase</span>
+          <strong id="hero-phase">STAGED</strong>
+          <span class="stat-note">Ground defense sandbox</span>
         </div>
         <div class="stat-grid">
-          <div><span>Model confidence</span><strong id="confidence">—</strong></div>
-          <div><span>Active tracks</span><strong id="active-tracks">—</strong></div>
-          <div><span>API</span><strong id="api-status">CONNECTING</strong></div>
-          <div><span>Build</span><strong id="api-version">v0.1.0</strong></div>
+          <div><span>Defenders</span><strong id="hero-defenders">—</strong></div>
+          <div><span>100-pack rounds</span><strong id="hero-rounds">—</strong></div>
+          <div><span>Hostiles</span><strong id="hero-hostiles">—</strong></div>
+          <div><span>Air API</span><strong id="api-status">CONNECTING</strong></div>
         </div>
       </aside>
     </section>
 
-    <section class="workspace" aria-label="Live airspace">
+    <section id="sim" class="sim-section" data-phase="staged" aria-labelledby="sim-title">
+      <div class="sim-heading">
+        <div>
+          <p class="kicker">02 / Ground defense</p>
+          <h2 id="sim-title">Sim prep <span>// board control</span></h2>
+          <p class="sim-lede">Set the loadout. Drag the tokens. Put the 100-packs and 200 caches where they can do the most work.</p>
+        </div>
+        <div class="phase-panel" aria-label="Simulation phase and timer">
+          <span class="phase-label">Sim phase</span>
+          <strong id="sim-state">STAGED</strong>
+          <span id="sim-timer">00:00</span>
+        </div>
+      </div>
+
+      <div class="sim-layout">
+        <aside class="card loadout-card" aria-label="Loadout and simulation controls">
+          <div class="card-head">
+            <div><p class="card-kicker">Loadout</p><h3>Choose the board.</h3></div>
+            <span class="tag">EDITABLE</span>
+          </div>
+
+          <div class="loadout-group">
+            <span class="loadout-group-label">Friendly</span>
+            <div class="loadout-row">
+              <div class="loadout-id">
+                <span class="loadout-icon" data-icon="defender" data-kind="defender" aria-hidden="true"></span>
+                <div class="loadout-name"><strong>Defenders</strong><span>100-pack · 100 rounds</span></div>
+              </div>
+              <div class="stepper" aria-label="Defender count">
+                <button type="button" data-count="defender" data-delta="-1" aria-label="Remove one defender">−</button>
+                <output id="count-defender">6</output>
+                <button type="button" data-count="defender" data-delta="1" aria-label="Add one defender">+</button>
+              </div>
+            </div>
+            <div class="loadout-row">
+              <div class="loadout-id">
+                <span class="loadout-icon" data-icon="cache" data-kind="cache" aria-hidden="true"></span>
+                <div class="loadout-name"><strong>200 caches</strong><span>200-round resupply</span></div>
+              </div>
+              <div class="stepper" aria-label="200 cache count">
+                <button type="button" data-count="cache" data-delta="-1" aria-label="Remove one 200 cache">−</button>
+                <output id="count-cache">3</output>
+                <button type="button" data-count="cache" data-delta="1" aria-label="Add one 200 cache">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="loadout-group">
+            <span class="loadout-group-label">Opposition</span>
+            <div class="loadout-row">
+              <div class="loadout-id">
+                <span class="loadout-icon" data-icon="raider" data-kind="raider" aria-hidden="true"></span>
+                <div class="loadout-name"><strong>Raiders</strong><span>ground pressure</span></div>
+              </div>
+              <div class="stepper" aria-label="Raider count">
+                <button type="button" data-count="raider" data-delta="-1" aria-label="Remove one raider">−</button>
+                <output id="count-raider">5</output>
+                <button type="button" data-count="raider" data-delta="1" aria-label="Add one raider">+</button>
+              </div>
+            </div>
+            <div class="loadout-row">
+              <div class="loadout-id">
+                <span class="loadout-icon" data-icon="drone" data-kind="drone" aria-hidden="true"></span>
+                <div class="loadout-name"><strong>Drones</strong><span>fast air contact</span></div>
+              </div>
+              <div class="stepper" aria-label="Drone count">
+                <button type="button" data-count="drone" data-delta="-1" aria-label="Remove one drone">−</button>
+                <output id="count-drone">3</output>
+                <button type="button" data-count="drone" data-delta="1" aria-label="Add one drone">+</button>
+              </div>
+            </div>
+            <div class="loadout-row">
+              <div class="loadout-id">
+                <span class="loadout-icon" data-icon="armor" data-kind="armor" aria-hidden="true"></span>
+                <div class="loadout-name"><strong>Armor</strong><span>heavy breakthrough</span></div>
+              </div>
+              <div class="stepper" aria-label="Armor count">
+                <button type="button" data-count="armor" data-delta="-1" aria-label="Remove one armor unit">−</button>
+                <output id="count-armor">2</output>
+                <button type="button" data-count="armor" data-delta="1" aria-label="Add one armor unit">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="loadout-actions">
+            <button id="sim-start" class="scan-btn sim-start" type="button">
+              <span id="sim-start-label">Run sim</span><span class="arrow" aria-hidden="true">→</span>
+            </button>
+            <button id="sim-clear" class="ghost-btn" type="button">New setup</button>
+            <button id="sim-reset" class="text-btn" type="button">Reset demo</button>
+          </div>
+          <p class="loadout-note">Counts set how many tokens are available. Drag from the tray, or tap a token and then a cell. Drag a placed token back to the tray to remove it.</p>
+        </aside>
+
+        <article class="card board-card" aria-label="Simulation staging board">
+          <div class="card-head">
+            <div><p class="card-kicker">03 / Staging board</p><h3>Drag. Place. Defend.</h3></div>
+            <span id="board-state" class="tag">STAGED</span>
+          </div>
+          <div class="board-toolbar">
+            <p id="sim-hint" class="sim-hint" aria-live="polite">Drag a token onto the board, or tap a token then a cell.</p>
+            <span id="tray-count" class="tray-pill">5 in tray</span>
+          </div>
+
+          <div class="board-stage">
+            <div id="sim-board" class="sim-board" role="grid" aria-label="Simulation board, 10 columns by 7 rows" aria-rowcount="7" aria-colcount="10" data-phase="staged"></div>
+            <span class="board-axis board-axis-top" aria-hidden="true">THREAT AXIS</span>
+            <span class="board-axis board-axis-bottom" aria-hidden="true">DEFENSE ZONE</span>
+            <span class="board-scan" aria-hidden="true"></span>
+            <div id="board-empty" class="board-empty" hidden>
+              <strong>SIM PREP</strong>
+              <span>Drag a defender with a 100-pack, a 200 cache, or a hostile onto the board.</span>
+            </div>
+            <div id="sim-result" class="board-result" hidden aria-live="polite"></div>
+          </div>
+
+          <div class="tray">
+            <div class="tray-head">
+              <div><span class="tray-label">TRAY</span><span class="tray-note">available to place</span></div>
+              <span class="tray-hint">Drag or tap a token → tap a cell</span>
+            </div>
+            <div id="sim-tray" class="tray-list" aria-label="Available units"></div>
+          </div>
+        </article>
+
+        <aside class="card sim-log-card" aria-label="Simulation telemetry">
+          <div class="card-head">
+            <div><p class="card-kicker">04 / Sim log</p><h3>Run telemetry.</h3></div>
+            <span id="sim-log-time" class="tag">00:00</span>
+          </div>
+          <div class="sim-summary">
+            <div><span>Defenders</span><strong id="sim-defenders">00</strong></div>
+            <div><span>100-pack rounds</span><strong id="sim-rounds">000</strong></div>
+            <div><span>200 rounds</span><strong id="sim-cache-rounds">000</strong></div>
+            <div><span>Hostiles</span><strong id="sim-threats">00</strong></div>
+          </div>
+          <div class="sim-log-head"><span>Event stream</span><span>Newest first</span></div>
+          <div id="sim-events" class="sim-log-list" aria-live="polite"></div>
+          <p class="sim-disclaimer">Client-side simulation. Fictional units and no live hardware.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="air" class="workspace" aria-label="Live airspace">
       <article class="card radar-card">
         <div class="card-head">
-          <div><p class="card-kicker">01 / Live airspace</p><h2>Sector radar</h2></div>
+          <div><p class="card-kicker">05 / Live airspace</p><h2>Sector radar</h2></div>
           <span id="radar-state" class="tag">SYNCING</span>
         </div>
         <div class="radar-wrap">
@@ -71,15 +221,14 @@
       <div class="stack">
         <article class="card">
           <div class="card-head">
-            <div><p class="card-kicker">02 / Contacts</p><h2>Tracks</h2></div>
+            <div><p class="card-kicker">06 / Contacts</p><h2>Tracks</h2></div>
             <span id="track-count" class="tag">—</span>
           </div>
           <div id="tracks" class="track-list" aria-live="polite"><p class="empty">Awaiting telemetry…</p></div>
         </article>
-
         <article class="card">
           <div class="card-head">
-            <div><p class="card-kicker">03 / Coverage</p><h2>Sectors</h2></div>
+            <div><p class="card-kicker">07 / Coverage</p><h2>Sectors</h2></div>
             <span class="tag">SIM</span>
           </div>
           <div id="sectors" class="sector-list"></div>
@@ -90,7 +239,7 @@
     <section class="lower">
       <article class="card">
         <div class="card-head">
-          <div><p class="card-kicker">04 / Signal log</p><h2>Recent events</h2></div>
+          <div><p class="card-kicker">08 / Signal log</p><h2>Recent air events</h2></div>
           <span id="updated-at" class="tag">—</span>
         </div>
         <div id="events" class="event-list" aria-live="polite"></div>
@@ -98,20 +247,21 @@
 
       <article class="card system-card">
         <div class="card-head">
-          <div><p class="card-kicker">05 / Interface</p><h2>System notes</h2></div>
+          <div><p class="card-kicker">09 / Interface</p><h2>System notes</h2></div>
         </div>
-        <p>This is a scaffold, not a trained model. The API serves simulated telemetry so the interface can be built and reviewed without pretending a sensor is connected.</p>
+        <p>The ground board is a client-side tactical sim with fictional units. The air API serves simulated telemetry so the interface can be reviewed without pretending a sensor is connected.</p>
         <ul>
+          <li><code>SIM PREP</code><span>drag, stage, run</span></li>
           <li><code>GET /api/health</code><span>service state</span></li>
           <li><code>GET /api/telemetry</code><span>sector + track data</span></li>
-          <li><code>POST /api/scan</code><span>simulated sweep</span></li>
+          <li><code>POST /api/scan</code><span>simulated air sweep</span></li>
         </ul>
       </article>
     </section>
   </main>
 
   <footer class="footer shell">
-    <span>SKY SENTINEL AI / SCAFFOLD 0.1.0</span>
+    <span>SKY SENTINEL AI / SIM PREP + AIR PICTURE / SCAFFOLD 0.2.0</span>
     <span>Designed for human review. Simulated data only.</span>
   </footer>
 </body>
